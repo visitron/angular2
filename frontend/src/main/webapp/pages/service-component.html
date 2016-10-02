@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <blockquote class="panel-info">
+                <p>Service schedule</p>
+            </blockquote>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Service timing</th>
+                    <th>Info</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Refrigerator</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="progress">
+                                    <div id="progress-id-0" [ngClass]="['progress-bar', severity]" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" [style.width]="progress + '%'">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                {{progress}} days
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="glyphicon glyphicon-info-sign text-info"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-offset-7">
+            <blockquote class="panel-info">
+                <p>Information</p>
+            </blockquote>
+            <div [hidden]="!showWarning">
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning!</strong> Do no forget to call service for this item
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
