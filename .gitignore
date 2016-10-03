@@ -2,5 +2,6 @@
 *.iml
 target
 node_modules
-*.js*
+frontend/**/app/*.js
+frontend/**/app/*.map
 typings
