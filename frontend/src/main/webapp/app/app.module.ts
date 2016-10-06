@@ -1,16 +1,11 @@
-/**
- * Created by Buibi on 02.10.2016.
- */
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {HttpModule, JsonpModule} from '@angular/http';
-
-import {AppComponent} from './app.component';
+import {NgModule} from "@angular/core";
+import {BrowserModule} from "@angular/platform-browser";
+import {ItemComponent} from "./component/itemComponent";
 
 @NgModule({
-    imports: [BrowserModule, HttpModule, JsonpModule],
-    declarations: [AppComponent],
-    bootstrap: [AppComponent]
+    imports: [BrowserModule],
+    declarations: [ItemComponent],
+    bootstrap: [ItemComponent]
 })
 
-export class AppModule {}
+export class MaintenanceModule {}
