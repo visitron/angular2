@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
 
 @Component({
-    selector: 'maintenance-app',
-    templateUrl: 'pages/item.html'
+    selector: 'maintenanceApp',
+    templateUrl: 'pages/itemsList.html'
 })
 
 export class ItemComponent {}
