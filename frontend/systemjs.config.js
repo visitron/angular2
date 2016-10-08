@@ -4,7 +4,7 @@
             'npm:': 'node_modules/'
         },
         map: {
-            app: 'app',
+            app: 'build',
             // angular bundles
             '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
             '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
@@ -20,15 +20,15 @@
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
-            app: {
-                main: './app.main.js',
+            build: {
+                main: 'app.boot',
                 defaultExtension: 'js'
             },
             rxjs: {
                 defaultExtension: 'js'
             },
             'angular-in-memory-web-api': {
-                main: './index.js',
+                main: './index',
                 defaultExtension: 'js'
             }
         }

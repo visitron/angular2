@@ -5,3 +5,4 @@ node_modules
 frontend/**/app/**/*.js
 frontend/**/app/**/*.map
 typings
+build

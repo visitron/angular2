@@ -1,4 +1,4 @@
-<div id="addItemDialogId" class="modal fade" role="dialog">
+<!--<div id="addItemDialogId" class="modal fade" role="dialog">-->
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -31,12 +31,30 @@
                             <input type="date" class="form-control" id="inputMaintenanceDate" placeholder="Maintenance date">
                         </div>
                     </div>
+
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Advanced
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Sign in</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
                 </div>
             </form>
         </div>
     </div>
-</div>
+<!--</div>-->

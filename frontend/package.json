@@ -1,6 +1,9 @@
 {
   "name": "angular2-ui",
   "version": "1.0.0",
+  "description": "Maintenance of small home things",
+  "repository": "No",
+  "license": "Apache-2.0",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
     "lite": "lite-server",
@@ -9,7 +12,6 @@
     "tsc:w": "tsc -w",
     "typings": "typings"
   },
-  "license": "",
   "dependencies": {
     "@angular/common": "~2.0.1",
     "@angular/compiler": "~2.0.1",
@@ -27,6 +29,7 @@
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.39",
+    "less": "^2.7.1",
     "zone.js": "^0.6.25"
   },
   "devDependencies": {

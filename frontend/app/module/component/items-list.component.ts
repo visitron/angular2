@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 
 @Component({
     selector: 'maintenanceApp',
-    templateUrl: 'pages/itemsList.html'
+    templateUrl: 'template/items-list.html'
 })
 
 export class ItemComponent {}
