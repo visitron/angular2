@@ -10,25 +10,25 @@
                     <div class="form-group">
                         <label for="inputName" class="col-sm-4 control-label">Name</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputName" placeholder="Name">
+                            <input type="text" class="form-control" id="inputName" placeholder="Name" [value]="item.name" (input)="item.name=$event.target.value">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputDescription" class="col-sm-4 control-label">Description</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputDescription" placeholder="Description">
+                            <input type="text" class="form-control" id="inputDescription" placeholder="Description" [value]="item.description" (input)="item.description=$event.target.value">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputLifecycle" class="col-sm-4 control-label">Lifecycle, days</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputLifecycle" placeholder="Lifecycle">
+                            <input type="number" class="form-control" id="inputLifecycle" placeholder="Lifecycle" [value]="item.lifecycle" (input)="item.lifecycle=$event.target.value">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputMaintenanceDate" class="col-sm-4 control-label">Maintenance date</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="inputMaintenanceDate" placeholder="Maintenance date">
+                            <input type="date" class="form-control" id="inputMaintenanceDate" placeholder="Maintenance date" [value]="item.maintenanceDate" (input)="item.maintenanceDate=$event.target.value">
                         </div>
                     </div>
 
@@ -79,10 +79,10 @@
                                     <div class="row">
                                         <div class="col-md-6">Maintenance requires a separate specialist.</div>
                                         <div class="col-md-6">
-                                            <input type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="default">
+                                            <input id="requiresSpecialist" type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="default">
                                         </div>
                                     </div>
-                                    <div class="well">
+                                    <div class="well" *ngIf="item.advanced.requiresSpecialist">
                                         <div class="row">
                                             <form class="form-horizontal">
                                                 <div class="form-group">
@@ -116,10 +116,10 @@
                                     <div class="row">
                                         <div class="col-md-6">Requires additional details.</div>
                                         <div class="col-md-6">
-                                            <input type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="default">
+                                            <input id="requiresAdditionalDetails" type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="default">
                                         </div>
                                     </div>
-                                    <div class="well">
+                                    <div class="well" *ngIf="item.advanced.requiresAdditionalDetails">
                                         <div class="row">
                                             <form class="form-horizontal">
                                                 <div class="form-group">
