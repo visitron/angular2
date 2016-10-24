@@ -1,4 +1,4 @@
-<!--<div id="addItemDialogId" class="modal fade" role="dialog">-->
+<div id="addItemDialogId" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -79,7 +79,7 @@
                                     <div class="row">
                                         <div class="col-md-6">Maintenance requires a separate specialist.</div>
                                         <div class="col-md-6">
-                                            <input id="requiresSpecialist" type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="default">
+                                            <ui-switch size="small" [(ngModel)]="item.advanced.requiresSpecialist" [ngModelOptions]="{standalone: true}"></ui-switch>
                                         </div>
                                     </div>
                                     <div class="well" *ngIf="item.advanced.requiresSpecialist">
@@ -116,7 +116,7 @@
                                     <div class="row">
                                         <div class="col-md-6">Requires additional details.</div>
                                         <div class="col-md-6">
-                                            <input id="requiresAdditionalDetails" type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="default">
+                                            <ui-switch size="small" [(ngModel)]="item.advanced.requiresAdditionalDetails" [ngModelOptions]="{standalone: true}"></ui-switch>
                                         </div>
                                     </div>
                                     <div class="well" *ngIf="item.advanced.requiresAdditionalDetails">
@@ -150,4 +150,4 @@
             </form>
         </div>
     </div>
-<!--</div>-->
+</div>

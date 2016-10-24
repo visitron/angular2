@@ -1,7 +1,5 @@
 export class Item {
     public name: string;
-    // set name(name: string) {this._name = name}
-    // get name() {return this._name}
     description: string;
     lifecycle: number;
     _maintenanceDate: Date;

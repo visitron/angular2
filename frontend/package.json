@@ -23,6 +23,7 @@
     "@angular/router": "~3.0.1",
     "@angular/upgrade": "~2.0.1",
     "angular-in-memory-web-api": "~0.1.1",
+    "angular2-ui-switch": "^1.1.0",
     "bootstrap": "^3.3.7",
     "bootstrap-toggle": "^2.2.2",
     "core-js": "^2.4.1",
