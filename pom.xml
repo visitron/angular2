@@ -14,6 +14,7 @@
         <module>frontend</module>
         <module>backend</module>
         <module>dependencies</module>
+        <module>database</module>
     </modules>
 
     <properties>
@@ -21,6 +22,12 @@
         <spring.version>4.3.3.RELEASE</spring.version>
         <hibernate.version>5.2.3.Final</hibernate.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>ci</id>
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>
@@ -34,6 +41,12 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>

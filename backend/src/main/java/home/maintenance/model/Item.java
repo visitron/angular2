@@ -1,6 +1,6 @@
 package home.maintenance.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -9,8 +9,15 @@ import java.util.List;
  */
 @Entity
 public class Item {
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
+    @Column
     private String name;
+    @Column
     private Date lastMaintenanceDate;
+    @Transient
     private List<String> info;
 
     public Item() {}
