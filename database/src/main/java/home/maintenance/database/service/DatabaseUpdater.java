@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Buibi on 26.10.2016.
@@ -32,17 +33,24 @@ public class DatabaseUpdater implements Runnable {
     public void run() {
 
         List<ClassPathResource> scripts = getScripts();
-        List<Delta> appliedScripts = getListOfAppliedScripts();
-        appliedScripts.forEach(System.out::println);
+        scripts.sort((o1, o2) -> o1.getFilename().compareTo(o2.getFilename()));
 
-        scripts.clear();
+        final List<String> appliedScripts = getListOfAppliedScripts().stream().map(delta -> delta.scriptName)
+                .collect(Collectors.toList());
 
         try (Connection connection = dataSource.getConnection()) {
             scripts.forEach((script) -> {
                 try {
-                    ScriptUtils.executeSqlScript(connection, script);
+                    if (appliedScripts.contains(script.getFilename())) {
+                        LOG.info(script.getFilename() + " is [SKIPPED]");
+                    } else {
+                        ScriptUtils.executeSqlScript(connection, script);
+                        logScriptApplyResult(new Delta(script.getFilename(), new Date(), "SUCCESS", null));
+                        LOG.info(script.getFilename() + " is [APPLIED]");
+                    }
                 } catch (ScriptException e) {
-                    logScriptApplyResult(new Delta(script.getFilename(), new Date(), "SUCCESS", null));
+                    logScriptApplyResult(new Delta(script.getFilename(), new Date(), "FAILURE", e.getMessage()));
+                    LOG.error(script.getFilename() + " is [FAILED]", e);
                 }
             });
         } catch (SQLException e) {
@@ -77,9 +85,9 @@ public class DatabaseUpdater implements Runnable {
     }
 
     private List<ClassPathResource> getScripts() {
-        ClassPathResource resource = new ClassPathResource("classpath:script/ddl/001-create_tables.sql");
         List<ClassPathResource> result = new ArrayList<>();
-        result.add(resource);
+        result.add(new ClassPathResource("script/ddl/002-create_tables.sql"));
+        result.add(new ClassPathResource("script/ddl/001-create_tables.sql"));
         return result;
     }
 
