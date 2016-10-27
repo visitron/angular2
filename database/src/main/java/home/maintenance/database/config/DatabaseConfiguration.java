@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 /**
@@ -20,7 +21,7 @@ import java.sql.SQLException;
 public class DatabaseConfiguration {
 
     @Bean
-    public DatabaseUpdater getDatabaseUpdater() {
+    public DatabaseUpdater getDatabaseUpdater() throws NoSuchAlgorithmException {
         return new DatabaseUpdater();
     }
 
