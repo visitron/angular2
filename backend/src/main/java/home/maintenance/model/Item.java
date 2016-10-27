@@ -8,6 +8,7 @@ import java.util.List;
  * Created by vsoshyn on 25/10/2016.
  */
 @Entity
+@Table
 public class Item {
     @Column
     @Id
