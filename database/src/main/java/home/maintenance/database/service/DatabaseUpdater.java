@@ -64,8 +64,8 @@ public class DatabaseUpdater implements Runnable {
             return;
         }
 
-        final Map<String, String> appliedScripts = deltas.stream()
-                .collect(Collectors.toMap(delta -> delta.scriptName, delta -> delta.digest));
+        final Map<String, String> appliedScripts = new HashMap<>();
+        deltas.forEach(delta -> appliedScripts.put(delta.scriptName, delta.digest));
 
         final boolean[] scriptDigestMismatches = new boolean[1];
         scripts.forEach(script -> {
@@ -95,7 +95,12 @@ public class DatabaseUpdater implements Runnable {
             for (ClassPathResource script : scripts) {
                 try {
                     if (appliedScripts.containsKey(script.getFilename())) {
+                        if (appliedScripts.get(script.getFilename()) == null) {
+                            updateAppliedScriptHash(script);
+                            LOG.info(script.getFilename() + " hash is [UPDATED]");
+                        } else {
                             LOG.info(script.getFilename() + " is [SKIPPED]");
+                        }
                     } else {
                         ScriptUtils.executeSqlScript(connection, script);
                         logScriptApplyResult(new Delta(script.getFilename(), new Date(), Status.SUCCESS, null, digest(script.getInputStream())));
@@ -135,8 +140,16 @@ public class DatabaseUpdater implements Runnable {
         parameterSource.addValue("failure", script.failure);
         parameterSource.addValue("digest", script.digest);
 
-        jdbcTemplate.update("INSERT INTO DELTA (ID, SCRIPT_NAME, TS, STATUS, FAILURE, DIGEST) " +
-                "VALUES (SEQ_DELTA.NEXTVAL, :scriptName, :ts, :status, :failure, :digest)", parameterSource);
+        jdbcTemplate.update("INSERT INTO DELTA (SCRIPT_NAME, TS, STATUS, FAILURE, DIGEST) " +
+                "VALUES (:scriptName, :ts, :status, :failure, :digest)", parameterSource);
+    }
+
+    private void updateAppliedScriptHash(ClassPathResource script) throws IOException {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("scriptName", script.getFilename());
+        parameterSource.addValue("digest", digest(script.getInputStream()));
+
+        jdbcTemplate.update("UPDATE DELTA SET DIGEST = :digest WHERE SCRIPT_NAME = :scriptName", parameterSource);
     }
 
     private List<ClassPathResource> getScripts() {
