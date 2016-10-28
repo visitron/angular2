@@ -1,6 +1,11 @@
 package home.maintenance.dao;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
+import java.util.List;
 
 /**
  * Created by vsoshyn on 26/10/2016.
@@ -28,5 +33,10 @@ public abstract class GenericDao<T> extends HibernateDaoSupport {
         getSessionFactory().getCurrentSession().detach(entity);
     }
 
+    public abstract List<T> getAll();
+
+    protected List<T> getAll(Class<T> clazz) {
+        return getHibernateTemplate().loadAll(clazz);
+    }
 
 }
