@@ -8,8 +8,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Fridge</td>
+        <tr *ngFor="let item of items">
+            <td>{{item.name}}</td>
             <td>
                 <div class="row">
                     <div class="col-sm-7">
@@ -20,43 +20,7 @@
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        250 days
-                    </div>
-                </div>
-            </td>
-            <td><span class="glyphicon glyphicon-info-sign info-sign-color"></span></td>
-        </tr>
-        <tr>
-            <td>Conditioner 1</td>
-            <td>
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                <span class="sr-only">60% Complete</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        250 days
-                    </div>
-                </div>
-            </td>
-            <td><span class="glyphicon glyphicon-info-sign info-sign-color"></span></td>
-        </tr>
-        <tr>
-            <td>Conditioner 2</td>
-            <td>
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                <span class="sr-only">60% Complete</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        250 days
+                        {{item.lifecycle}} days
                     </div>
                 </div>
             </td>

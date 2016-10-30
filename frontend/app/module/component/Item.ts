@@ -1,10 +1,10 @@
 export class Item {
-    public name: string;
+    name: string;
     description: string;
     lifecycle: number;
-    _maintenanceDate: Date;
-    get maintenanceDate(): string {
-        return this._maintenanceDate.toISOString().slice(0, 10);
+    maintenanceDate: Date;
+    get maintenanceDateString(): string {
+        return this.maintenanceDate.toISOString().slice(0, 10);
     }
     advanced: ItemAdvanced = new ItemAdvanced;
 }
