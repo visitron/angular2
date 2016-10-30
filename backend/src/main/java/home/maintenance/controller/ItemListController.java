@@ -16,11 +16,16 @@ import java.util.List;
 @RequestMapping("/item")
 public class ItemListController {
 
-//    @Autowired
+    @Autowired
     private ItemDao itemDao;
 
     @RequestMapping(value = "/getAll", produces = "application/json")
     @ResponseBody public List<Item> getItems() {
         return itemDao.getAll();
+    }
+
+    @RequestMapping(produces = "text/plain")
+    @ResponseBody public String index() {
+        return "Hello";
     }
 }

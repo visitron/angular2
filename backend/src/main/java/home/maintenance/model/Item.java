@@ -12,11 +12,12 @@ import java.util.List;
 public class Item {
     @Column
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqItem")
+    @SequenceGenerator(name = "seqItem", sequenceName = "SEQ_DELTA")
     private long id;
     @Column
     private String name;
-    @Column
+    @Column(name = "LAST_MAINTENANCE_DATE")
     private Date lastMaintenanceDate;
     @Transient
     private List<String> info;

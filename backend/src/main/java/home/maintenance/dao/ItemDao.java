@@ -1,19 +1,13 @@
 package home.maintenance.dao;
 
+import home.maintenance.dao.common.Dao;
 import home.maintenance.model.Item;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- * Created by vsoshyn on 28/10/2016.
+ * Created by Buibi on 29.10.2016.
  */
-//@Repository
-//@Transactional
-public class ItemDao extends GenericDao<Item> {
-    @Override
-    public List<Item> getAll() {
-        return getAll(Item.class);
-    }
+public interface ItemDao extends Dao<Item> {
+    List<Item> getAll();
 }
