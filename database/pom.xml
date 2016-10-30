@@ -12,6 +12,14 @@
     <artifactId>database</artifactId>
 
     <dependencies>
+        <!-- Project dependencies -->
+        <dependency>
+            <groupId>soshvla</groupId>
+            <artifactId>config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Platform dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -50,6 +58,11 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
