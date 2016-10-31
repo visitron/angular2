@@ -13,16 +13,30 @@ public class Item {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqItem")
-    @SequenceGenerator(name = "seqItem", sequenceName = "SEQ_DELTA")
+    @SequenceGenerator(name = "seqItem", sequenceName = "SEQ_ITEM")
     private long id;
-    @Column
+    @Column(name = "NAME", length = 64, nullable = false)
     private String name;
-    @Column(name = "LAST_MAINTENANCE_DATE")
-    private Date lastMaintenanceDate;
+    @Column(name = "DESCRIPTION", length = 128)
+    private String description;
+    @Column(name = "LIFECYCLE")
+    private int lifecycle;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "MAINTENANCE_DATE", nullable = false)
+    private Date maintenanceDate;
+
     @Transient
     private List<String> info;
 
     public Item() {}
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -32,12 +46,28 @@ public class Item {
         this.name = name;
     }
 
-    public Date getLastMaintenanceDate() {
-        return lastMaintenanceDate;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLastMaintenanceDate(Date lastMaintenanceDate) {
-        this.lastMaintenanceDate = lastMaintenanceDate;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getLifecycle() {
+        return lifecycle;
+    }
+
+    public void setLifecycle(int lifecycle) {
+        this.lifecycle = lifecycle;
+    }
+
+    public Date getMaintenanceDate() {
+        return maintenanceDate;
+    }
+
+    public void setMaintenanceDate(Date maintenanceDate) {
+        this.maintenanceDate = maintenanceDate;
     }
 
     public List<String> getInfo() {

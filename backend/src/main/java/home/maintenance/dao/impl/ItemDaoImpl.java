@@ -18,9 +18,9 @@ import java.util.List;
 @NamedNativeQueries({@NamedNativeQuery(name = "Item.getAll", query = "SELECT * FROM ITEM")})
 public class ItemDaoImpl extends AbstractDao<Item> implements ItemDao {
     @Override
+    @SuppressWarnings("unchecked")
     public List<Item> getAll() {
         return em.createNativeQuery("SELECT * FROM ITEM", Item.class).getResultList();
-
 //        return em.createNamedQuery("Item.getAll", Item.class).getResultList();
     }
 
