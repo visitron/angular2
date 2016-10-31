@@ -156,13 +156,20 @@ public class DatabaseUpdater implements Runnable {
         List<ClassPathResource> result = new ArrayList<>();
         ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
         try {
-            Resource[] resources = patternResolver.getResources("script/ddl/**");
-            for (Resource resource : resources) {
-                result.add(new ClassPathResource("script/ddl/" + resource.getFilename()));
-            }
+            result.addAll(getScripts0(patternResolver, "script/ddl/"));
+            result.addAll(getScripts0(patternResolver, "script/dml/"));
         } catch (IOException e) {
             LOG.error(e);
             throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    private List<ClassPathResource> getScripts0(ResourcePatternResolver patternResolver, String mask) throws IOException {
+        List<ClassPathResource> result = new ArrayList<>();
+        Resource[] resources = patternResolver.getResources(mask + "**");
+        for (Resource resource : resources) {
+            result.add(new ClassPathResource(mask + resource.getFilename()));
         }
         return result;
     }
