@@ -46,10 +46,7 @@ public class DatabaseUpdater implements Runnable {
     }
 
     public void run() {
-
         List<ClassPathResource> scripts = getScripts();
-        scripts.sort((o1, o2) -> o1.getFilename().compareTo(o2.getFilename()));
-
         List<Delta> deltas;
         try {
             deltas = getListOfAppliedScripts();
@@ -61,7 +58,7 @@ public class DatabaseUpdater implements Runnable {
         if (hasError) {
             LOG.error("Some scripts have applying failures");
             deltas.stream().filter(delta -> delta.status == Status.FAILURE).forEach(LOG::error);
-            return;
+            throw new RuntimeException("Some scripts have applying failures");
         }
 
         final Map<String, String> appliedScripts = new HashMap<>();
@@ -83,7 +80,7 @@ public class DatabaseUpdater implements Runnable {
         });
 
         if (scriptDigestMismatches[0]) {
-            return;
+            throw new RuntimeException("Checksum mismatch");
         }
 
         try (Connection connection = dataSource.getConnection()) {
@@ -171,6 +168,7 @@ public class DatabaseUpdater implements Runnable {
         for (Resource resource : resources) {
             result.add(new ClassPathResource(mask + resource.getFilename()));
         }
+        result.sort((o1, o2) -> o1.getFilename().compareTo(o2.getFilename()));
         return result;
     }
 
