@@ -1,0 +1,1 @@
+INSERT INTO INFO (ID, VALUE) VALUES (1, 'photo');
