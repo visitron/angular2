@@ -1,0 +1,1 @@
+Put here files which should be registered in DELTA without applying.

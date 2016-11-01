@@ -1,2 +1,2 @@
-src/main/resources/register/ddl/*.sql
-src/main/resources/register/dml/*.sql
+src/main/resources/stage/ddl/*
+src/main/resources/stage/dml/*
