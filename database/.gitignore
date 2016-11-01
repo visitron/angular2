@@ -1,0 +1,2 @@
+src/main/resources/register/ddl/*.sql
+src/main/resources/register/dml/*.sql
