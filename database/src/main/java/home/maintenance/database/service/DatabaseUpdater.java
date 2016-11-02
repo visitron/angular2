@@ -25,7 +25,6 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Buibi on 26.10.2016.
@@ -55,6 +54,8 @@ public class DatabaseUpdater implements Runnable {
             deltas = Collections.emptyList();
         }
 
+        int currentId = deltas.isEmpty() ? 0 : deltas.stream().map(delta -> Integer.parseInt(delta.scriptName.substring(7, 10))).max((o1, o2) -> o1 - o2).get() + 1;
+
         final boolean hasError = deltas.stream().anyMatch(delta -> delta.status == Status.FAILURE);
         if (hasError) {
             LOG.error("Some scripts have applying failures");
@@ -63,15 +64,15 @@ public class DatabaseUpdater implements Runnable {
         }
 
         final Map<String, String> appliedScripts = new HashMap<>();
-        deltas.forEach(delta -> appliedScripts.put(delta.scriptName, delta.digest));
+        deltas.forEach(delta -> appliedScripts.put(delta.scriptName, delta.checksum));
 
-        final boolean[] scriptDigestMismatches = new boolean[1];
+        final boolean[] scriptChecksumMismatches = new boolean[1];
         scripts.forEach(script -> {
             try {
-                String d0 = digest(script.getInputStream());
+                String d0 = checksum(script.getInputStream());
                 String d1 = appliedScripts.get(script.getPath());
                 if (d1 != null && !Objects.equals(d0, d1)) {
-                    scriptDigestMismatches[0] = true;
+                    scriptChecksumMismatches[0] = true;
                     LOG.error(String.format("Checksum mismatch: script[%s] - file[%s] - database[%s]", script.getPath(), d0, d1));
                 }
             } catch (IOException e) {
@@ -80,20 +81,19 @@ public class DatabaseUpdater implements Runnable {
             }
         });
 
-        if (scriptDigestMismatches[0]) {
+        if (scriptChecksumMismatches[0]) {
             throw new RuntimeException("Checksum mismatch");
         }
 
         try (Connection connection = dataSource.getConnection()) {
-
-            if (deltas.isEmpty()) {
-                ScriptUtils.executeSqlScript(connection, new ClassPathResource("script/init.sql"));
-            }
-
-            applyScripts(scripts, appliedScripts, connection);
+            currentId += applyScripts(scripts, appliedScripts, connection);
             List<ClassPathResource> stageScripts = getScripts(ScriptLocation.STAGE);
-            registerScripts(stageScripts);
-            moveToRepo(stageScripts);
+
+            Queue<Integer> ids = generateIds(currentId, stageScripts.size());
+            registerScripts(stageScripts, ids);
+
+            ids = generateIds(currentId, scripts.size());
+            moveToRepo(stageScripts, ids);
         } catch (SQLException | IOException e) {
             LOG.error(e);
             throw new RuntimeException(e);
@@ -101,39 +101,55 @@ public class DatabaseUpdater implements Runnable {
 
     }
 
-    private void registerScripts(List<ClassPathResource> scripts) {
+    private Queue<Integer> generateIds(int currentId, int amount) {
+        Queue<Integer> ids = new PriorityQueue<>();
+        for (int i = currentId; i < currentId + amount; i++) {
+            ids.add(i);
+        }
+        return ids;
+    }
+
+    private String makeScriptName(String initialPath, Integer id) {
+        String[] pathParts = initialPath.replace("stage", "script").split("/");
+        return String.format("%s/%03d-%s", pathParts[0], id, pathParts[1].substring(2));
+    }
+
+    private void registerScripts(List<ClassPathResource> scripts, Queue<Integer> ids) {
         for (ClassPathResource script : scripts) {
+            String scriptName = makeScriptName(script.getPath(), ids.poll());
             try {
-                logScriptApplyResult(new Delta(script.getPath().replace("stage", "script"), new Date(), Status.SUCCESS, null, digest(script.getInputStream())));
+                logScriptApplyResult(new Delta(scriptName, new Date(), Status.SUCCESS, null, checksum(script.getInputStream())));
             } catch (IOException e) {
-                logScriptApplyResult(new Delta(script.getPath().replace("stage", "script"), new Date(), Status.FAILURE, e.getMessage(), null));
+                logScriptApplyResult(new Delta(scriptName, new Date(), Status.FAILURE, e.getMessage(), null));
                 LOG.error(script.getPath() + " is [FAILED]", e);
                 throw new RuntimeException(script.getPath() + " is [FAILED]", e);
             }
         }
     }
 
-    private void moveToRepo(List<ClassPathResource> scripts) throws IOException {
+    private void moveToRepo(List<ClassPathResource> scripts, Queue<Integer> ids) throws IOException {
         File targetFolder = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
         String resources = targetFolder.getParentFile().getParentFile().getPath() + "/src/main/resources/";
         for (ClassPathResource script : scripts) {
-            Files.move(Paths.get(resources + script.getPath()), Paths.get(resources + Type.resolveType(script.getPath()).getPath() + script.getFilename()));
+            Files.move(Paths.get(resources + script.getPath()), Paths.get(String.format("%s%03d-%s", resources + "script/", ids.poll(), script.getFilename().substring(2))));
         }
     }
 
-    private void applyScripts(List<ClassPathResource> scripts, Map<String, String> appliedScripts, Connection connection) {
+    private int applyScripts(List<ClassPathResource> scripts, Map<String, String> appliedScripts, Connection connection) {
+        int appliedScriptsCount = 0;
         for (ClassPathResource script : scripts) {
             try {
                 if (appliedScripts.containsKey(script.getPath())) {
                     if (appliedScripts.get(script.getPath()) == null) {
-                        updateAppliedScriptHash(script);
-                        LOG.info(script.getPath() + " hash is [UPDATED]");
+                        updateAppliedScriptChecksum(script);
+                        LOG.info(script.getPath() + " Checksum is [UPDATED]");
                     } else {
                         LOG.info(script.getPath() + " is [SKIPPED]");
                     }
                 } else {
                     ScriptUtils.executeSqlScript(connection, script);
-                    logScriptApplyResult(new Delta(script.getPath(), new Date(), Status.SUCCESS, null, digest(script.getInputStream())));
+                    appliedScriptsCount++;
+                    logScriptApplyResult(new Delta(script.getPath(), new Date(), Status.SUCCESS, null, checksum(script.getInputStream())));
                 }
             } catch (ScriptException | IOException e) {
                 logScriptApplyResult(new Delta(script.getPath(), new Date(), Status.FAILURE, e.getMessage(), null));
@@ -141,6 +157,7 @@ public class DatabaseUpdater implements Runnable {
                 throw new RuntimeException(script.getPath() + " is [FAILED]", e);
             }
         }
+        return appliedScriptsCount;
     }
 
     private List<Delta> getListOfAppliedScripts() {
@@ -150,7 +167,7 @@ public class DatabaseUpdater implements Runnable {
                     rs.getDate("TS"),
                     Status.valueOf(rs.getString("STATUS")),
                     rs.getString("FAILURE"),
-                    rs.getString("DIGEST")
+                    rs.getString("CHECKSUM")
             ));
         });
 
@@ -160,35 +177,28 @@ public class DatabaseUpdater implements Runnable {
     private void logScriptApplyResult(Delta script) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("scriptName", script.scriptName);
-        parameterSource.addValue("type", script.type.name());
         parameterSource.addValue("ts", script.ts);
         parameterSource.addValue("status", script.status.name());
         parameterSource.addValue("failure", script.failure);
-        parameterSource.addValue("digest", script.digest);
+        parameterSource.addValue("checksum", script.checksum);
 
-        jdbcTemplate.update("INSERT INTO DELTA (SCRIPT_NAME, TYPE, TS, STATUS, FAILURE, DIGEST) " +
-                "VALUES (:scriptName, :type, :ts, :status, :failure, :digest)", parameterSource);
+        jdbcTemplate.update("INSERT INTO DELTA (SCRIPT_NAME, TS, STATUS, FAILURE, CHECKSUM) " +
+                "VALUES (:scriptName, :ts, :status, :failure, :checksum)", parameterSource);
     }
 
-    private void updateAppliedScriptHash(ClassPathResource script) throws IOException {
+    private void updateAppliedScriptChecksum(ClassPathResource script) throws IOException {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("scriptName", script.getPath());
-        parameterSource.addValue("digest", digest(script.getInputStream()));
+        parameterSource.addValue("checksum", checksum(script.getInputStream()));
 
-        jdbcTemplate.update("UPDATE DELTA SET DIGEST = :digest WHERE SCRIPT_NAME = :scriptName", parameterSource);
+        jdbcTemplate.update("UPDATE DELTA SET CHECKSUM = :checksum WHERE SCRIPT_NAME = :scriptName", parameterSource);
     }
 
     private List<ClassPathResource> getScripts(ScriptLocation location) {
         List<ClassPathResource> result = new ArrayList<>();
         ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
         try {
-            if (location == ScriptLocation.REPO) {
-                result.addAll(getScripts0(patternResolver, Type.DDL));
-                result.addAll(getScripts0(patternResolver, Type.DML));
-            } else if (location == ScriptLocation.STAGE) {
-                result.addAll(getScripts0(patternResolver, Type.DDL_STAGE));
-                result.addAll(getScripts0(patternResolver, Type.DML_STAGE));
-            }
+            result.addAll(getScripts0(patternResolver, location));
         } catch (IOException e) {
             LOG.error(e);
             throw new RuntimeException(e);
@@ -196,9 +206,9 @@ public class DatabaseUpdater implements Runnable {
         return result;
     }
 
-    private List<ClassPathResource> getScripts0(ResourcePatternResolver patternResolver, Type type) throws IOException {
+    private List<ClassPathResource> getScripts0(ResourcePatternResolver patternResolver, ScriptLocation location) throws IOException {
         List<ClassPathResource> result = new ArrayList<>();
-        String mask = type.getPath();
+        String mask = location.getPath();
         Resource[] resources = patternResolver.getResources(mask + "*.sql");
         for (Resource resource : resources) {
             result.add(new ClassPathResource(mask + resource.getFilename()));
@@ -207,7 +217,7 @@ public class DatabaseUpdater implements Runnable {
         return result;
     }
 
-    private String digest(InputStream input) {
+    private String checksum(InputStream input) {
         messageDigest.reset();
         try (DigestInputStream dis = new DigestInputStream(input, messageDigest)) {
             while (dis.read() != -1) {}
@@ -220,19 +230,17 @@ public class DatabaseUpdater implements Runnable {
 
     private class Delta {
         String scriptName;
-        Type type;
         Date ts;
         Status status;
         String failure;
-        String digest;
+        String checksum;
 
-        Delta(String scriptName, Date ts, Status status, String failure, String digest) {
+        Delta(String scriptName, Date ts, Status status, String failure, String checksum) {
             this.scriptName = scriptName;
-            this.type = Type.resolveType(scriptName);
             this.ts = ts;
             this.status = status;
             this.failure = failure;
-            this.digest = digest;
+            this.checksum = checksum;
         }
 
         @Override
@@ -242,15 +250,12 @@ public class DatabaseUpdater implements Runnable {
     }
 
     private enum Status {SUCCESS, FAILURE}
-    private enum ScriptLocation {REPO, STAGE}
-
-    private enum Type {
-        DDL("script/ddl/"), DML("script/dml/"),
-        DDL_STAGE("stage/ddl/"), DML_STAGE("stage/dml/"),
-        UNKNOWN("UNKNOWN");
+    private enum ScriptLocation {
+        REPO("script/"),
+        STAGE("stage/");
 
         private final String path;
-        private Type(String path) {
+        ScriptLocation(String path) {
             this.path = path;
         }
 
@@ -258,17 +263,6 @@ public class DatabaseUpdater implements Runnable {
             return path;
         }
 
-        public static Type resolveType(String scriptName) {
-            Type type;
-            if (scriptName.startsWith(DDL.getPath()) || scriptName.startsWith(DDL_STAGE.getPath())) {
-                type = DDL;
-            } else if (scriptName.startsWith(DML.getPath()) || scriptName.startsWith(DML_STAGE.getPath())) {
-                type = DML;
-            } else {
-                type = UNKNOWN;
-            }
-            return type;
-        }
     }
 
 }
