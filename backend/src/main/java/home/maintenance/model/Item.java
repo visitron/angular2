@@ -24,9 +24,10 @@ public class Item {
     @Temporal(TemporalType.DATE)
     @Column(name = "MAINTENANCE_DATE", nullable = false)
     private Date maintenanceDate;
-
-    @Transient
-    private List<String> info;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "ITEM_INFO", joinColumns = @JoinColumn(name = "ITEM"))
+    private List<EInfo> info;
 
     public Item() {}
 
@@ -70,11 +71,11 @@ public class Item {
         this.maintenanceDate = maintenanceDate;
     }
 
-    public List<String> getInfo() {
+    public List<EInfo> getInfo() {
         return info;
     }
 
-    public void setInfo(List<String> info) {
+    public void setInfo(List<EInfo> info) {
         this.info = info;
     }
 }
