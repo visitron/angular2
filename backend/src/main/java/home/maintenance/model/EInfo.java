@@ -9,5 +9,5 @@ public enum EInfo {
     DETAIL,
     MONEY,
     PHONE,
-    CAR
+    CART
 }

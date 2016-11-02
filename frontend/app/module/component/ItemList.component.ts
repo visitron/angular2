@@ -15,8 +15,6 @@ export class ItemListComponent implements OnInit {
     public items: Item[] = [];
 
     ngOnInit(): void {
-        this.itemService.getItems().subscribe(items => {
-            this.items = items.json() as Item[];
-        });
+        this.itemService.getItems().subscribe(items => this.items = items);
     }
 }

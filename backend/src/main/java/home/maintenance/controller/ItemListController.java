@@ -14,7 +14,7 @@ import java.util.List;
  * Created by vsoshyn on 25/10/2016.
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping("/item")
 public class ItemListController {
 
