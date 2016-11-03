@@ -4,6 +4,7 @@
         <tr>
             <th>Item</th>
             <th>Time elapsed</th>
+            <th>Lifecycle</th>
             <th>Info</th>
         </tr>
         </thead>
@@ -14,15 +15,17 @@
                 <div class="row">
                     <div class="col-sm-7">
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.width]="calcDaysRemains(item)">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.background-color]="" [style.width]="calcDaysRemains(item)">
                                 <span class="sr-only">60% Complete</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        {{item.lifecycle}} days
-                    </div>
                 </div>
+            </td>
+            <td>
+                <!--<div class="col-sm-3">-->
+                    {{item.lifecycle}} days
+                <!--</div>-->
             </td>
             <td>
                 <div [innerHtml]="getGlyphicons(item)"></div>
@@ -35,6 +38,10 @@
                 <!-- Colors:
                     yellow/red => needs for attention
                     blue => default
+
+                    #88ec1b -> green
+
+                    #ec251b -> red
                 -->
             </td>
         </tr>

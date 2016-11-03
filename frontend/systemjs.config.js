@@ -18,7 +18,8 @@
             'rxjs': 'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
             'angular2-ui-switch': 'npm:angular2-ui-switch/dist',
-            'moment': 'npm:moment'
+            'moment': 'npm:moment',
+            'color-js': 'npm:color-js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -39,6 +40,9 @@
             },
             'moment': {
                 main: './moment.js',
+            },
+            'color-js': {
+                main: './color.js'
             }
         }
     });
