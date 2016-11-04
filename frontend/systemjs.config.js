@@ -19,7 +19,7 @@
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
             'angular2-ui-switch': 'npm:angular2-ui-switch/dist',
             'moment': 'npm:moment',
-            'color-js': 'npm:color-js'
+            'color': 'npm:color'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -41,7 +41,7 @@
             'moment': {
                 main: './moment.js',
             },
-            'color-js': {
+            'color': {
                 main: './color.js'
             }
         }

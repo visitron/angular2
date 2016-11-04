@@ -14,8 +14,8 @@
             <td>
                 <div class="row">
                     <div class="col-sm-7">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.background-color]="" [style.width]="calcDaysRemains(item)">
+                        <div class="progress animate" [ngClass]="{'run-out': needWarn(item) && animateClass}">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.background-color]="calcColorCode(item)" [style.width]="calcDaysRemains(item) + '%'">
                                 <span class="sr-only">60% Complete</span>
                             </div>
                         </div>
@@ -23,26 +23,10 @@
                 </div>
             </td>
             <td>
-                <!--<div class="col-sm-3">-->
-                    {{item.lifecycle}} days
-                <!--</div>-->
+                {{item.lifecycle}} days
             </td>
             <td>
                 <div [innerHtml]="getGlyphicons(item)"></div>
-                <!--<span class="glyphicon glyphicon-info-sign info-sign-color"></span>&lt;!&ndash; Popup with all contained items lifecycles &ndash;&gt;-->
-                <!--<span class="glyphicon glyphicon-list-alt info-sign-color"></span>&lt;!&ndash; Consists of several parts &ndash;&gt;-->
-                <!--<span class="glyphicon glyphicon-camera info-sign-color"></span>&lt;!&ndash; Photos available &ndash;&gt;-->
-                <!--<span class="glyphicon glyphicon-usd info-sign-color"></span>&lt;!&ndash; Money info available &ndash;&gt;-->
-                <!--<span class="glyphicon glyphicon-phone info-sign-color"></span>&lt;!&ndash; Service provider info available &ndash;&gt;-->
-                <!--<span class="glyphicon glyphicon glyphicon-shopping-cart info-sign-color"></span>&lt;!&ndash; Bought but requires service &ndash;&gt;-->
-                <!-- Colors:
-                    yellow/red => needs for attention
-                    blue => default
-
-                    #88ec1b -> green
-
-                    #ec251b -> red
-                -->
             </td>
         </tr>
         </tbody>

@@ -17,5 +17,9 @@ export class ItemService {
         // return this.http.get("/angular2/frontend/mock/items.json");
     }
 
+    public saveItem(item: Item): Observable<boolean> {
+        return this.http.post("http://localhost:7001/home-maintenance/item/save", item).map((response: Response) => response.json() as boolean);
+    }
+
 
 }

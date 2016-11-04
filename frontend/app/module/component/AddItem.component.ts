@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {Item} from "./Item";
+import {ItemService} from "./Item.service";
 
 @Component({
     selector: 'addItemDialog',
@@ -8,18 +9,15 @@ import {Item} from "./Item";
 
 export class AddItemComponent implements OnInit {
 
-    public item: Item = new Item('Test', 'Test desc', 0, new Date, []);
+    public item: Item = new Item(null, null, null, null, []);
 
-    constructor() {}
+    constructor(private itemService: ItemService) {}
 
-    ngOnInit(): void {
-        // this.item.name = 'Fridge';
-        // this.item.description = 'Fridge for storing products';
-        // this.item.lifecycle = 360;
-        // this.item.maintenanceDate = new Date();
-        //
-        // this.item.advanced.requiresSpecialist = false;
-        // this.item.advanced.requiresAdditionalDetails = false;
+    ngOnInit(): void {}
+
+    saveItem() {
+        console.log(this.item);
+        this.itemService.saveItem(this.item).subscribe(res => console.log(res));
     }
 
 }
