@@ -2,12 +2,13 @@ package home.maintenance.config;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jndi.JndiObjectFactoryBean;
-import org.springframework.orm.jpa.AbstractEntityManagerFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.SharedEntityManagerBean;
@@ -25,7 +26,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @ComponentScan(basePackages = "home.maintenance.dao")
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true, mode = AdviceMode.PROXY)
 public class PersistenceConfig {
 
     @Autowired
@@ -37,7 +38,14 @@ public class PersistenceConfig {
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setPackagesToScan("home.maintenance.model");
         entityManagerFactory.setPersistenceProvider(new HibernatePersistenceProvider());
+        entityManagerFactory.setPersistenceUnitName("home-maintenance");
+//        entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactory.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "validate");
+        entityManagerFactory.getJpaPropertyMap().put("hibernate.show_sql", "true");
+        entityManagerFactory.getJpaPropertyMap().put("hibernate.format_sql", "true");
+        entityManagerFactory.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
+//        entityManagerFactory.getJpaPropertyMap().put("javax.persistence.transactionType", "jta");
+//        entityManagerFactory.getJpaPropertyMap().put("hibernate.transaction.manager_lookup_class", "org.hibernate.transaction.WeblogicTransactionManagerLookup");
         entityManagerFactory.afterPropertiesSet();
         return entityManagerFactory.getObject();
     }
@@ -59,7 +67,14 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public WebLogicJtaTransactionManager platformTransactionManager() {
-        return new WebLogicJtaTransactionManager();
+    public PlatformTransactionManager txManager(@Autowired EntityManagerFactory entityManagerFactory) {
+//        PlatformTransactionManager platformTransactionManager = new WebLogicJtaTransactionManager();
+        PlatformTransactionManager platformTransactionManager = new JpaTransactionManager(entityManagerFactory);
+        return platformTransactionManager;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+        return new PersistenceExceptionTranslationPostProcessor();
     }
 }

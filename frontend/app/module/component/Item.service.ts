@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Http, Response, Headers} from "@angular/http";
+import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Item} from "./Item";
 import {Observable} from 'rxjs';
 
@@ -13,12 +13,19 @@ export class ItemService {
     public getItems(): Observable<Item[]> {
         let headers: Headers = new Headers;
         headers.append("Access-Control-Allow-Origin", "*");
-        return this.http.get("http://localhost:7001/home-maintenance/item/getAll", {headers: headers}).map((response: Response) => response.json() as Item[]);
+        let options: RequestOptions = new RequestOptions({headers: headers});
+        return this.http
+            .get("http://localhost:7001/home-maintenance/item/getAll", options)
+            .map((response: Response) => response.json() as Item[]);
         // return this.http.get("/angular2/frontend/mock/items.json");
     }
 
     public saveItem(item: Item): Observable<boolean> {
-        return this.http.post("http://localhost:7001/home-maintenance/item/save", item).map((response: Response) => response.json() as boolean);
+        let headers: Headers = new Headers({'Content-Type': 'application/json'});
+        let options: RequestOptions = new RequestOptions({headers: headers});
+        return this.http
+            .post("http://localhost:7001/home-maintenance/item/save", item, options)
+            .map((response: Response) => response.json() as boolean);
     }
 
 

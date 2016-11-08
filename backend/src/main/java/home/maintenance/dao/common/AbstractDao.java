@@ -1,5 +1,7 @@
 package home.maintenance.dao.common;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

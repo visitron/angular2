@@ -14,7 +14,6 @@ import java.util.List;
  * Created by vsoshyn on 28/10/2016.
  */
 @Repository
-@Transactional
 @NamedNativeQueries({@NamedNativeQuery(name = "Item.getAll", query = "SELECT * FROM ITEM")})
 public class ItemDaoImpl extends AbstractDao<Item> implements ItemDao {
     @Override

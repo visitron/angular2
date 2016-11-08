@@ -10,10 +10,10 @@ import java.util.List;
 @Entity
 @Table
 public class Item {
-    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqItem")
-    @SequenceGenerator(name = "seqItem", sequenceName = "SEQ_ITEM")
+    @SequenceGenerator(name = "seqItem", sequenceName = "SEQ_ITEM", allocationSize = 10)
+    @Column(name = "ID")
     private long id;
     @Column(name = "NAME", length = 64, nullable = false)
     private String name;
@@ -77,5 +77,10 @@ public class Item {
 
     public void setInfo(List<EInfo> info) {
         this.info = info;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Item[name = '%s', lifecycle = %d]", name, lifecycle);
     }
 }
