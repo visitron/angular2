@@ -4,7 +4,6 @@ import home.maintenance.dao.ItemDao;
 import home.maintenance.dao.common.AbstractDao;
 import home.maintenance.model.Item;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
@@ -19,7 +18,8 @@ public class ItemDaoImpl extends AbstractDao<Item> implements ItemDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Item> getAll() {
-        return em.createNativeQuery("SELECT * FROM ITEM", Item.class).getResultList();
+        return em.createQuery("select i from Item i").getResultList();
+//        return em.createNativeQuery("SELECT * FROM ITEM", Item.class).getResultList();
 //        return em.createNamedQuery("Item.getAll", Item.class).getResultList();
     }
 
