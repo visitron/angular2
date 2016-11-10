@@ -37,8 +37,7 @@ public class AdvancedItem extends Item {
     /**
      * In case of complex product it can consist of smaller pieces
      */
-    @Transient
-//    @CollectionTable(name = "ITEM_ADVANCED_ADDIT_DETAIL", joinColumns = @JoinColumn(name = "ITEM_ADVANCED"))
+    @OneToMany(mappedBy = "owner")
     private List<AdditionalDetail> additionalDetails = new ArrayList<>();
 
     public AdvancedItem() {};
@@ -134,8 +133,21 @@ public class AdvancedItem extends Item {
         }
     }
 
-//    @Table(name = "ITEM_ADVANCED_ADDIT_DETAIL")
+    @Entity
+    @Table(name = "ITEM_ADVANCED_ADDIT_DETAIL")
     public static class AdditionalDetail {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+        @SequenceGenerator(name = "generator", sequenceName = "SEQ_ADD_DETAIL", allocationSize = 10)
+        @Column(name = "ID")
+        private int id;
+
+
+        @ManyToOne
+        @JoinColumn(name = "ITEM_ADVANCED")
+        private AdvancedItem owner;
+
         /**
          * Detail name
          */

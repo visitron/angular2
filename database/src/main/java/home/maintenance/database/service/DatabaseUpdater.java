@@ -119,6 +119,7 @@ public class DatabaseUpdater implements Runnable {
             String scriptName = makeScriptName(script.getPath(), ids.poll());
             try {
                 logScriptApplyResult(new Delta(scriptName, new Date(), Status.SUCCESS, null, checksum(script.getInputStream())));
+                LOG.info(script.getPath() + " is [REGISTERED]");
             } catch (IOException e) {
                 logScriptApplyResult(new Delta(scriptName, new Date(), Status.FAILURE, e.getMessage(), null));
                 LOG.error(script.getPath() + " is [FAILED]", e);
