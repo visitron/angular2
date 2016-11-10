@@ -8,7 +8,8 @@ import java.util.List;
  * Created by vsoshyn on 25/10/2016.
  */
 @Entity
-@Table
+@Table(name = "ITEM")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqItem")

@@ -5,6 +5,7 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -13,6 +14,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.SharedEntityManagerBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
@@ -24,9 +26,9 @@ import java.sql.SQLException;
  * Created by Buibi on 09.11.2016.
  */
 @Configuration
-//@ComponentScan(basePackages = "home.maintenance.dao")
+@ComponentScan(basePackages = "home.maintenance.dao")
 @PropertySource("classpath:/database.oracle.properties")
-//@EnableTransactionManagement
+@EnableTransactionManagement
 public class PersistenceConfigTest {
 
     @Value("${jdbc.url}")
@@ -49,9 +51,10 @@ public class PersistenceConfigTest {
         entityManagerFactory.setPersistenceProvider(new HibernatePersistenceProvider());
         entityManagerFactory.setPersistenceUnitName("home-maintenance");
         entityManagerFactory.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "validate");
-        entityManagerFactory.getJpaPropertyMap().put("hibernate.show_sql", "true");
-        entityManagerFactory.getJpaPropertyMap().put("hibernate.format_sql", "true");
+//        entityManagerFactory.getJpaPropertyMap().put("hibernate.show_sql", "true");
+//        entityManagerFactory.getJpaPropertyMap().put("hibernate.format_sql", "true");
         entityManagerFactory.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
+        entityManagerFactory.getJpaPropertyMap().put("hibernate.default_schema", "soshvla");
         entityManagerFactory.afterPropertiesSet();
         return entityManagerFactory.getObject();
     }

@@ -11,11 +11,13 @@ import java.util.List;
  */
 @Entity
 @Table(name = "ITEM_ADVANCED")
+@PrimaryKeyJoinColumn(name = "ITEM")
 public class AdvancedItem extends Item {
     /**
      * Original size has to be 256x256 pixels
      */
     @Column(name = "IMAGE")
+    @Lob
     private byte[] image;
     /**
      * Has to be not null if the product is a part of another more complicated one
@@ -35,6 +37,7 @@ public class AdvancedItem extends Item {
     /**
      * In case of complex product it can consist of smaller pieces
      */
+    @Transient
 //    @CollectionTable(name = "ITEM_ADVANCED_ADDIT_DETAIL", joinColumns = @JoinColumn(name = "ITEM_ADVANCED"))
     private List<AdditionalDetail> additionalDetails = new ArrayList<>();
 
