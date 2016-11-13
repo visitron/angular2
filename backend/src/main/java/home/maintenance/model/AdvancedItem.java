@@ -134,12 +134,12 @@ public class AdvancedItem extends Item {
     }
 
     @Entity
-    @Table(name = "ITEM_ADVANCED_ADDIT_DETAIL")
+    @Table(name = "ADDITIONAL_DETAIL")
     public static class AdditionalDetail {
 
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
-        @SequenceGenerator(name = "generator", sequenceName = "SEQ_ADD_DETAIL", allocationSize = 10)
+        @SequenceGenerator(name = "generator", sequenceName = "SEQ_ADDITIONAL_DETAIL", allocationSize = 10)
         @Column(name = "ID")
         private int id;
 
