@@ -1,7 +1,5 @@
 package home.maintenance.dao.common;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -33,4 +31,13 @@ public abstract class AbstractDao<T> implements Dao<T> {
         em.detach(entity);
     }
 
+    @Override
+    public void flush() {
+        em.flush();
+    }
+
+    @Override
+    public void refresh(T entity) {
+        em.refresh(entity);
+    }
 }

@@ -1,15 +1,13 @@
 package home.maintenance.config;
 
-import oracle.jdbc.pool.OracleDataSource;
+import org.h2.Driver;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.SharedEntityManagerBean;
@@ -38,6 +36,29 @@ public class PersistenceConfigTest {
     @Value("${jdbc.password}")
     private String jdbcPassword;
 
+    @Profile("h2-ci")
+    @Bean
+    public DataSource h2DataSource() throws NamingException, SQLException {
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        dataSource.setDriver(new Driver());
+        dataSource.setUrl("jdbc:h2:mem:soshvla;DB_CLOSE_DELAY=-1");
+        dataSource.setUsername(jdbcUser);
+//        dataSource.setSchema("soshvla");
+
+//        dataSource.setPassword(jdbcPassword);
+        return dataSource;
+    }
+
+//    @Profile("oracle-ci")
+//    @Bean
+//    public DataSource oracleDataSource() throws NamingException, SQLException {
+//        OracleDataSource dataSource = new OracleDataSource();
+//        dataSource.setURL(jdbcUrl);
+//        dataSource.setUser(jdbcUser);
+//        dataSource.setPassword(jdbcPassword);
+//        return dataSource;
+//    }
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
@@ -50,11 +71,12 @@ public class PersistenceConfigTest {
         entityManagerFactory.setPackagesToScan("home.maintenance.model");
         entityManagerFactory.setPersistenceProvider(new HibernatePersistenceProvider());
         entityManagerFactory.setPersistenceUnitName("home-maintenance");
-        entityManagerFactory.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "validate");
+        entityManagerFactory.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "create");
 //        entityManagerFactory.getJpaPropertyMap().put("hibernate.show_sql", "true");
 //        entityManagerFactory.getJpaPropertyMap().put("hibernate.format_sql", "true");
-        entityManagerFactory.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
-        entityManagerFactory.getJpaPropertyMap().put("hibernate.default_schema", "soshvla");
+//        entityManagerFactory.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
+        entityManagerFactory.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+//        entityManagerFactory.getJpaPropertyMap().put("hibernate.default_schema", "soshvla");
         entityManagerFactory.afterPropertiesSet();
         return entityManagerFactory.getObject();
     }
@@ -64,15 +86,6 @@ public class PersistenceConfigTest {
         SharedEntityManagerBean bean = new SharedEntityManagerBean();
         bean.setEntityManagerFactory(entityManagerFactory);
         return bean.getObject();
-    }
-
-    @Bean
-    public DataSource dataSource() throws NamingException, SQLException {
-        OracleDataSource dataSource = new OracleDataSource();
-        dataSource.setURL(jdbcUrl);
-        dataSource.setUser(jdbcUser);
-        dataSource.setPassword(jdbcPassword);
-        return dataSource;
     }
 
     @Bean

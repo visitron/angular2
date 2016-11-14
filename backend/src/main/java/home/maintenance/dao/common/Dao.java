@@ -8,4 +8,6 @@ public interface Dao<T> {
     void persist(T entity);
     T merge(T entity);
     void detach(T entity);
+    void flush();
+    void refresh(T entity);
 }
