@@ -3,6 +3,7 @@ package home.maintenance.model;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by vsoshyn on 25/10/2016.
@@ -83,5 +84,25 @@ public class Item {
     @Override
     public String toString() {
         return String.format("Item[name = '%s', lifecycle = %d]", name, lifecycle);
+    }
+
+    @Override
+    public boolean equals(Object item) {
+        if (!(item instanceof Item)) return false;
+
+        Item that = (Item) item;
+
+        return
+                Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(maintenanceDate, that.maintenanceDate) &&
+                Objects.equals(lifecycle, that.lifecycle) &&
+                Objects.deepEquals(info, that.info);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, maintenanceDate, lifecycle, info);
     }
 }

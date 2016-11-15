@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -49,11 +50,15 @@ public class ItemDaoTest extends AbstractDaoTest {
         item1.getInfo().remove(EInfo.INFO);
         dao.remove(item2);
 
-        dao.flush();
-
-        List<Item> items = dao.getAll();
+        List<Item> items = dao.getAll().stream()
+                .sorted((i1, i2) -> Long.compare(i1.getId(), i2.getId()))
+                .collect(Collectors.toList());
 
         assertEquals(3, items.size());
+
+        assertEquals(item0, items.get(0));
+        assertEquals(item1, items.get(1));
+        assertEquals(item3, items.get(2));
     }
 
     @Test
