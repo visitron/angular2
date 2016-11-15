@@ -1,9 +1,8 @@
 import {Injectable} from "@angular/core";
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Item} from "./Item";
-import {Observable} from 'rxjs';
-
-import 'rxjs/add/operator/map';
+import {Observable} from "rxjs";
+import "rxjs/add/operator/map";
 
 @Injectable()
 export class ItemService {
@@ -15,9 +14,9 @@ export class ItemService {
         headers.append("Access-Control-Allow-Origin", "*");
         let options: RequestOptions = new RequestOptions({headers: headers});
         return this.http
-            .get("http://localhost:7001/home-maintenance/item/getAll", options)
+            // .get("http://localhost:7001/home-maintenance/item/getAll", options)
+            .get("/angular2/frontend/mock/items.json", options)
             .map((response: Response) => response.json() as Item[]);
-        // return this.http.get("/angular2/frontend/mock/items.json");
     }
 
     public saveItem(item: Item): Observable<boolean> {

@@ -1,12 +1,9 @@
-import {Component, OnInit, Sanitizer, SecurityContext} from "@angular/core";
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-import * as moment from 'moment';
-import * as Color from 'color';
-import {AddItemComponent} from "./AddItem.component";
+import {Component, OnInit} from "@angular/core";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import * as moment from "moment";
+import * as Color from "color";
 import {ItemService} from "./Item.service";
-import {Item} from "./Item";
-import {InfoMapping} from "./Item";
-import {Observable} from 'rxjs';
+import {Item, InfoMapping} from "./Item";
 
 @Component({
     selector: 'maintenanceApp',
@@ -47,5 +44,9 @@ export class ItemListComponent implements OnInit {
 
     needWarn(item: Item): boolean {
         return this.calcDaysRemains(item) < 20;
+    }
+
+    formatDate(date: Date): String {
+        return date.toISOString().slice(0, 10);
     }
 }

@@ -1,17 +1,29 @@
 export class Item {
-    constructor(
-        public name: string,
-        public description: string,
-        public lifecycle: number,
-        public maintenanceDate: Date,
-        public info: Info[]
-    ) {}
+    public name: string;
+    public description: string;
+    public lifecycle: number;
+    public maintenanceDate: Date;
+    public info: Info[] = [];
+}
 
-    public get maintenanceDateString(): string {
-        return this.maintenanceDate.toISOString().slice(0, 10);
-    }
+export class ItemAdvanced extends Item {
+    image: string;
+    parent: Item;
+    specialist: Specialist;
+    additionalDetails: AdditionalDetail[] = [];
+}
 
-    public advanced: ItemAdvanced = new ItemAdvanced;
+export class Specialist {
+    company: string;
+    email: string;
+    phone: number;
+    cost: number;
+}
+
+export class AdditionalDetail {
+    name: string;
+    description: string;
+    cost: number;
 }
 
 export enum Info {
@@ -23,9 +35,19 @@ export enum Info {
     CART
 }
 
+/**
+ * Utility class
+ */
 export class InfoMapping {
     private static self: InfoMapping = new InfoMapping();
     private infoMapping: Map<Info, string> = new Map<Info, string>();
+
+    public static get(infos: Info[]): string {
+        if (infos === undefined || infos === null) return '';
+        let result: string[] = [];
+        infos.forEach(info => result.push(InfoMapping.self.get(info)));
+        return result.join('\n');
+    }
 
     private constructor() {
         this.infoMapping.set(Info.PHOTO, '<span class="glyphicon glyphicon-camera info-sign-color"></span>');
@@ -36,28 +58,7 @@ export class InfoMapping {
         this.infoMapping.set(Info.CART, '<span class="glyphicon glyphicon-shopping-cart info-sign-color"></span>');
     }
 
-    public static get(infos: Info[]): string {
-        let result: string[] = [];
-        infos.forEach(info => result.push(InfoMapping.self.get(info)));
-        return result.join('\n');
-    }
-
     private get(info: Info): string {
         return this.infoMapping.get((<any> Info)[info]);
     }
-}
-
-
-
-class ItemAdvanced {
-    image: string;
-    parent: Item;
-    requiresSpecialist: boolean;
-    specialistCompany: string;
-    specialistEmail: string;
-    specialistPhone: string;
-    specialistCost: number;
-    requiresAdditionalDetails: boolean;
-    additionalDetailsDescription: string;
-    additionalDetailsCost: number;
 }

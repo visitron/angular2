@@ -79,10 +79,10 @@
                                     <div class="row">
                                         <div class="col-md-6">Maintenance requires a separate specialist.</div>
                                         <div class="col-md-6">
-                                            <ui-switch size="small" [(ngModel)]="item.advanced.requiresSpecialist" [ngModelOptions]="{standalone: true}"></ui-switch>
+                                            <ui-switch size="small" [(ngModel)]="item.specialist" [ngModelOptions]="{standalone: true}"></ui-switch>
                                         </div>
                                     </div>
-                                    <div class="well" *ngIf="item.advanced.requiresSpecialist">
+                                    <div class="well" *ngIf="item.specialist != null">
                                         <div class="row">
                                             <form class="form-horizontal">
                                                 <div class="form-group">
@@ -116,10 +116,10 @@
                                     <div class="row">
                                         <div class="col-md-6">Requires additional details.</div>
                                         <div class="col-md-6">
-                                            <ui-switch size="small" [(ngModel)]="item.advanced.requiresAdditionalDetails" [ngModelOptions]="{standalone: true}"></ui-switch>
+                                            <ui-switch size="small" [(ngModel)]="item.additionalDetails" [ngModelOptions]="{standalone: true}"></ui-switch>
                                         </div>
                                     </div>
-                                    <div class="well" *ngIf="item.advanced.requiresAdditionalDetails">
+                                    <div class="well" *ngIf="item.additionalDetails.length > 0">
                                         <div class="row">
                                             <form class="form-horizontal">
                                                 <div class="form-group">

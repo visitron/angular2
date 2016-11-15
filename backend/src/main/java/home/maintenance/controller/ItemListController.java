@@ -31,8 +31,4 @@ public class ItemListController {
         return true;
     }
 
-    @RequestMapping(produces = "text/plain")
-    @ResponseBody public String index() {
-        return "Hello";
-    }
 }

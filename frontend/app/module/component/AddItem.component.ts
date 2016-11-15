@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Item} from "./Item";
+import {ItemAdvanced} from "./Item";
 import {ItemService} from "./Item.service";
 
 @Component({
@@ -9,7 +9,7 @@ import {ItemService} from "./Item.service";
 
 export class AddItemComponent implements OnInit {
 
-    public item: Item = new Item(null, null, null, null, []);
+    public item: ItemAdvanced = new ItemAdvanced;
 
     constructor(private itemService: ItemService) {}
 
