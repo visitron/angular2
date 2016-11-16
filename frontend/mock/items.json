@@ -3,24 +3,24 @@
     "name": "Refrigerator",
     "description": "For storing food",
     "lifecycle": 360,
-    "maintenanceDate": "07/06/2015"
+    "maintenanceDate": "07-06-2015"
   },
   {
     "name": "Boiler",
     "description": null,
     "lifecycle": 300,
-    "maintenanceDate": "08/09/2015"
+    "maintenanceDate": "08-09-2015"
   },
   {
     "name": "Conditioner",
     "description": "Conditioner in playing room",
     "lifecycle": 250,
-    "maintenanceDate": "05/03/2016"
+    "maintenanceDate": "05-03-2016"
   },
   {
     "name": "Conditioner",
     "description": "Conditioner in bed room",
     "lifecycle": 100,
-    "maintenanceDate": "05/03/2016"
+    "maintenanceDate": "05-03-2016"
   }
 ]
