@@ -26,7 +26,7 @@ export class ItemListComponent implements OnInit {
     }
 
     calcDaysRemains(item: Item): number {
-        let diff: number = moment().diff(moment(item.maintenanceDate, 'yyyy-MM-dd'), "days");
+        let diff: number = moment().diff(moment(item.maintenanceDate), "days");
         return (item.lifecycle - diff) * 100 / item.lifecycle;
     }
 
