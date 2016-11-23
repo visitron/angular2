@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import * as moment from "moment";
-import * as Color from "color";
+import * as Color from "tinycolor2";
 import {ItemService} from "./Item.service";
 import {Item, InfoMapping} from "./Item";
 
