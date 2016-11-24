@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import * as moment from "moment";
-import * as Color from "tinycolor2";
+import * as tinycolor from "tinycolor2";
 import {ItemService} from "./Item.service";
 import {Item, InfoMapping} from "./Item";
 
@@ -31,15 +31,10 @@ export class ItemListComponent implements OnInit {
     }
 
     calcColorCode(item: Item): string {
-        let baseColor: Color = Color({
-            hue: 127,
-            saturation: 0.7,
-            lightness: 0.5});
-
+        let baseColor: ColorFormats.HSL = tinycolor({h: 127, s: 0.7, l: 0.5}).toHsl();
         let hue: number = this.calcDaysRemains(item) * 1.27;
-        hue = hue < 0 ? 0 : hue;
-        baseColor = baseColor.setHue(hue);
-        return baseColor.toRGB();
+        baseColor.h = hue < 0 ? 0 : hue;
+        return tinycolor(baseColor).toString();
     }
 
     needWarn(item: Item): boolean {
