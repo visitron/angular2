@@ -9,7 +9,7 @@ export class Item {
 export class ItemAdvanced extends Item {
     image: string;
     parent: Item;
-    specialist: Specialist;
+    specialist: Specialist = null;
     additionalDetails: AdditionalDetail[] = [];
 }
 

@@ -12,13 +12,13 @@
     "maintenanceDate": "08-09-2015"
   },
   {
-    "name": "Conditioner",
+    "name": "Conditioner 1",
     "description": "Conditioner in playing room",
     "lifecycle": 250,
-    "maintenanceDate": "05-03-2016"
+    "maintenanceDate": "28-04-2016"
   },
   {
-    "name": "Conditioner",
+    "name": "Conditioner 2",
     "description": "Conditioner in bed room",
     "lifecycle": 100,
     "maintenanceDate": "05-03-2016"

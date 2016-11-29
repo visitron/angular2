@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ItemAdvanced} from "./Item";
+import {ItemAdvanced, Specialist} from "./Item";
 import {ItemService} from "./Item.service";
 
 @Component({
@@ -14,6 +14,22 @@ export class AddItemComponent implements OnInit {
     constructor(private itemService: ItemService) {}
 
     ngOnInit(): void {}
+
+    hasSpecialist(): boolean {
+        return this.item.specialist !== null;
+    }
+
+    hasAdditionalDetails(): boolean {
+        return this.item.additionalDetails.length > 0;
+    }
+
+    switchSpecialist(enabled: boolean): void {
+        if (enabled) {
+            this.item.specialist = new Specialist;
+        } else {
+            this.item.specialist = null;
+        }
+    }
 
     saveItem() {
         console.log(this.item);

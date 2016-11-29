@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import * as moment from "moment";
 import * as tinycolor from "tinycolor2";
@@ -7,18 +7,21 @@ import {Item, InfoMapping} from "./Item";
 
 @Component({
     selector: 'maintenanceApp',
-    templateUrl: 'template/items-list.html'
+    templateUrl: 'template/items-list.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ItemListComponent implements OnInit {
-    constructor(private itemService: ItemService, private sanitizer: DomSanitizer) {}
-
     public items: Item[] = [];
     public animateClass: boolean;
 
+    constructor(private itemService: ItemService, private sanitizer: DomSanitizer, private ch: ChangeDetectorRef) {}
+
     ngOnInit(): void {
-        this.itemService.getItems().subscribe(items => this.items = items);
-        setInterval(() => this.animateClass = !this.animateClass, 2000);
+        this.itemService.getItems().subscribe(items => {
+            this.items = items;
+            this.ch.markForCheck();
+        });
     }
 
     getGlyphicons(item: Item): SafeHtml {
