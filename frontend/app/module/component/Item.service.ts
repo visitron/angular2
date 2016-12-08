@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, EventEmitter} from "@angular/core";
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Item} from "./Item";
 import {Observable} from "rxjs";
@@ -8,7 +8,7 @@ import "rxjs/add/operator/share";
 @Injectable()
 export class ItemService {
 
-    private items: Item[] = null;
+    private emitter: EventEmitter<Item[]> = new EventEmitter<Item[]>();
 
     constructor(private http: Http) {};
 
@@ -20,24 +20,12 @@ export class ItemService {
             .get("/angular2/frontend/mock/items.json", options)
             .map((response: Response) => response.json() as Item[])
             .subscribe(items => {
-                this.items = items;
-                // this.ch.markForCheck();
+                this.emitter.emit(items);
             });
     }
 
-    public getCachedItems(): Item[] {
-        return this.items;
-    }
-
     public getItems(): Observable<Item[]> {
-        let headers: Headers = new Headers;
-        headers.append("Access-Control-Allow-Origin", "*");
-        let options: RequestOptions = new RequestOptions({headers: headers});
-        return this.http
-            // .get("http://localhost:7001/home-maintenance/item/getAll", options)
-            .get("/angular2/frontend/mock/items.json", options)
-            .map((response: Response) => response.json() as Item[])
-            .share();
+        return this.emitter;
     }
 
     public saveItem(item: Item): Observable<boolean> {

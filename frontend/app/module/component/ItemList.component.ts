@@ -22,6 +22,7 @@ export class ItemListComponent implements OnInit {
             this.items = items;
             this.ch.markForCheck();
         });
+        this.itemService.loadItems();
     }
 
     getGlyphicons(item: Item): SafeHtml {

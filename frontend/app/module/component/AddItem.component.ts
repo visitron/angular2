@@ -1,13 +1,14 @@
-import {Component, OnInit, ChangeDetectorRef} from "@angular/core";
+import {Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
 import {ItemAdvanced, ItemAdvancedWrapper, Item} from "./Item";
 import {ItemService} from "./Item.service";
 
 @Component({
     selector: 'addItemDialog',
-    templateUrl: 'template/dialogs/add-item.html'
+    templateUrl: 'template/dialogs/add-item.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AddItemComponent implements OnInit {
+export class AddItemComponent implements OnInit, OnDestroy {
 
     public itemWrapper: ItemAdvancedWrapper = new ItemAdvancedWrapper(new ItemAdvanced);
     // public freeParents: ItemAdvanced[] = [];
@@ -20,17 +21,23 @@ export class AddItemComponent implements OnInit {
         this.itemService.getItems().subscribe(items => {
             this.items = items;
             this.calcFreeParents();
-            this.ch.detectChanges();
+            this.ch.markForCheck();
         });
+    }
+
+    ngOnDestroy(): void {
+        //todo when it is invoked?
+        console.log('Destroyed');
     }
 
     calcFreeParents(): void {
         if (this.items === null) return;
 
         this.items.forEach(value => {
-            // if (value instanceof ItemAdvanced) {
+            let advanced: ItemAdvanced = value as ItemAdvanced;
+            if (advanced.specialist || advanced.additionalDetails) {
                 this.freeParents.push(value);
-            // }
+            }
         });
     }
 

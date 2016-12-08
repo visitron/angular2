@@ -22,5 +22,28 @@
     "description": "Conditioner in bed room",
     "lifecycle": 100,
     "maintenanceDate": "05-03-2016"
+  },
+  {
+    "name": "Iron",
+    "description": "Clothes have to be perfect",
+    "lifecycle": 360,
+    "maintenanceDate": "05-03-2016",
+    "info": ["PHONE", "INFO"],
+    "specialist": {
+      "company": "Philips Ukraine",
+      "email": "info@philips.com",
+      "phone": "442256513",
+      "cost": 520
+    },
+    "additionalDetails": [
+      {
+        "description": "Need package. It is a requirement of shipping company.",
+        "cost": 25
+      },
+      {
+        "description": "I didn't know where I should include tax. So it's here.",
+        "cost": 10
+      }
+    ]
   }
 ]
