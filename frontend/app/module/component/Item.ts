@@ -1,29 +1,38 @@
 export class Item {
-    public name: string;
-    public description: string;
-    public lifecycle: number;
-    public maintenanceDate: Date;
+    public name: string = null;
+    public description: string = null;
+    public lifecycle: number = null;
+    public maintenanceDate: Date = new Date;
     public info: Info[] = [];
 }
 
 export class ItemAdvanced extends Item {
-    image: string;
-    parent: Item;
-    specialist: Specialist = null;
+    image: string = null;
+    parent: Item = null;
+    specialist: Specialist = new Specialist;
     additionalDetails: AdditionalDetail[] = [];
 }
 
 export class Specialist {
-    company: string;
-    email: string;
-    phone: number;
-    cost: number;
+    constructor() {}
+    _company: string = null;
+    get company(): string {
+        return this._company;
+    }
+
+    set company(company: string) {
+        this._company = company;
+    }
+
+    email: string = null;
+    phone: number = null;
+    cost: number = null;
 }
 
 export class AdditionalDetail {
-    name: string;
-    description: string;
-    cost: number;
+    name: string = null;
+    description: string = null;
+    cost: number = null;
 }
 
 export enum Info {
@@ -61,4 +70,27 @@ export class InfoMapping {
     private get(info: Info): string {
         return this.infoMapping.get((<any> Info)[info]);
     }
+}
+
+export class ItemAdvancedWrapper {
+    public hasSpecialist: boolean;
+    public hasAdditionalDetails: boolean;
+
+    constructor (private _itemAdvanced: ItemAdvanced) {
+        this.hasSpecialist = _itemAdvanced.specialist === null;
+        this.hasAdditionalDetails = _itemAdvanced.additionalDetails.length != 0;
+    }
+
+    get itemAdvanced(): ItemAdvanced {
+        return this._itemAdvanced;
+    }
+
+    createAdditionalDetail(): void {
+        this._itemAdvanced.additionalDetails.push(new AdditionalDetail);
+    }
+
+    removeAdditionalDetail(index: number): void {
+        this._itemAdvanced.additionalDetails.splice(index, 1);
+    }
+
 }

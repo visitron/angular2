@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {ItemAdvanced, Specialist} from "./Item";
+import {Component, OnInit, ChangeDetectorRef} from "@angular/core";
+import {ItemAdvanced, ItemAdvancedWrapper, Item} from "./Item";
 import {ItemService} from "./Item.service";
 
 @Component({
@@ -9,31 +9,34 @@ import {ItemService} from "./Item.service";
 
 export class AddItemComponent implements OnInit {
 
-    public item: ItemAdvanced = new ItemAdvanced;
+    public itemWrapper: ItemAdvancedWrapper = new ItemAdvancedWrapper(new ItemAdvanced);
+    // public freeParents: ItemAdvanced[] = [];
+    public freeParents: Item[] = [];
+    public items: Item[] = null;
 
-    constructor(private itemService: ItemService) {}
+    constructor(private itemService: ItemService, private ch: ChangeDetectorRef) {}
 
-    ngOnInit(): void {}
-
-    hasSpecialist(): boolean {
-        return this.item.specialist !== null;
+    ngOnInit(): void {
+        this.itemService.getItems().subscribe(items => {
+            this.items = items;
+            this.calcFreeParents();
+            this.ch.detectChanges();
+        });
     }
 
-    hasAdditionalDetails(): boolean {
-        return this.item.additionalDetails.length > 0;
-    }
+    calcFreeParents(): void {
+        if (this.items === null) return;
 
-    switchSpecialist(enabled: boolean): void {
-        if (enabled) {
-            this.item.specialist = new Specialist;
-        } else {
-            this.item.specialist = null;
-        }
+        this.items.forEach(value => {
+            // if (value instanceof ItemAdvanced) {
+                this.freeParents.push(value);
+            // }
+        });
     }
 
     saveItem() {
-        console.log(this.item);
-        this.itemService.saveItem(this.item).subscribe(res => console.log(res));
+        console.log(this.itemWrapper.itemAdvanced);
+        this.itemService.saveItem(this.itemWrapper.itemAdvanced).subscribe(res => console.log(res));
     }
 
 }

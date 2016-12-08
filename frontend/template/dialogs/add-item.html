@@ -10,25 +10,25 @@
                     <div class="form-group">
                         <label for="inputName" class="col-sm-4 control-label">Name</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputName" placeholder="Name" [value]="item.name" (input)="item.name=$event.target.value">
+                            <input type="text" class="form-control" id="inputName" placeholder="Name" [value]="itemWrapper.itemAdvanced.name" (input)="itemWrapper.itemAdvanced.name=$event.target.value">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputDescription" class="col-sm-4 control-label">Description</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputDescription" placeholder="Description" [value]="item.description" (input)="item.description=$event.target.value">
+                            <input type="text" class="form-control" id="inputDescription" placeholder="Description" [value]="itemWrapper.itemAdvanced.description" (input)="itemWrapper.itemAdvanced.description=$event.target.value">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputLifecycle" class="col-sm-4 control-label">Lifecycle, days</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputLifecycle" placeholder="Lifecycle" [value]="item.lifecycle" (input)="item.lifecycle=$event.target.value">
+                            <input type="number" class="form-control" id="inputLifecycle" placeholder="Lifecycle" [value]="itemWrapper.itemAdvanced.lifecycle" (input)="itemWrapper.itemAdvanced.lifecycle=$event.target.value">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputMaintenanceDate" class="col-sm-4 control-label">Maintenance date</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="inputMaintenanceDate" placeholder="Maintenance date" [value]="item.maintenanceDate" (input)="item.maintenanceDate=$event.target.value">
+                            <input type="date" class="form-control" id="inputMaintenanceDate" placeholder="Maintenance date" [value]="itemWrapper.itemAdvanced.maintenanceDate" (input)="itemWrapper.itemAdvanced.maintenanceDate=$event.target.value">
                         </div>
                     </div>
 
@@ -67,8 +67,9 @@
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#">Fridge</a></li>
-                                                        <li><a href="#">Washing machine</a></li>
+                                                        <li *ngFor="let parent of freeParents">
+                                                            <a href="#">{{parent.name}}</a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <button type="button" class="btn btn-default">Clear</button>
@@ -79,34 +80,42 @@
                                     <div class="row">
                                         <div class="col-md-6">Maintenance requires a separate specialist.</div>
                                         <div class="col-md-6">
-                                            <ui-switch size="small" (click)="switchSpecialist($event.target)"></ui-switch>
+                                            <ui-switch size="small" [checked]="itemWrapper.hasSpecialist" (click)="itemWrapper.hasSpecialist = !itemWrapper.hasSpecialist"></ui-switch>
                                         </div>
                                     </div>
-                                    <div class="well" *ngIf="hasSpecialist()">
+                                    <div class="well" *ngIf="itemWrapper.hasSpecialist">
                                         <div class="row">
                                             <form class="form-horizontal">
                                                 <div class="form-group">
                                                     <label for="companyId" class="col-sm-offset-1 col-sm-2 control-label">Company</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="companyId" placeholder="Company">
+                                                        <input type="text" class="form-control" id="companyId" placeholder="Company"
+                                                               [value]="itemWrapper.itemAdvanced.specialist.company"
+                                                               (input)="itemWrapper.itemAdvanced.specialist.company=$event.target.value">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="emailId" class="col-sm-offset-1 col-sm-2 control-label">Email</label>
                                                     <div class="col-sm-8">
-                                                        <input type="email" class="form-control" id="emailId" placeholder="Email">
+                                                        <input type="email" class="form-control" id="emailId" placeholder="Email"
+                                                               [value]="itemWrapper.itemAdvanced.specialist.email"
+                                                               (input)="itemWrapper.itemAdvanced.specialist.email=$event.target.value">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="phoneId" class="col-sm-offset-1 col-sm-2 control-label">Phone</label>
                                                     <div class="col-sm-8">
-                                                        <input type="tel" class="form-control" id="phoneId" placeholder="Phone">
+                                                        <input type="tel" class="form-control" id="phoneId" placeholder="Phone"
+                                                               [value]="itemWrapper.itemAdvanced.specialist.phone"
+                                                               (input)="itemWrapper.itemAdvanced.specialist.phone=$event.target.value">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="moneyId1" class="col-sm-offset-1 col-sm-2 control-label">Cost</label>
                                                     <div class="col-sm-8">
-                                                        <input type="number" class="form-control" id="moneyId1" placeholder="Cost">
+                                                        <input type="number" class="form-control" id="moneyId1" placeholder="Cost"
+                                                               [value]="itemWrapper.itemAdvanced.specialist.cost"
+                                                               (input)="itemWrapper.itemAdvanced.specialist.cost=$event.target.value">
                                                     </div>
                                                 </div>
                                             </form>
@@ -114,28 +123,46 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <div class="col-md-6">Requires additional details.</div>
+                                        <div class="col-md-6">Requires additional details</div>
                                         <div class="col-md-6">
-                                            <ui-switch size="small" [(ngModel)]="item.additionalDetails" [ngModelOptions]="{standalone: true}"></ui-switch>
+                                            <ui-switch size="small" [checked]="itemWrapper.hasAdditionalDetails" (click)="itemWrapper.hasAdditionalDetails = !itemWrapper.hasAdditionalDetails"></ui-switch>
                                         </div>
                                     </div>
-                                    <div class="well" *ngIf="hasAdditionalDetails()">
-                                        <div class="row">
-                                            <form class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label for="descId" class="col-sm-offset-1 col-sm-2 control-label">Description</label>
-                                                    <div class="col-sm-8">
-                                                        <textarea id="descId" class="form-control col-sm-offset-1 col-sm-2 control-label" style="margin-left: 0" rows="3"></textarea>
+                                    <div class="well" *ngIf="itemWrapper.hasAdditionalDetails">
+                                        <form class="form-horizontal">
+                                            <div *ngFor="let detail of itemWrapper.itemAdvanced.additionalDetails; let i = index">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-offset-1 col-sm-2 control-label">Description</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea class="form-control col-sm-offset-1 col-sm-2 control-label" style="margin-left: 0" rows="3"
+                                                            [value]="detail.description"
+                                                            (input)="detail.description=$event.target.value"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-offset-1 col-sm-2 control-label">Cost</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="number" class="form-control" placeholder="Cost"
+                                                            [value]="detail.cost"
+                                                            (input)="detail.cost=$event.target.value">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="moneyId" class="col-sm-offset-1 col-sm-2 control-label">Cost</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="number" class="form-control" id="moneyId" placeholder="Cost">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-danger" (click)="itemWrapper.removeAdditionalDetail(i)">Remove</button>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <hr>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-primary" (click)="itemWrapper.createAdditionalDetail()">Add</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
