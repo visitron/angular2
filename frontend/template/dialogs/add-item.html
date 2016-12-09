@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label for="inputMaintenanceDate" class="col-sm-4 control-label">Maintenance date</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="inputMaintenanceDate" placeholder="Maintenance date" [value]="itemWrapper.itemAdvanced.maintenanceDate" (input)="itemWrapper.itemAdvanced.maintenanceDate=$event.target.value">
+                            <input type="date" class="form-control" id="inputMaintenanceDate" placeholder="Maintenance date" [value]="itemWrapper.toDate(itemWrapper.itemAdvanced.maintenanceDate) | date:'yyyy-MM-dd'" (input)="itemWrapper.itemAdvanced.maintenanceDate=itemWrapper.toDate($event.target.value)">
                         </div>
                     </div>
 
@@ -90,7 +90,7 @@
                                                     <label for="companyId" class="col-sm-offset-1 col-sm-2 control-label">Company</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control" id="companyId" placeholder="Company"
-                                                               [value]="itemWrapper.itemAdvanced.specialist.company"
+                                                               [value]="itemWrapper.itemAdvanced.specialist?.company"
                                                                (input)="itemWrapper.itemAdvanced.specialist.company=$event.target.value">
                                                     </div>
                                                 </div>
@@ -98,7 +98,7 @@
                                                     <label for="emailId" class="col-sm-offset-1 col-sm-2 control-label">Email</label>
                                                     <div class="col-sm-8">
                                                         <input type="email" class="form-control" id="emailId" placeholder="Email"
-                                                               [value]="itemWrapper.itemAdvanced.specialist.email"
+                                                               [value]="itemWrapper.itemAdvanced.specialist?.email"
                                                                (input)="itemWrapper.itemAdvanced.specialist.email=$event.target.value">
                                                     </div>
                                                 </div>
@@ -106,7 +106,7 @@
                                                     <label for="phoneId" class="col-sm-offset-1 col-sm-2 control-label">Phone</label>
                                                     <div class="col-sm-8">
                                                         <input type="tel" class="form-control" id="phoneId" placeholder="Phone"
-                                                               [value]="itemWrapper.itemAdvanced.specialist.phone"
+                                                               [value]="itemWrapper.itemAdvanced.specialist?.phone"
                                                                (input)="itemWrapper.itemAdvanced.specialist.phone=$event.target.value">
                                                     </div>
                                                 </div>
@@ -114,7 +114,7 @@
                                                     <label for="moneyId1" class="col-sm-offset-1 col-sm-2 control-label">Cost</label>
                                                     <div class="col-sm-8">
                                                         <input type="number" class="form-control" id="moneyId1" placeholder="Cost"
-                                                               [value]="itemWrapper.itemAdvanced.specialist.cost"
+                                                               [value]="itemWrapper.itemAdvanced.specialist?.cost"
                                                                (input)="itemWrapper.itemAdvanced.specialist.cost=$event.target.value">
                                                     </div>
                                                 </div>
@@ -172,7 +172,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveItem()">Add</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveItem()">{{itemWrapper.submitButtonName}}</button>
                 </div>
             </form>
         </div>

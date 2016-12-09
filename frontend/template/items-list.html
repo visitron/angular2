@@ -9,7 +9,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let item of items">
+        <tr *ngFor="let item of items; let i = index;"  (dblclick)="openItem(i)">
             <td>{{item.name}}</td>
             <td>
                 <div class="row">
@@ -33,6 +33,6 @@
     </table>
 </div>
 <div class="row">
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addItemDialogId">+</button>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addItemDialogId" (click)="createItem()">+</button>
 </div>
 <addItemDialog class=""></addItemDialog>

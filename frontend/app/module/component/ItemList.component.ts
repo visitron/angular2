@@ -3,7 +3,8 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import * as moment from "moment";
 import * as tinycolor from "tinycolor2";
 import {ItemService} from "./Item.service";
-import {Item, InfoMapping} from "./Item";
+import {Item, InfoMapping, ItemAdvanced} from "./Item";
+import {NotificationService} from "./notification.service";
 
 @Component({
     selector: 'maintenanceApp',
@@ -15,7 +16,7 @@ export class ItemListComponent implements OnInit {
     public items: Item[] = [];
     public animateClass: boolean;
 
-    constructor(private itemService: ItemService, private sanitizer: DomSanitizer, private ch: ChangeDetectorRef) {}
+    constructor(private itemService: ItemService, private notificationService: NotificationService, private sanitizer: DomSanitizer, private ch: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         this.itemService.getItems().subscribe(items => {
@@ -48,4 +49,14 @@ export class ItemListComponent implements OnInit {
     formatDate(date: Date): String {
         return date.toISOString().slice(0, 10);
     }
+
+    openItem(index: number) {
+        this.notificationService.itemEmitter.emit(this.items[index] as ItemAdvanced);
+        $('#addItemDialogId').modal('show');
+    }
+
+    createItem() {
+        this.notificationService.itemEmitter.emit(null);
+    }
+
 }

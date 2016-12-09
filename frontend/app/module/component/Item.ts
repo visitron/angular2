@@ -1,3 +1,5 @@
+import * as moment from "moment";
+
 export class Item {
     public name: string = null;
     public description: string = null;
@@ -7,10 +9,10 @@ export class Item {
 }
 
 export class ItemAdvanced extends Item {
-    image: string = null;
-    parent: Item = null;
-    specialist: Specialist = new Specialist;
-    additionalDetails: AdditionalDetail[] = [];
+    public image: string = null;
+    public parent: Item = null;
+    public specialist: Specialist = null;
+    public additionalDetails: AdditionalDetail[] = [];
 }
 
 export class Specialist {
@@ -73,16 +75,57 @@ export class InfoMapping {
 }
 
 export class ItemAdvancedWrapper {
-    public hasSpecialist: boolean;
-    public hasAdditionalDetails: boolean;
+    public _hasSpecialist: boolean;
+    public _hasAdditionalDetails: boolean;
+    public submitButtonName: string;
 
     constructor (private _itemAdvanced: ItemAdvanced) {
-        this.hasSpecialist = _itemAdvanced.specialist === null;
-        this.hasAdditionalDetails = _itemAdvanced.additionalDetails.length != 0;
+        if (_itemAdvanced === null) {
+            _itemAdvanced = new ItemAdvanced;
+            this.submitButtonName = 'Create';
+        } else {
+            this.submitButtonName = 'Update';
+        }
+
+        if (_itemAdvanced.specialist === undefined) {
+            _itemAdvanced.specialist = null;
+        }
+
+        if (_itemAdvanced.additionalDetails === undefined || _itemAdvanced.additionalDetails === null) {
+            _itemAdvanced.additionalDetails = [];
+        }
+
+        this._hasSpecialist = _itemAdvanced.specialist !== null;
+        this._hasAdditionalDetails = _itemAdvanced.additionalDetails.length != 0;
+        this._itemAdvanced = _itemAdvanced;
     }
 
     get itemAdvanced(): ItemAdvanced {
         return this._itemAdvanced;
+    }
+
+    toDate(value: string): Date {
+        //todo how to avoid failures on nulls
+        return value == '' ? new Date : moment(value, "dd-MM-yyyy").toDate();
+    }
+
+    get hasSpecialist(): boolean {
+        return this._hasSpecialist;
+    }
+
+    set hasSpecialist(value: boolean) {
+        if (value && this._itemAdvanced.specialist === null) {
+            this._itemAdvanced.specialist = new Specialist;
+        }
+        this._hasSpecialist = value;
+    }
+
+    get hasAdditionalDetails(): boolean {
+        return this._hasAdditionalDetails;
+    }
+
+    set hasAdditionalDetails(value: boolean) {
+        this._hasAdditionalDetails = value;
     }
 
     createAdditionalDetail(): void {

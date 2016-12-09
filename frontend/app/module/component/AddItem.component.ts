@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
 import {ItemAdvanced, ItemAdvancedWrapper, Item} from "./Item";
 import {ItemService} from "./Item.service";
+import {NotificationService} from "./notification.service";
 
 @Component({
     selector: 'addItemDialog',
@@ -15,7 +16,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
     public freeParents: Item[] = [];
     public items: Item[] = null;
 
-    constructor(private itemService: ItemService, private ch: ChangeDetectorRef) {}
+    constructor(private itemService: ItemService, private notificationService: NotificationService, private ch: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         this.itemService.getItems().subscribe(items => {
@@ -23,10 +24,19 @@ export class AddItemComponent implements OnInit, OnDestroy {
             this.calcFreeParents();
             this.ch.markForCheck();
         });
+
+        this.notificationService.itemEmitter.subscribe((itemAdvanced: ItemAdvanced) => {
+            if (itemAdvanced !== null) {
+                itemAdvanced = JSON.parse(JSON.stringify(itemAdvanced));
+            }
+            this.itemWrapper = new ItemAdvancedWrapper(itemAdvanced);
+            this.ch.markForCheck();
+        })
     }
 
     ngOnDestroy(): void {
         //todo when it is invoked?
+        //todo why _ doesn't work?
         console.log('Destroyed');
     }
 
