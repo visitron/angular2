@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>House activities</title>
+
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="node_modules/bootstrap-toggle/js/bootstrap-toggle.js"></script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="asset/main.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-toggle/css/bootstrap-toggle.css">
+
+    <script>
+        $(document).ready(function () {
+            $('#btn-search-id').click(function () {
+                $('.search-button').hide();
+                $('.search').fadeIn('medium');
+            });
+
+            $('#btn-clear-hide-search').click(function() {
+                $('.search').hide();
+                $('.search-button').fadeIn('medium');
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <blockquote class="info-sign-color">House activities</blockquote>
+    </div>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">Purchases</a></li>
+        <li role="presentation"><a href="#">Payments</a></li>
+        <li role="presentation"><a href="#">Jobs</a></li>
+        <li role="presentation"><a href="#">Maintenance</a></li>
+    </ul>
+
+    <div class="mode">
+        Mode  <input type="checkbox" checked data-toggle="toggle" data-off="Admin" data-on="User" data-onstyle="default" data-offstyle="default">
+    </div>
+
+    <div class="report-dropdown">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Reports
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="#">This week</a></li>
+                <li><a href="#">This month</a></li>
+                <li><a href="#">Completed</a></li>
+                <li><a href="#">Deferred</a></li>
+                <li><a href="#">Cancelled</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="search">
+        <div class="input-group">
+            <span class="input-group-addon" id="search-id">Search for</span>
+            <input type="text" class="form-control" id="basic-url" aria-describedby="search-id" placeholder="Type for search">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="btn-clear-hide-search">Clear</button>
+            </span>
+        </div>
+    </div>
+
+    <div class="search-button">
+        <button id="btn-search-id" class="btn btn-default" type="button">Search</button>
+    </div>
+
+</div>
+
+</body>
+</html>

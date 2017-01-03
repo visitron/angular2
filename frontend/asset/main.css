@@ -1,0 +1,28 @@
+body, div {
+    /*border: solid 1px gray;*/
+}
+
+.mode {
+    position: relative;
+    top: -40px;
+    float: right;
+}
+
+.report-dropdown {
+    position: relative;
+    top: -100px;
+    right: -120px;
+    float: right;
+}
+
+.search {
+    display: none;
+    position: relative;
+    top: -100px;
+}
+
+.search-button {
+    position: relative;
+    top: -100px;
+    left: 150px;
+}
