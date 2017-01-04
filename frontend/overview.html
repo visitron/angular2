@@ -23,6 +23,31 @@
                 $('.search-button').fadeIn('medium');
             });
 
+            let showFilters = false;
+            $('#filters-id').click(function () {
+                showFilters = !showFilters;
+                if (showFilters) {
+                    $('.filters-content').fadeIn('medium');
+                } else {
+                    $('.filters-content').fadeOut('medium');
+                }
+            });
+
+            $(document).on('click', '.filters-content', function (e) {
+                e.stopPropagation();
+            });
+
+            $('#operate-mode-id').change(function() {
+                let userMode = $(this).prop('checked');
+                if (userMode) {
+                    $('.buttons-mode-user').show();
+                    $('.buttons-mode-admin').hide();
+                } else {
+                    $('.buttons-mode-user').hide();
+                    $('.buttons-mode-admin').show();
+                }
+            });
+
         });
     </script>
 
@@ -41,7 +66,7 @@
     </ul>
 
     <div class="mode">
-        Mode  <input type="checkbox" checked data-toggle="toggle" data-off="Admin" data-on="User" data-onstyle="default" data-offstyle="default">
+        Mode  <input id="operate-mode-id" type="checkbox" checked data-toggle="toggle" data-off="Admin" data-on="User" data-onstyle="default" data-offstyle="default">
     </div>
 
     <div class="report-dropdown">
@@ -60,7 +85,7 @@
         </div>
     </div>
 
-    <div class="search">
+    <div class="search" style="display: none;">
         <div class="input-group">
             <span class="input-group-addon" id="search-id">Search for</span>
             <input type="text" class="form-control" id="basic-url" aria-describedby="search-id" placeholder="Type for search">
@@ -72,6 +97,94 @@
 
     <div class="search-button">
         <button id="btn-search-id" class="btn btn-default" type="button">Search</button>
+    </div>
+
+    <div id="filters-id" class="filters text-primary">Filters <span class="glyphicon glyphicon-triangle-bottom"></span></div>
+
+    <div class="filters-content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" style="font-size: medium;">Types</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown" id="filter-menu-id">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">State <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><label><input type="checkbox"><span>This week</span></label></li>
+                                <li><label><input type="checkbox"><span>This month</span></label></li>
+                                <li role="separator" class="divider"></li>
+                                <li><label><input type="checkbox"><span>Done</span></label></li>
+                                <li><label><input type="checkbox"><span>Deferred</span></label></li>
+                                <li><label><input type="checkbox"><span>Cancelled</span></label></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="well content pre-scrollable" id="grind-id">
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+        <div>Hello SlickGrid</div>
+    </div>
+
+    <div class="button-list">
+        <div class="row">
+            <div class="buttons-mode-user">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary">Defer</button>
+                    <button type="button" class="btn btn-danger">Cancel</button>
+                </div>
+            </div>
+            <div class="buttons-mode-admin">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                </div>
+            </div>
+            <div class="buttons-nav">
+                <div>
+                    <button type="button" class="btn btn-default">Select All</button>
+                    <button type="button" class="btn btn-default">Invert Selection</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

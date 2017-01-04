@@ -13,10 +13,11 @@ body, div {
     top: -100px;
     right: -120px;
     float: right;
+    z-index: 1;
 }
 
 .search {
-    display: none;
+    display: inline;
     position: relative;
     top: -100px;
 }
@@ -25,4 +26,62 @@ body, div {
     position: relative;
     top: -100px;
     left: 150px;
+}
+
+.filters {
+    display: inline;
+    position: relative;
+    font-style: italic;
+    top: -25px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-bottom: dotted 1px;
+    cursor: pointer;
+}
+
+.filters span {
+    font-size: x-small;
+}
+
+.filters-content {
+    display: none;
+    position: relative;
+    top: -20px;
+}
+
+#filter-menu-id ul li {
+    padding-left: 15px;
+}
+
+#filter-menu-id ul li label {
+    font-weight: normal;
+}
+
+#filter-menu-id ul li label span {
+    padding-left: 5px;
+}
+
+#grind-id {
+    min-height: 100px;
+    max-height: 800px;
+}
+
+label {
+    font-weight: normal;
+}
+
+.buttons-mode-admin {
+    display: none;
+}
+
+.buttons-mode-user div button {
+    width: 100px;
+}
+
+.buttons-nav div {
+    position: relative;
+    float: right;
+}
+
+.buttons-nav div button {
+    width: 120px;
 }
