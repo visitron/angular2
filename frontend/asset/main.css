@@ -80,6 +80,7 @@ label {
 .buttons-nav div {
     position: relative;
     float: right;
+    right: 15px;
 }
 
 .buttons-nav div button {
