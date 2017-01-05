@@ -69,6 +69,10 @@
         Mode  <input id="operate-mode-id" type="checkbox" checked data-toggle="toggle" data-off="Admin" data-on="User" data-onstyle="default" data-offstyle="default">
     </div>
 
+    <div id="prepare-tasks">
+        <button class="btn btn-default" type="button" id="btn-prepare-tasks">Prepare Tasks</button>
+    </div>
+
     <div class="report-dropdown">
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -76,11 +80,10 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#">This week</a></li>
-                <li><a href="#">This month</a></li>
-                <li><a href="#">Completed</a></li>
-                <li><a href="#">Deferred</a></li>
-                <li><a href="#">Cancelled</a></li>
+                <li><a href="#">Statistic</a></li>
+                <li><a href="#">Audit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Closed / Cancelled</a></li>
             </ul>
         </div>
     </div>
@@ -105,7 +108,7 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#" style="font-size: medium;">Types</a>
+                    <a class="navbar-brand" href="#" style="font-size: medium;">Filters</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -115,8 +118,9 @@
                                 <li><label><input type="checkbox"><span>This week</span></label></li>
                                 <li><label><input type="checkbox"><span>This month</span></label></li>
                                 <li role="separator" class="divider"></li>
-                                <li><label><input type="checkbox"><span>Done</span></label></li>
-                                <li><label><input type="checkbox"><span>Deferred</span></label></li>
+                                <li><label><input type="checkbox"><span>Opened</span></label></li>
+                                <li><label><input type="checkbox"><span>Expired</span></label></li>
+                                <li><label><input type="checkbox"><span>Closed</span></label></li>
                                 <li><label><input type="checkbox"><span>Cancelled</span></label></li>
                             </ul>
                         </li>
@@ -169,8 +173,8 @@
             <div class="buttons-mode-user">
                 <div class="col-md-4">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default">Done</button>
-                        <button type="button" class="btn btn-default">Defer</button>
+                        <!--<button type="button" class="btn btn-default">Done</button>-->
+                        <!--<button type="button" class="btn btn-default">Defer</button>-->
                         <button type="button" class="btn btn-default">Cancel</button>
                     </div>
                 </div>

@@ -11,7 +11,15 @@ body, div {
 .report-dropdown {
     position: relative;
     top: -100px;
-    right: -120px;
+    right: -235px;
+    float: right;
+    z-index: 1;
+}
+
+#prepare-tasks {
+    position: relative;
+    top: -100px;
+    right: -15px;
     float: right;
     z-index: 1;
 }
@@ -44,8 +52,9 @@ body, div {
 
 .filters-content {
     display: none;
-    position: relative;
-    top: -20px;
+    position: fixed;
+    z-index: 1;
+    top: 120px;
 }
 
 #filter-menu-id ul li {
@@ -85,4 +94,13 @@ label {
 
 .buttons-nav div button {
     width: 120px;
+}
+
+.content {
+    position: relative;
+    top: -10px;
+}
+
+.well {
+    background-color: transparent;
 }
