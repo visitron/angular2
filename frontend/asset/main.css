@@ -1,17 +1,64 @@
-/*body, div {*/
-    /*!*border: solid 1px gray;*!*/
-/*}*/
-
+/* common */
 .content {
     margin: 15px;
 }
 
-.mode {
-    position: relative;
-    top: -40px;
-    float: right;
+.well {
+    background-color: transparent;
 }
 
+.hyperlink {
+    font-weight: bold;
+}
+
+.user {
+    font-style: italic;
+    color: seagreen;
+    font-weight: bold;
+}
+
+.content {
+    position: relative;
+}
+
+.control-label, .input-metric-label {
+    line-height: 34px;
+}
+
+.last-item {
+    border-bottom: none !important;
+}
+
+.glyphicon {
+    color: grey;
+}
+
+.tooltip-inner {
+    background-color: white;
+    color: grey;
+    border: double 1px darkgray;
+    box-shadow: 4px 4px;
+}
+
+.tooltip-arrow {
+    border-right-color: darkgray !important;
+}
+
+@media only screen and (min-width: 1474px) {
+    #actions {
+        left: 1294px;
+        right: auto;
+    }
+}
+
+/* parts */
+.container1 {
+    margin-left: 240px;
+    margin-right: 180px;
+    max-width: 1024px;
+}
+
+/* search */
 .search {
     display: none;
     margin-top: 5px;
@@ -26,12 +73,127 @@
     z-index: 2;
 }
 
+/* navigation */
+.buttons-nav div button {
+    width: 120px;
+}
+
+/* grid */
 #grid-id {
-    min-height: 200px;
+    min-height: 426px;
     max-height: 800px;
     width: 100%;
 }
 
+/* login info */
+#login-info {
+    position: absolute;
+    left: 0;
+    width: 210px;
+}
+
+/* action list */
+#actions {
+    position: absolute;
+    right: 0;
+    top: 140px;
+    width: 150px;
+}
+
+.action {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.action-yellow .glyphicon {
+    color: darkorange;
+}
+
+.action-red .glyphicon {
+    color: indianred;
+}
+
+.action-green .glyphicon {
+    color: lightseagreen;
+}
+
+/* filters */
+#filters {
+    position: absolute;
+    left: 0;
+    top: 140px;
+    width: 210px;
+}
+
+.filter-list, .applied-filters, .clear-filters {
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: dotted 1px grey;
+}
+
+.composite {
+    cursor: default !important;
+}
+
+.composite input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
+.composite input[type=date]::-webkit-clear-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=date]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
+
+.filter-list ul, .applied-filters ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.filter-list .glyphicon, .applied-filters .glyphicon, .clear-filters .glyphicon {
+    font-size: smaller;
+}
+
+.filter-list ul .glyphicon {
+    color: dodgerblue;
+}
+
+.applied-filters ul .glyphicon {
+    color: darkorange;
+}
+
+.filter-item-input-group {
+    padding-left: 16px
+}
+
+.filter-item-input-group > button {
+    height: 25px
+}
+
+.filter-item-input-group > .filter-item-input {
+    width: 56px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid 1px darkgray;
+    text-align: center;
+}
+
+.filter-item-input-group > .filter-item-input[type=date] {
+    width: 125px;
+}
+
+input[type=date]::-webkit-date-and-time-value:not([aria-valuenow])
+{
+    color: transparent;
+}
+
+/* task list */
 label {
     font-weight: normal;
 }
@@ -44,14 +206,33 @@ label {
     width: 100px;
 }
 
-.buttons-nav div button {
-    width: 120px;
+.mode {
+    position: relative;
+    top: -40px;
+    float: right;
 }
 
-.well {
-    background-color: transparent;
+.task-menu {
+    position: relative;
+    top: -102px;
+    right: -68px;
 }
 
+.report-dropdown {
+    position: relative;
+    right: -168px;
+    float: right;
+    z-index: 1;
+}
+
+#prepare-tasks {
+    position: relative;
+    right: 50px;
+    float: right;
+    z-index: 1;
+}
+
+/* login form */
 .general-form {
     max-width: 600px;
     height: 200px;
@@ -60,18 +241,6 @@ label {
     margin-left: -300px;
     top: 30%;
     left: 50%;
-}
-
-.content {
-    position: relative;
-}
-
-.hyperlink {
-    font-weight: bold;
-}
-
-.description {
-    margin-bottom: 15px;
 }
 
 .user-list {
@@ -117,6 +286,7 @@ label {
     margin-top: 35px;
 }
 
+/* register form */
 .register-form {
     height: 320px;
 }
@@ -143,67 +313,4 @@ label {
 
 .notification .modal-footer {
     border-top: none;
-}
-
-.task-menu {
-    position: relative;
-    top: -102px;
-    right: -68px;
-}
-
-.report-dropdown {
-    position: relative;
-    right: -168px;
-    float: right;
-    z-index: 1;
-}
-
-#prepare-tasks {
-    position: relative;
-    right: 50px;
-    float: right;
-    z-index: 1;
-}
-
-#login-info {
-    position: absolute;
-    left: 0;
-    width: 210px;
-}
-
-#actions {
-    position: absolute;
-    right: 0;
-    top: 140px;
-    width: 150px;
-}
-
-.user {
-    font-style: italic;
-    color: grey;
-    font-weight: bold;
-}
-
-.container1 {
-    margin-left: 240px;
-    margin-right: 180px;
-    max-width: 1024px;
-}
-
-#filters {
-    position: absolute;
-    left: 0;
-    top: 140px;
-    width: 210px;
-}
-
-.content {
-
-}
-
-@media only screen and (min-width: 1474px) {
-    #actions {
-        left: 1294px;
-        right: auto;
-    }
 }

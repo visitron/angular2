@@ -1,0 +1,19 @@
+<script>
+    $(document).ready(function () {
+        $('#operate-mode-id').bootstrapToggle();
+        $('.bootstrap-toggle').bootstrapToggle();
+    });
+</script>
+
+<div class="row">
+    <blockquote class="info-sign-color">User activities</blockquote>
+</div>
+<ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="#">Users</a></li>
+    <li role="presentation"><a href="#">Config</a></li>
+    <li role="presentation"><a href="#">Audit</a></li>
+</ul>
+
+<div class="mode">
+    Mode  <input id="operate-mode-id" type="checkbox" checked data-toggle="toggle" data-off="Admin" data-on="User" data-onstyle="default" data-offstyle="default">
+</div>

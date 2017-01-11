@@ -1,33 +1,43 @@
 <script>
+    let templates = {
+        "task-list": {
+            "login-info": "parts/login-info.html",
+            "search": "parts/search.html",
+            "page-header": "task-list-header.html",
+            "page-content": "content.html",
+            "filters": "parts/filters.html",
+            "actions": "parts/action-list.html",
+            "navigation-bar": "parts/navigation-bar.html"
+        },
+        "admin": {
+            "login-info": "parts/login-info.html",
+            "search": "parts/search.html",
+            "page-header": "admin-header.html",
+            "page-content": "admin/config.html",
+            "filters": "parts/filters.html",
+            "actions": "parts/action-list.html",
+            "navigation-bar": "parts/navigation-bar.html"
+        }
+    };
+
     $(document).ready(function () {
-        $('#login-info').load('parts/login-info.html');
-        $('#page-header').load('task-list-header.html');
-        $('#page-content').load('task-list-content.html');
-        $('#filters').load('parts/filters.html');
-        $('#actions').load('parts/action-list.html');
-        $('#navigation-bar').load('parts/navigation-bar.html');
+        let page = templates["admin"];
+        $('#search').load(page['search']);
+        $('#login-info').load(page['login-info']);
+        $('#page-header').load(page['page-header']);
+        $('#page-content').load(page['page-content']);
+        $('#filters').load(page['filters']);
+        $('#actions').load(page['actions']);
+        $('#navigation-bar').load(page['navigation-bar']);
     });
 </script>
 
 <div class="container1">
-    <div class="search">
-        <div class="input-group">
-            <span class="input-group-addon" id="search-id">Search for</span>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="search-id" placeholder="Type for search">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" id="btn-clear-hide-search">Clear</button>
-            </span>
-        </div>
-    </div>
-    <div class="search-button">
-        <button id="btn-search-id" class="btn btn-default" type="button">Search</button>
-    </div>
-
+    <div id="search"></div>
     <div id="login-info"></div>
     <div id="page-header"></div>
     <div id="page-content"></div>
     <div id="filters"></div>
     <div id="actions"></div>
     <div id="navigation-bar"></div>
-
 </div>

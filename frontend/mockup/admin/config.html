@@ -1,0 +1,53 @@
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
+<div class="well pre-scrollable" id="grid-id">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="config-expiry-in-id" class="control-label">Expiry task in</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" id="config-expiry-in-id">
+        </div>
+        <div class="col-md-3">
+            <span class="input-metric-label">days</span>
+            <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="In case of deadline expiry the task will be closed automatically. Enter -1 to disable expiration timer."></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label for="config-capacity-id" class="control-label">Capacity per day</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" id="config-capacity-id">
+        </div>
+        <div class="col-md-3">
+            <span class="input-metric-label">points</span>
+            <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Each task has its own difficulty. The capacity figure shows maximum recommended sum on difficulties."></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label for="config-release-cart-id" class="control-label">Autorelease cart in</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" id="config-release-cart-id">
+        </div>
+        <div class="col-md-3">
+            <span class="input-metric-label">days</span>
+            <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="The tasks cart will be automatically released in specified period if a user doesn't process them. -1 means the cart will never be released by the system."></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label for="config-send-notifications-id" class="control-label">Send notifications</label>
+        </div>
+        <div class="col-md-6">
+            <input type="checkbox" class="bootstrap-toggle" id="config-send-notifications-id">
+            <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Check this button to receive mail notifications about user activities."></span>
+        </div>
+    </div>
+</div>

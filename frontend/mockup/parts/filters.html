@@ -27,10 +27,60 @@
 <div class="panel panel-default">
     <div class="panel-heading">Filters</div>
     <div class="panel-body">
-        <ul>
-            <li>Filter 1</li>
-            <li>Filter 2</li>
-            <li>Filter 3</li>
-        </ul>
+        <div class="filter-list">
+            <div>
+                <span><b>Category 1 </b></span><span class="glyphicon glyphicon-menu-up"></span>
+                <ul>
+                    <li><span class="glyphicon glyphicon-plus-sign"></span><span> Filter 1</span></li>
+                    <li><span class="glyphicon glyphicon-plus-sign"></span><span> Filter 1</span></li>
+                    <li><span class="glyphicon glyphicon-plus-sign"></span><span> Filter 1</span></li>
+                </ul>
+            </div>
+
+            <div>
+                <span><b>Category 2 </b></span><span class="glyphicon glyphicon-menu-down"></span>
+                <ul>
+                </ul>
+            </div>
+
+            <div>
+                <span><b>Category 3 </b></span><span class="glyphicon glyphicon-menu-up"></span>
+                <ul>
+                    <li class="composite">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        <span>Capacity</span>
+                        <div class="filter-item-input-group">
+                            <input type="text" class="filter-item-input"> -
+                            <input type="text" class="filter-item-input">
+                            <button type="button" class="btn btn-xs btn-default">Ok</button>
+                        </div>
+                    </li>
+                    <li class="composite">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        <span>Date of registration</span>
+                        <div class="filter-item-input-group">
+                            <input type="date" class="filter-item-input">
+                            <input type="date" class="filter-item-input">
+                            <button type="button" class="btn btn-xs btn-default">Ok</button>
+                        </div>
+                    </li>
+                    <li><span class="glyphicon glyphicon-plus-sign"></span><span> Filter 4</span></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="applied-filters">
+            <b>Applied filters</b> <span class="glyphicon glyphicon-menu-up"></span>
+            <ul>
+                <li><span class="glyphicon glyphicon-minus-sign"></span> Filter 1</li>
+                <li><span class="glyphicon glyphicon-minus-sign"></span> Filter 2</li>
+                <li><span class="glyphicon glyphicon-minus-sign"></span> Filter 3</li>
+            </ul>
+        </div>
+        <div class="clear-filters last-item">
+            <div class="action action-red">
+                <span class="glyphicon glyphicon-remove"></span><span> Clear</span>
+            </div>
+        </div>
     </div>
 </div>
