@@ -1,0 +1,12 @@
+{
+  "register-form": {
+    "title": "Registration",
+    "welcome": "To login please select a user or ",
+    "register-link": "register",
+    "select-user-placeholder": "Select user",
+    "password-placeholder": "Password",
+    "remember-me": "Remember me",
+    "login-btn": "Login",
+    "role": "Role"
+  }
+}

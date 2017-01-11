@@ -1,5 +1,9 @@
-body, div {
-    /*border: solid 1px gray;*/
+/*body, div {*/
+    /*!*border: solid 1px gray;*!*/
+/*}*/
+
+.content {
+    margin: 15px;
 }
 
 .mode {
@@ -8,70 +12,24 @@ body, div {
     float: right;
 }
 
-.report-dropdown {
-    position: relative;
-    top: -100px;
-    right: -235px;
-    float: right;
-    z-index: 1;
-}
-
-#prepare-tasks {
-    position: relative;
-    top: -100px;
-    right: -15px;
-    float: right;
-    z-index: 1;
-}
-
 .search {
-    display: inline;
-    position: relative;
-    top: -100px;
+    display: none;
+    margin-top: 5px;
+    width: 40%;
+    position: absolute;
 }
 
 .search-button {
-    position: relative;
-    top: -100px;
-    left: 150px;
+    position: absolute;
+    margin-left: 150px;
+    margin-top: 5px;
+    z-index: 2;
 }
 
-.filters {
-    display: inline;
-    position: relative;
-    font-style: italic;
-    top: -25px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    border-bottom: dotted 1px;
-    cursor: pointer;
-}
-
-.filters span {
-    font-size: x-small;
-}
-
-.filters-content {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 120px;
-}
-
-#filter-menu-id ul li {
-    padding-left: 15px;
-}
-
-#filter-menu-id ul li label {
-    font-weight: normal;
-}
-
-#filter-menu-id ul li label span {
-    padding-left: 5px;
-}
-
-#grind-id {
-    min-height: 100px;
+#grid-id {
+    min-height: 200px;
     max-height: 800px;
+    width: 100%;
 }
 
 label {
@@ -86,21 +44,166 @@ label {
     width: 100px;
 }
 
-.buttons-nav div {
-    position: relative;
-    float: right;
-    right: 15px;
-}
-
 .buttons-nav div button {
     width: 120px;
 }
 
-.content {
-    position: relative;
-    top: -10px;
-}
-
 .well {
     background-color: transparent;
+}
+
+.general-form {
+    max-width: 600px;
+    height: 200px;
+    position: absolute;
+    margin-top: 200px;
+    margin-left: -300px;
+    top: 30%;
+    left: 50%;
+}
+
+.content {
+    position: relative;
+}
+
+.hyperlink {
+    font-weight: bold;
+}
+
+.description {
+    margin-bottom: 15px;
+}
+
+.user-list {
+    width: 560px;
+}
+
+.user-list li {
+    border-bottom: dotted 1px grey;
+}
+
+.user-list li[class="last-item"] {
+    border-bottom: none;
+}
+
+.user-parameter {
+    font-style: italic;
+    color: grey;
+}
+
+#select-user-btn {
+    width: 140px;
+}
+
+#login-form #password-id {
+    width: 402px;
+}
+
+#image-id {
+    border: solid 1px grey;
+    background-color: lightgrey;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 15px;
+    cursor: pointer;
+    position: absolute;
+}
+
+.upload-logo {
+    color: grey;
+    font-size: x-large;
+    margin-top: 35px;
+}
+
+.register-form {
+    height: 320px;
+}
+
+.register-form #role-id {
+    position: absolute;
+    top: 130px;
+    margin-left: 15px;
+    width: 100px;
+}
+
+#role-id > #role-id-name {
+    font-size: small;
+    display: block;
+}
+
+.notification .modal-header {
+    height: 15px;
+}
+
+.notification .modal-header .modal-title {
+    line-height: 0;
+}
+
+.notification .modal-footer {
+    border-top: none;
+}
+
+.task-menu {
+    position: relative;
+    top: -102px;
+    right: -68px;
+}
+
+.report-dropdown {
+    position: relative;
+    right: -168px;
+    float: right;
+    z-index: 1;
+}
+
+#prepare-tasks {
+    position: relative;
+    right: 50px;
+    float: right;
+    z-index: 1;
+}
+
+#login-info {
+    position: absolute;
+    left: 0;
+    width: 210px;
+}
+
+#actions {
+    position: absolute;
+    right: 0;
+    top: 140px;
+    width: 150px;
+}
+
+.user {
+    font-style: italic;
+    color: grey;
+    font-weight: bold;
+}
+
+.container1 {
+    margin-left: 240px;
+    margin-right: 180px;
+    max-width: 1024px;
+}
+
+#filters {
+    position: absolute;
+    left: 0;
+    top: 140px;
+    width: 210px;
+}
+
+.content {
+
+}
+
+@media only screen and (min-width: 1474px) {
+    #actions {
+        left: 1294px;
+        right: auto;
+    }
 }

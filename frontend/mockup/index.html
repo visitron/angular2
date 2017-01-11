@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>House activities</title>
+
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../node_modules/bootstrap-toggle/js/bootstrap-toggle.js"></script>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap-toggle/css/bootstrap-toggle.css">
+    <link rel="stylesheet" href="../asset/main.css">
+
+    <script>
+        let pages = {
+            login: 'login.html',
+            register: 'register.html',
+            admin: 'admin.html',
+            template: 'parts/template.html'
+        };
+
+        $(document).ready(function () {
+            $('.content').load(pages.register);
+        });
+    </script>
+
+</head>
+<body>
+<div class="content">
+
+</div>
+</body>
+</html>
