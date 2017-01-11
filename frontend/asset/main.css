@@ -21,6 +21,10 @@
     position: relative;
 }
 
+#page-header {
+    margin-bottom: 35px;
+}
+
 .control-label, .input-metric-label {
     line-height: 34px;
 }
@@ -42,6 +46,27 @@
 
 .tooltip-arrow {
     border-right-color: darkgray !important;
+}
+
+.refresh {
+    position: relative;
+    float: right;
+    right: 0;
+    top: 67px;
+}
+
+.refresh > button {
+    height: 34px;
+    width: 34px;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.refresh > button > span {
+    color: lightskyblue;
+    font-size: larger;
+    font-weight: bold;
 }
 
 @media only screen and (min-width: 1474px) {
@@ -198,24 +223,10 @@ label {
     font-weight: normal;
 }
 
-.buttons-mode-admin {
-    display: none;
-}
-
-.buttons-mode-user div button {
-    width: 100px;
-}
-
-.mode {
-    position: relative;
-    top: -40px;
-    float: right;
-}
-
 .task-menu {
     position: relative;
     top: -102px;
-    right: -68px;
+    right: 52px;
 }
 
 .report-dropdown {
