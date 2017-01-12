@@ -19,7 +19,12 @@
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
             'angular2-ui-switch': 'npm:angular2-ui-switch/dist',
             'moment': 'npm:moment',
-            'tinycolor2': 'npm:tinycolor2'
+            'tinycolor2': 'npm:tinycolor2',
+            'bootstrap': 'npm:bootstrap/dist/js',
+            'jquery': 'npm:jquery/dist',
+            'slickgrid-core': 'npm:slickgrid/slick.core.js',
+            'slickgrid-grid': 'npm:slickgrid/slick.grid.js',
+            'slickgrid-jquery-event-drag': 'npm:slickgrid/lib/jquery.event.drag-2.3.0.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -43,6 +48,12 @@
             },
             'tinycolor2': {
                 main: './tinycolor.js'
+            },
+            'bootstrap': {
+                main: './bootstrap'
+            },
+            'jquery': {
+                main: './jquery'
             }
         }
     });

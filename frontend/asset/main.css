@@ -76,6 +76,20 @@
     }
 }
 
+/* common dialogs */
+.notification .modal-header {
+    height: 32px;
+    padding-top: 5px;
+}
+
+.notification .modal-footer {
+    border-top: none;
+}
+
+.notification .modal-footer button {
+    width: 80px;
+}
+
 /* parts */
 .container1 {
     margin-left: 240px;
@@ -314,14 +328,13 @@ label {
     display: block;
 }
 
-.notification .modal-header {
-    height: 15px;
+/* slick grid */
+#grid-id {
+    background: white;
+    outline: 0;
+    border: 1px solid lightgray;
 }
 
-.notification .modal-header .modal-title {
-    line-height: 0;
-}
-
-.notification .modal-footer {
-    border-top: none;
+.slick-header-column.ui-state-default {
+    height: auto;
 }

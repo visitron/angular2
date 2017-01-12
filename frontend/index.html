@@ -4,40 +4,31 @@
     <meta charset="UTF-8">
     <title>Home maintenance</title>
 
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-toggle/css/bootstrap-toggle.css">
+    <link rel="stylesheet" href="node_modules/slickgrid/slick.grid.css">
+    <link rel="stylesheet" href="node_modules/slickgrid/css/smoothness/jquery-ui-1.11.3.custom.css">
+    <link rel="stylesheet" href="asset/main.css">
+
+    <!-- temp -->
+    <!--<script src="node_modules/slickgrid/lib/jquery.event.drag-2.3.0.js"></script>-->
+
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/jquery/dist/jquery.js"></script>
-    <!--<script src="node_modules/underscore/underscore.js"></script>-->
+
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-    <!--<script src="node_modules/bootstrap-toggle/js/bootstrap-toggle.js"></script>-->
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
-    <!--<link rel="stylesheet" href="node_modules/bootstrap-toggle/css/bootstrap-toggle.css">-->
-    <link rel="stylesheet/less" type="text/css" href="asset/less/main.less">
     <script>
         System.import('app').catch(function (err) {
             console.error(err);
         });
-        var less = {
-            env: "development"
-        }
     </script>
-    <script src="node_modules/less/dist/less.js" data-env="development"></script>
 </head>
 <body>
-
-<div class="container">
-    <div class="row">
-        <blockquote class="info-sign-color">Maintenance schedule</blockquote>
-        <div class="col-lg-10">
-            <maintenanceApp>
-                <div><span class="info-sign-color">Loading <span class="glyphicon glyphicon-refresh"></span></span></div>
-            </maintenanceApp>
-        </div>
-    </div>
+<div class="content">
+    <homeManagement>
+    </homeManagement>
 </div>
-
 </body>
 </html>
