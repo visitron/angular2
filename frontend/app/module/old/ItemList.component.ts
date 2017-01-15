@@ -4,7 +4,7 @@ import * as moment from "moment";
 import * as tinycolor from "tinycolor2";
 import {ItemService} from "./Item.service";
 import {Item, InfoMapping, ItemAdvanced} from "./Item";
-import {NotificationService} from "./notification.service";
+import {NotificationService} from "../notification.service";
 
 @Component({
     selector: 'maintenanceApp',

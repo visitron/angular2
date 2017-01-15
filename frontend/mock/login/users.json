@@ -1,21 +1,21 @@
 [
   {
     "id": 1,
-    "avatar": "../mock/images/image_0_min.jpg",
+    "avatar": "../mock/login/images/image_0_min.jpg",
     "firstName": "Vagr",
     "secondName": "Junior",
     "role": "admin"
   },
   {
     "id": 2,
-    "avatar": "../mock/images/image_1_min.jpg",
+    "avatar": "../mock/login/images/image_1_min.jpg",
     "firstName": "Vladimir",
     "secondName": "Soshyn",
     "role": "user"
   },
   {
     "id": 3,
-    "avatar": "../mock/images/image_2_min.jpg",
+    "avatar": "../mock/login/images/image_2_min.jpg",
     "firstName": "Marina",
     "secondName": "Kruichkova",
     "role": "user"

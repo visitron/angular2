@@ -8,7 +8,6 @@ export class ContentComponent implements OnInit {
 
     ngOnInit(): void {
 
-        debugger;
         let grid: Slick.Grid<any> = null;
         let columns = [
             {id: "title", name: "Title", field: "title"},
