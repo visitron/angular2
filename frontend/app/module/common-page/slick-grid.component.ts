@@ -1,10 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 
-@Component({
-    // selector: 'page-content',
-    templateUrl: 'mockup/content.html'
-})
-export class ContentComponent implements OnInit {
+@Component({})
+export class SlickGridComponent implements OnInit {
 
     ngOnInit(): void {
 

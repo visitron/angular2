@@ -28,8 +28,8 @@
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
-            build: {
-                main: 'app.boot',
+            app: {
+                main: 'main.boot',
                 defaultExtension: 'js'
             },
             rxjs: {
@@ -40,7 +40,7 @@
                 defaultExtension: 'js'
             },
             'angular2-ui-switch': {
-                main: './index',
+                main: 'index',
                 defaultExtension: 'js'
             },
             'moment': {

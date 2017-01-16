@@ -1,17 +1,9 @@
-// import "jquery";
-// import "slickgrid-jquery-event-drag";
-// import "tinycolor2";
-// import "bootstrap";
-// import "slickgrid-core";
-// import "slickgrid-grid";
 import {NgModule} from "@angular/core";
-// import {BrowserModule} from "@angular/platform-browser";
 import {RouterModule, Routes} from "@angular/router";
+import {UiSwitchModule} from "angular2-ui-switch";
 import {LoginComponent} from "./login.component";
 import {SearchComponent} from "./page-component/search.component";
 import {LoginInfoComponent} from "./page-component/login-info.component";
-import {HeaderComponent} from "./common-page/page-header.component";
-import {ContentComponent} from "./common-page/page-content.component";
 import {FiltersComponent} from "./page-component/filters.component";
 import {ActionsComponent} from "./page-component/actions.component";
 import {NavigationBarComponent} from "./page-component/navigation-bar.component";
@@ -23,6 +15,11 @@ import {AdminAuditComponent} from "./admin/admin-audit.component";
 import {AdminConfigComponent} from "./admin/admin-config.component";
 import {AdminUsersComponent} from "./admin/admin-users.component";
 import {TemplateComponent} from "./common-page/template.component";
+import {TaskComponent} from "./task/task.component";
+import {TaskMaintenanceComponent} from "./task/task-maintenance.component";
+import {TaskJobComponent} from "./task/task-job.component";
+import {TaskPaymentComponent} from "./task/task-payment.component";
+import {TaskPurchaseComponent} from "./task/task-purchase.component";
 
 
 const routes: Routes = [
@@ -39,19 +36,28 @@ const routes: Routes = [
         ]},
     ]},
 
+    {path: 'task', component: TemplateComponent, children: [
+        {path: '', component: TaskComponent, children: [
+            {path: '', redirectTo: 'purchase'},
+            {path: 'purchase', component: TaskPurchaseComponent},
+            {path: 'payment', component: TaskPaymentComponent},
+            {path: 'job', component: TaskJobComponent},
+            {path: 'maintenance', component: TaskMaintenanceComponent},
+        ]}
+    ]},
+
     {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
     imports: [
-        // BrowserModule,
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes), UiSwitchModule
     ],
-    declarations: [LoginComponent, SearchComponent, LoginInfoComponent, HeaderComponent, ContentComponent,
+    declarations: [LoginComponent, SearchComponent, LoginInfoComponent,
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,
-        ShellComponent, AdminComponent, AdminUsersComponent, AdminConfigComponent, AdminAuditComponent, TemplateComponent]
-    // exports: [RouterModule]
-    // bootstrap: [ShellComponent]
+        ShellComponent, AdminComponent, AdminUsersComponent, AdminConfigComponent, AdminAuditComponent, TemplateComponent,
+        TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent
+    ]
 })
 export class MainRoutingModule {
 }

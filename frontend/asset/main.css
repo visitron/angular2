@@ -328,6 +328,15 @@ label {
     display: block;
 }
 
+/* page not found */
+#page-not-found-id {
+    height: 320px;
+}
+
+#page-not-found-id button {
+    float: right;
+}
+
 /* slick grid */
 #grid-id {
     background: white;
