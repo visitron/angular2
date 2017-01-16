@@ -1,8 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 
 @Component({
-    // selector: 'homeManagement',
-    templateUrl: 'mockup/parts/template.html'
+    // selector: 'page-header',
+    templateUrl: 'mockup/admin-header.html'
 })
 export class AdminComponent implements OnInit {
 

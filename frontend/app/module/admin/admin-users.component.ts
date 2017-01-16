@@ -2,6 +2,6 @@ import {Component} from "@angular/core";
 
 @Component({
     // selector: 'page-header',
-    templateUrl: 'mockup/task-list-header.html'
+    templateUrl: 'mockup/admin/users.html'
 })
-export class HeaderComponent {}
+export class AdminUsersComponent {}
