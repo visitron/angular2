@@ -1,4 +1,4 @@
-import {Component, OnInit, trigger, state, style, transition, animate} from "@angular/core";
+import {Component, trigger, state, style, transition, animate} from "@angular/core";
 
 @Component({
     selector: 'search',
@@ -11,19 +11,16 @@ import {Component, OnInit, trigger, state, style, transition, animate} from "@an
             state('true', style({
                 display: 'block'
             })),
-            transition('true => false', animate('300ms ease-in')),
-            transition('false => true', animate('300ms ease-out'))
+            transition('true => false', animate('3s ease-in')),
+            transition('false => true', animate('3s ease-in'))
         ])
     ]
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
 
     private search: boolean = false;
     private searchString: string = null;
-
-    ngOnInit(): void {
-
-    }
+    private clearSearchBtnName: string = 'Hide';
 
     toggle(): void {
         this.search = !this.search;
@@ -33,7 +30,16 @@ export class SearchComponent implements OnInit {
         if (this.searchString === null) {
             this.toggle();
         } else {
-            this.searchString = null;
+            this.setSearchString(null);
+        }
+    }
+
+    private setSearchString(value: string): void {
+        this.searchString = value;
+        if (value === null || value === '') {
+            this.clearSearchBtnName = 'Hide';
+        } else {
+            this.clearSearchBtnName = 'Clear';
         }
     }
 
