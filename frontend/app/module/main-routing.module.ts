@@ -1,4 +1,5 @@
 import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
 import {UiSwitchModule} from "angular2-ui-switch";
 import {LoginComponent} from "./login.component";
@@ -51,7 +52,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes), UiSwitchModule
+        RouterModule.forRoot(routes), UiSwitchModule, CommonModule
     ],
     declarations: [LoginComponent, SearchComponent, LoginInfoComponent,
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,

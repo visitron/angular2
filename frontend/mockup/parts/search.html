@@ -1,4 +1,4 @@
-<div class="search" [@search]="search">
+<div class="search" [@searchInputState]="searchInputState">
     <div class="input-group">
         <span class="input-group-addon" id="search-id">Search for</span>
         <input type="text" class="form-control" id="basic-url" aria-describedby="search-id" placeholder="Type for search" (input)="setSearchString($event.target.value)" [value]="searchString">
@@ -7,6 +7,6 @@
         </span>
     </div>
 </div>
-<div class="search-button" [@search]="!search">
+<div class="search-button" [@searchBtnState]="searchBtnState">
     <button id="btn-search-id" class="btn btn-default" type="button" (click)="toggle()">Search</button>
 </div>

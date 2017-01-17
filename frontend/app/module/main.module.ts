@@ -23,18 +23,6 @@ const APP_PARAMS = {
         BrowserModule,
         MainRoutingModule,
     ],
-    // declarations: [AdminUsersComponent],
-    // declarations: [LoginComponent, SearchComponent, LoginInfoComponent, HeaderComponent, ContentComponent,
-    //     FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,
-    //     ShellComponent, AdminComponent],
-    // imports: [BrowserModule, FormsModule, UiSwitchModule, HttpModule],
-    // declarations: [ShellComponent],
-    // providers: [
-    //     ItemService,
-    //     NotificationService,
-    //     {provide: "APP_PARAMS", useValue: APP_PARAMS},
-    //     {provide: Paths, useFactory: PathsFactory, deps: ["APP_PARAMS"]}
-    // ],
     bootstrap: [ShellComponent]
 })
 export class MainModule {

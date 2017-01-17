@@ -4,26 +4,42 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
     selector: 'search',
     templateUrl: 'mockup/parts/search.html',
     animations: [
-        trigger('search', [
-            state('false', style({
-                display: 'none'
-            })),
-            state('true', style({
+        trigger('searchInputState', [
+            state('active', style({
+                opacity: 1,
                 display: 'block'
             })),
-            transition('true => false', animate('3s ease-in')),
-            transition('false => true', animate('3s ease-in'))
+            state('inactive', style({
+                opacity: 0,
+                display: 'none'
+            })),
+            transition('active <=> inactive', animate('200ms ease-out'))
+        ]),
+        trigger('searchBtnState', [
+            state('active', style({
+                opacity: 1,
+                display: 'block'
+            })),
+            state('inactive', style({
+                opacity: 0,
+                display: 'none'
+            })),
+            transition('active <=> inactive', animate('200ms ease-out'))
         ])
     ]
 })
 export class SearchComponent {
 
-    private search: boolean = false;
+    private searchActivated: boolean = false;
+    private searchInputState: string = 'inactive';
+    private searchBtnState: string = 'active';
     private searchString: string = null;
     private clearSearchBtnName: string = 'Hide';
 
     toggle(): void {
-        this.search = !this.search;
+        this.searchActivated = !this.searchActivated;
+        this.searchInputState = this.searchActivated ? 'active' : 'inactive';
+        this.searchBtnState = this.searchActivated ? 'inactive' : 'active';
     }
 
     clear(): void {
