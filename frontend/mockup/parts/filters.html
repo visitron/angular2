@@ -1,32 +1,32 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Filters</div>
+    <div class="panel-heading"><span>Filters</span><span class="highlight" style="position: relative; float: right">Collapse All</span></div>
     <div class="panel-body">
         <div [class]="hasAnyFilter() ? 'filter-list' : 'filter-list last-item'">
             <div *ngFor="let filterGroup of sampleFilterGroups">
-                <span><b>{{filterGroup.name}} </b></span><span class="glyphicon glyphicon-menu-up"></span>
-                <ul>
+                <span class="highlight" (click)="filterGroup.expanded = !filterGroup.expanded"><b>{{filterGroup.name}} </b></span><span [class]="filterGroup.expanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
+                <ul *ngIf="filterGroup.expanded">
                     <li *ngFor="let filter of filterGroup.filters" [class]="filter!=='boolean' ? 'composite' : ''">
                         <div *ngIf="!filter.active">
                             <div [ngSwitch]="filter.type">
                                 <template [ngSwitchCase]="'boolean'">
-                                    <span class="glyphicon glyphicon-plus-sign"></span><span> {{filter.name}}</span>
+                                    <span class="glyphicon glyphicon-plus-sign"></span><span class="highlight" (click)="applyFilter(filter)"> {{filter.name}}</span>
                                 </template>
                                 <template [ngSwitchCase]="'numeric'">
                                     <span class="glyphicon glyphicon-plus-sign"></span>
                                     <span>{{filter.name}}</span>
                                     <div class="filter-item-input-group">
-                                        <input type="text" class="filter-item-input"> -
-                                        <input type="text" class="filter-item-input">
-                                        <button type="button" class="btn btn-xs btn-default">Ok</button>
+                                        <input type="text" class="filter-item-input" (input)="filter.from=$event.target.value"> -
+                                        <input type="text" class="filter-item-input" (input)="filter.to=$event.target.value">
+                                        <button type="button" class="btn btn-xs btn-default" (click)="applyFilter(filter)" [disabled]="applyBtnDisabled(filter)">Ok</button>
                                     </div>
                                 </template>
                                 <template [ngSwitchCase]="'date'">
                                     <span class="glyphicon glyphicon-plus-sign"></span>
                                     <span>{{filter.name}}</span>
                                     <div class="filter-item-input-group">
-                                        <input type="date" class="filter-item-input">
-                                        <input type="date" class="filter-item-input">
-                                        <button type="button" class="btn btn-xs btn-default">Ok</button>
+                                        <input type="date" class="filter-item-input" (input)="filter.from=$event.target.value">
+                                        <input type="date" class="filter-item-input" (input)="filter.to=$event.target.value">
+                                        <button type="button" class="btn btn-xs btn-default" (click)="applyFilter(filter)" [disabled]="applyBtnDisabled(filter)">Ok</button>
                                     </div>
                                 </template>
                             </div>
@@ -36,17 +36,19 @@
             </div>
         </div>
         <div *ngIf="hasAnyFilter()">
+            <hr>
             <div class="applied-filters">
-                <b>Applied filters</b> <span class="glyphicon glyphicon-menu-up"></span>
+                <b>Applied filters</b>
                 <ul>
                     <li *ngFor="let filter of appliedFilters">
-                        <span class="glyphicon glyphicon-minus-sign"></span> {{filter.description}}
+                        <span class="glyphicon glyphicon-minus-sign"></span><span class="highlight" (click)="removeFilter(filter)"> {{filter.description}}</span>
                     </li>
                 </ul>
             </div>
-            <div class="clear-filters last-item">
+            <hr>
+            <div class="clear-filters">
                 <div class="action action-red">
-                    <span class="glyphicon glyphicon-remove"></span><span> Clear</span>
+                    <span class="glyphicon glyphicon-remove"></span><span class="highlight" (click)="clearFilters()"> Clear</span>
                 </div>
             </div>
         </div>

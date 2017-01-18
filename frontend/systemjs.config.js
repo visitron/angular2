@@ -19,6 +19,7 @@
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
             'angular2-ui-switch': 'npm:angular2-ui-switch/dist',
             'moment': 'npm:moment',
+            'underscore': 'npm:underscore/underscore.js',
             'tinycolor2': 'npm:tinycolor2',
             'bootstrap': 'npm:bootstrap/dist/js',
             'jquery': 'npm:jquery/dist',

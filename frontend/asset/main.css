@@ -69,6 +69,15 @@
     font-weight: bold;
 }
 
+.highlight {
+    cursor: pointer;
+}
+
+.highlight:hover {
+    color: blue;
+    border-bottom: 1px solid blue;
+}
+
 @media only screen and (min-width: 1474px) {
     #actions {
         left: 1294px;
@@ -168,10 +177,10 @@
 }
 
 .filter-list, .applied-filters, .clear-filters {
-    cursor: pointer;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-bottom: dotted 1px grey;
+    /*cursor: pointer;*/
+    /*padding-top: 5px;*/
+    /*padding-bottom: 5px;*/
+    /*border-bottom: dotted 1px grey;*/
 }
 
 .composite {

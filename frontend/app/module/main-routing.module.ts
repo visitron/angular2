@@ -2,6 +2,7 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
 import {UiSwitchModule} from "angular2-ui-switch";
+import "underscore";
 import {LoginComponent} from "./login.component";
 import {SearchComponent} from "./page-component/search.component";
 import {LoginInfoComponent} from "./page-component/login-info.component";
