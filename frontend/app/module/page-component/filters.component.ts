@@ -6,21 +6,22 @@ import {Component} from "@angular/core";
 })
 export class FiltersComponent {
 
-    sampleFilterGroups: FilterGroup[] = [];
-    appliedFilters: Filter[] = [];
+    private filterGroups: FilterGroup[] = [];
+    private appliedFilters: Filter[] = [];
+    private allFiltersExpanded: boolean = true;
 
     constructor() {
-        this.sampleFilterGroups.push(new FilterGroup('Group 1', [
+        this.filterGroups.push(new FilterGroup('Group 1', [
             new Filter('boolean','Filter 1', true),
             new Filter('boolean','Filter 2'),
             new Filter('boolean','Filter 3')
         ], true));
-        this.sampleFilterGroups.push(new FilterGroup('Group 2', [
+        this.filterGroups.push(new FilterGroup('Group 2', [
             new Filter('boolean', 'Filter 4'),
             new Filter('numeric', 'Price'),
             new Filter('date', 'First Login')
         ], true));
-        this.sampleFilterGroups.push(new FilterGroup('Group 3', [
+        this.filterGroups.push(new FilterGroup('Group 3', [
             new Filter('boolean','Filter 6'),
             new Filter('boolean','Filter 7')
         ], true));
@@ -53,6 +54,18 @@ export class FiltersComponent {
             filter.to = null;
         });
         this.appliedFilters.splice(0);
+    }
+
+    collapseOrExpand(group: FilterGroup): void {
+        group.expanded = !group.expanded;
+        let allExpanded = false;
+        this.filterGroups.forEach(group => {allExpanded = allExpanded || group.expanded});
+        this.allFiltersExpanded = allExpanded;
+    }
+
+    collapseOrExpandAll(): void {
+        this.allFiltersExpanded = !this.allFiltersExpanded;
+        this.filterGroups.forEach(group => group.expanded = this.allFiltersExpanded)
     }
 
 }

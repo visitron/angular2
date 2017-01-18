@@ -1,9 +1,14 @@
 <div class="panel panel-default">
-    <div class="panel-heading"><span>Filters</span><span class="highlight" style="position: relative; float: right">Collapse All</span></div>
+    <div class="panel-heading">
+        <span>Filters</span>
+        <span class="highlight" style="position: relative; float: right" (click)="collapseOrExpandAll()">{{allFiltersExpanded ? 'Collapse All' : 'Expand All'}}
+            <span [class]="allFiltersExpanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
+        </span>
+    </div>
     <div class="panel-body">
         <div [class]="hasAnyFilter() ? 'filter-list' : 'filter-list last-item'">
-            <div *ngFor="let filterGroup of sampleFilterGroups">
-                <span class="highlight" (click)="filterGroup.expanded = !filterGroup.expanded"><b>{{filterGroup.name}} </b></span><span [class]="filterGroup.expanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
+            <div *ngFor="let filterGroup of filterGroups">
+                <span class="highlight" (click)="collapseOrExpand(filterGroup)"><b>{{filterGroup.name}} </b></span><span [class]="filterGroup.expanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
                 <ul *ngIf="filterGroup.expanded">
                     <li *ngFor="let filter of filterGroup.filters" [class]="filter!=='boolean' ? 'composite' : ''">
                         <div *ngIf="!filter.active">
@@ -47,8 +52,8 @@
             </div>
             <hr>
             <div class="clear-filters">
-                <div class="action action-red">
-                    <span class="glyphicon glyphicon-remove"></span><span class="highlight" (click)="clearFilters()"> Clear</span>
+                <div class="action">
+                    <span class="glyphicon glyphicon-remove action-red"></span><span class="highlight" (click)="clearFilters()"> Clear</span>
                 </div>
             </div>
         </div>

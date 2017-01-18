@@ -156,16 +156,28 @@
     font-weight: bold;
 }
 
-.action-yellow .glyphicon {
+.action-orange {
     color: darkorange;
 }
 
-.action-red .glyphicon {
+.action-gold {
+    color: gold;
+}
+
+.action-red {
     color: indianred;
 }
 
-.action-green .glyphicon {
+.action-green {
     color: lightseagreen;
+}
+
+.disabled {
+    color: darkgrey;
+}
+
+.disabled:hover {
+    cursor: no-drop;
 }
 
 /* filters */
