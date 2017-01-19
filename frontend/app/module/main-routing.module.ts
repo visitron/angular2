@@ -23,8 +23,8 @@ import {TaskMaintenanceComponent} from "./task/task-maintenance.component";
 import {TaskJobComponent} from "./task/task-job.component";
 import {TaskPaymentComponent} from "./task/task-payment.component";
 import {TaskPurchaseComponent} from "./task/task-purchase.component";
-import {SlickGridComponent} from "./common-page/slick-grid.component";
-import {DataProvider} from "./service/data-provider.service";
+import {DataProvider} from "./service/data.service";
+import {SlickGridProvider} from "./service/slick-grid.service";
 
 
 const routes: Routes = [
@@ -58,13 +58,13 @@ const routes: Routes = [
     imports: [
         RouterModule.forRoot(routes), UiSwitchModule, CommonModule, HttpModule
     ],
-    declarations: [SlickGridComponent, LoginComponent, SearchComponent, LoginInfoComponent,
+    declarations: [LoginComponent, SearchComponent, LoginInfoComponent,
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,
         ShellComponent, AdminComponent, AdminUsersComponent, AdminConfigComponent, AdminAuditComponent, TemplateComponent,
         TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent
 
     ],
-    providers: [DataProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
+    providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })
 export class MainRoutingModule {
 }

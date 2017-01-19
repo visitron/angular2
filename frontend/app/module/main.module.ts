@@ -4,6 +4,8 @@ import "tinycolor2";
 import "bootstrap";
 import "slickgrid-core";
 import "slickgrid-grid";
+import "slickgrid-cellrangeselector";
+import "slickgrid-cellrangedecorator";
 import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {ShellComponent} from "./shell.component";

@@ -134,6 +134,8 @@
     min-height: 426px;
     max-height: 800px;
     width: 100%;
+    margin-bottom: 20px;
+    border-radius: 5px;
 }
 
 /* login info */

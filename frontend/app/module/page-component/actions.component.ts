@@ -1,7 +1,8 @@
 import {Component} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {DataProvider} from "../service/data-provider.service";
+import {Router, NavigationStart} from "@angular/router";
+import {DataProvider} from "../service/data.service";
 import {Location} from "@angular/common";
+import "rxjs/add/operator/map";
 
 @Component({
     selector: 'actions',
@@ -10,27 +11,24 @@ import {Location} from "@angular/common";
 export class ActionsComponent {
     private actions: Action[] = [];
 
-    constructor(private dataProvider: DataProvider, private activatedRoute: ActivatedRoute, private location: Location) {
-        // this.actions.push(new Action('Drop'));
-        // this.actions.push(new Action('Block'));
-        // this.actions.push(new Action('Unblock'));
-        // this.actions.push(new Action(null));
-        // this.actions.push(new Action('Approve'));
-        // this.actions.push(new Action('Remove'));
-        // this.actions.push(new Action('Destroy'));
+    constructor(private dataProvider: DataProvider, private location: Location, router: Router) {
 
-        // this.actions[5].disabled = true;
-        // this.actions[0].disabled = true;
-
-        dataProvider.getPart(location, 'actions', data => {
-            debugger;
-            (<string []> data).forEach(name => {
-                this.actions.push(new Action(name));
+        let getActions = (location: string) => {
+            dataProvider.getPart(location, 'actions', data => {
+                this.actions.splice(0);
+                (<string []> data).forEach(name => {
+                    this.actions.push(new Action(name));
+                });
             });
+        };
 
-            console.log(data);
+        getActions(location.path());
+
+        router.events.subscribe(event => {
+            if (event instanceof NavigationStart) {
+                getActions(event.url);
+            }
         });
-
     }
 }
 
