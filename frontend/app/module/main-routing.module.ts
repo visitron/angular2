@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import {CommonModule, Location, LocationStrategy, PathLocationStrategy} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
+import {HttpModule} from "@angular/http";
 import {UiSwitchModule} from "angular2-ui-switch";
 import "underscore";
 import {LoginComponent} from "./login.component";
@@ -22,6 +23,8 @@ import {TaskMaintenanceComponent} from "./task/task-maintenance.component";
 import {TaskJobComponent} from "./task/task-job.component";
 import {TaskPaymentComponent} from "./task/task-payment.component";
 import {TaskPurchaseComponent} from "./task/task-purchase.component";
+import {SlickGridComponent} from "./common-page/slick-grid.component";
+import {DataProvider} from "./service/data-provider.service";
 
 
 const routes: Routes = [
@@ -53,13 +56,15 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes), UiSwitchModule, CommonModule
+        RouterModule.forRoot(routes), UiSwitchModule, CommonModule, HttpModule
     ],
-    declarations: [LoginComponent, SearchComponent, LoginInfoComponent,
+    declarations: [SlickGridComponent, LoginComponent, SearchComponent, LoginInfoComponent,
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,
         ShellComponent, AdminComponent, AdminUsersComponent, AdminConfigComponent, AdminAuditComponent, TemplateComponent,
         TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent
-    ]
+
+    ],
+    providers: [DataProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })
 export class MainRoutingModule {
 }

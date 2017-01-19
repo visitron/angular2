@@ -1,4 +1,7 @@
 import {Component} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
+import {DataProvider} from "../service/data-provider.service";
+import {Location} from "@angular/common";
 
 @Component({
     selector: 'actions',
@@ -7,17 +10,27 @@ import {Component} from "@angular/core";
 export class ActionsComponent {
     private actions: Action[] = [];
 
-    constructor() {
-        this.actions.push(new Action('Drop'));
-        this.actions.push(new Action('Block'));
-        this.actions.push(new Action('Unblock'));
-        this.actions.push(new Action(null));
-        this.actions.push(new Action('Approve'));
-        this.actions.push(new Action('Remove'));
-        this.actions.push(new Action('Destroy'));
+    constructor(private dataProvider: DataProvider, private activatedRoute: ActivatedRoute, private location: Location) {
+        // this.actions.push(new Action('Drop'));
+        // this.actions.push(new Action('Block'));
+        // this.actions.push(new Action('Unblock'));
+        // this.actions.push(new Action(null));
+        // this.actions.push(new Action('Approve'));
+        // this.actions.push(new Action('Remove'));
+        // this.actions.push(new Action('Destroy'));
 
-        this.actions[5].disabled = true;
-        this.actions[0].disabled = true;
+        // this.actions[5].disabled = true;
+        // this.actions[0].disabled = true;
+
+        dataProvider.getPart(location, 'actions', data => {
+            debugger;
+            (<string []> data).forEach(name => {
+                this.actions.push(new Action(name));
+            });
+
+            console.log(data);
+        });
+
     }
 }
 
