@@ -1,30 +1,54 @@
-import {Component} from "@angular/core";
+import {Component, OnDestroy} from "@angular/core";
+import {Location} from "@angular/common";
+import {Router, NavigationStart} from "@angular/router";
+import {DataProvider} from "../service/data.service";
+import "rxjs/operator/map";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'filters',
     templateUrl: 'mockup/parts/filters.html'
 })
-export class FiltersComponent {
+export class FiltersComponent implements OnDestroy {
 
+    private show: boolean = true;
     private filterGroups: FilterGroup[] = [];
     private appliedFilters: Filter[] = [];
     private allFiltersExpanded: boolean = true;
+    private subscription: Subscription = null;
 
-    constructor() {
-        this.filterGroups.push(new FilterGroup('Group 1', [
-            new Filter('boolean','Filter 1', true),
-            new Filter('boolean','Filter 2'),
-            new Filter('boolean','Filter 3')
-        ], true));
-        this.filterGroups.push(new FilterGroup('Group 2', [
-            new Filter('boolean', 'Filter 4'),
-            new Filter('numeric', 'Price'),
-            new Filter('date', 'First Login')
-        ], true));
-        this.filterGroups.push(new FilterGroup('Group 3', [
-            new Filter('boolean','Filter 6'),
-            new Filter('boolean','Filter 7')
-        ], true));
+    constructor(private dataProvider: DataProvider, private router: Router, private location: Location) {
+
+        console.log("FiltersComponent is created");
+
+        let getFilters = (location: string) => {
+            dataProvider.getPart(location, 'filters', data => {
+                if (_.isEmpty(data)) {
+                    this.show = false;
+                    return;
+                }
+
+                this.show = true;
+                this.filterGroups.splice(0);
+
+                (<FilterGroup []> data).forEach((group: any) => {
+                    this.filterGroups.push(new FilterGroup(group.groupName, group.filters, true));
+                });
+            });
+        };
+
+        getFilters(location.path());
+
+        this.subscription = router.events.subscribe(event => {
+            if (event instanceof NavigationStart) {
+                getFilters(event.url);
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        console.log("FiltersComponent is destroyed");
+        this.subscription.unsubscribe();
     }
 
     hasAnyFilter(): boolean {
@@ -71,7 +95,10 @@ export class FiltersComponent {
 }
 
 class FilterGroup {
-    constructor(private _name: string, private _filters: Filter[], private _expanded?: boolean) {}
+    constructor(private _name: string, private _filters: Filter[], private _expanded?: boolean) {
+        this._filters = this._filters
+            .map((raw: any) => new Filter(raw.filterType, raw.filterName, false));
+    }
 
     public get name(): string {return this._name}
     public get filters(): Filter[] {return this._filters}

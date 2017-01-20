@@ -1,0 +1,13 @@
+[
+  {
+    "groupId": "group1",
+    "groupName": "Group 1",
+    "filters": [
+      {
+        "filterId": "filter1",
+        "filterType": "boolean",
+        "filterName": "Filter 1"
+      }
+    ]
+  }
+]

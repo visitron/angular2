@@ -1,6 +1,13 @@
 import {Component} from "@angular/core";
+import {Router} from "@angular/router";
 
 @Component({
     templateUrl: 'mockup/task.html'
 })
-export class TaskComponent {}
+export class TaskComponent {
+
+    constructor(private router: Router) {
+        router.navigate(['/access-denied']);
+    }
+
+}

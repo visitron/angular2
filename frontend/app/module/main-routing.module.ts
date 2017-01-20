@@ -12,6 +12,7 @@ import {ActionsComponent} from "./page-component/actions.component";
 import {NavigationBarComponent} from "./page-component/navigation-bar.component";
 import {RegisterComponent} from "./register.component";
 import {PageNotFoundComponent} from "./page-not-found.component";
+import {AccessDeniedComponent} from "./access-denied.component";
 import {ShellComponent} from "./shell.component";
 import {AdminComponent} from "./admin/admin.component";
 import {AdminAuditComponent} from "./admin/admin-audit.component";
@@ -50,7 +51,7 @@ const routes: Routes = [
             {path: 'maintenance', component: TaskMaintenanceComponent},
         ]}
     ]},
-
+    {path: 'access-denied', component: AccessDeniedComponent},
     {path: '**', component: PageNotFoundComponent}
 ];
 
@@ -61,8 +62,8 @@ const routes: Routes = [
     declarations: [LoginComponent, SearchComponent, LoginInfoComponent,
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,
         ShellComponent, AdminComponent, AdminUsersComponent, AdminConfigComponent, AdminAuditComponent, TemplateComponent,
-        TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent
-
+        TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent,
+        AccessDeniedComponent
     ],
     providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })
