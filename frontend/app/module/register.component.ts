@@ -9,6 +9,8 @@ export class RegisterComponent implements OnInit {
     private userClass: string = 'null';
     private imageURL: string = null;
 
+    private model: User = new User;
+
     constructor(private dataProvider: DataProvider) {}
 
     ngOnInit(): void {
@@ -31,4 +33,22 @@ export class RegisterComponent implements OnInit {
 
         reader.readAsDataURL((<any> event.target).files[0]);
     }
+
+    public onSubmit(): void {
+        console.log(this.model);
+    }
+
+    public checkPasswords(form: any, passwordConfirmed: string) {
+        if (this.model.password != passwordConfirmed) {
+            form.valid = false;
+        }
+    }
+}
+
+class User {
+    public firstName: string;
+    public secondName: string;
+    public email: string;
+    public password: string;
+    public passwordConfirmed: string;
 }
