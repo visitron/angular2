@@ -298,12 +298,9 @@ label {
     width: 560px;
 }
 
-.user-list li {
-    border-bottom: dotted 1px grey;
-}
-
-.user-list li[class="last-item"] {
-    border-bottom: none;
+.user-list > li hr {
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .user-parameter {
