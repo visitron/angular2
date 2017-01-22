@@ -20,7 +20,7 @@
         <module>frontend</module>
         <module>backend</module>
         <!--<module>dependencies</module>-->
-        <module>database</module>
+        <!--<module>database</module>-->
         <module>config</module>
         <module>boot</module>
     </modules>
@@ -88,6 +88,12 @@
                 <version>1.2</version>
                 <scope>provided</scope>
             </dependency>
+            <!--<dependency>-->
+                <!--<groupId>commons-fileupload</groupId>-->
+                <!--<artifactId>commons-fileupload</artifactId>-->
+                <!--<version>1.3.2</version>-->
+                <!--<scope>compile</scope>-->
+            <!--</dependency>-->
             <!--<dependency>-->
                 <!--<groupId>dom4j</groupId>-->
                 <!--<artifactId>dom4j</artifactId>-->

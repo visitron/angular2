@@ -4,9 +4,12 @@ import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 import org.h2.Driver;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -23,14 +26,16 @@ import java.sql.SQLException;
  * Created by Buibi on 29.10.2016.
  */
 @Configuration
-@ComponentScan(basePackages = "home.maintenance.dao")
-@EnableTransactionManagement(proxyTargetClass = true, mode = AdviceMode.PROXY)
+//@ComponentScan(basePackages = "home.maintenance.dao")
+//@EnableTransactionManagement(proxyTargetClass = true, mode = AdviceMode.PROXY)
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "home.maintenance.dao.common")
 public class PersistenceConfig {
 
     @Autowired
     private Environment environment;
 
-    @Bean
+    @Bean("entityManagerFactory")
     @Profile("h2")
     public EntityManagerFactory entityManagerFactoryH2(@Autowired DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean bean = createCommonEMFBean(dataSource);
@@ -41,7 +46,7 @@ public class PersistenceConfig {
         return bean.getObject();
     }
 
-    @Bean
+    @Bean("entityManagerFactory")
     @Profile("oracle")
     public EntityManagerFactory entityManagerFactoryOracle(@Autowired DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean bean = createCommonEMFBean(dataSource);
@@ -94,7 +99,7 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public PlatformTransactionManager txManager(@Autowired EntityManagerFactory entityManagerFactory) {
+    public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
