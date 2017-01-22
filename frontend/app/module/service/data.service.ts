@@ -27,6 +27,20 @@ export class DataProvider {
             .subscribe(callback);
     }
 
+    public getUsers(callback: (data: any) => void): void {
+        this.http
+            .get('http://localhost:3002/login/users')
+            .map(data => data.json())
+            .subscribe(callback);
+    }
+
+    public hasAdmin(callback: (data: any) => void): void {
+        this.http
+            .get('http://localhost:3002/register/hasAdmin')
+            .map(data => data.json())
+            .subscribe(callback);
+    }
+
     private ignoreURL(location: string): boolean {
         return !(location.match(/\/task/) || location.match(/\/admin/));
     }

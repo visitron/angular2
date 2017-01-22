@@ -5,44 +5,16 @@
             <div class="btn-group">
                 <button id="select-user-btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select user</button>
                 <ul class="dropdown-menu user-list">
-                    <li>
+                    <li *ngFor="let user of users">
                         <a href="#">
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <img src="../mock/login/images/image_0_min.jpg">
+                                    <img height="64" width="64" [src]="'http://localhost:3002/public/' + user.id + '.jpg'">
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="user-parameter">Vladimir</div>
-                                    <div class="user-parameter">Soshyn</div>
-                                    <div><span class="label label-warning">Admin</span></div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <img src="../mock/login/images/image_1_min.jpg">
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="user-parameter">Vladimir</div>
-                                    <div class="user-parameter">Soshyn</div>
-                                    <div><span class="label label-info">User</span></div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="last-item">
-                        <a href="#">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <img src="../mock/login/images/image_2_min.jpg">
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="user-parameter">Vladimir</div>
-                                    <div class="user-parameter">Soshyn</div>
-                                    <div><span class="label label-info">User</span></div>
+                                    <div class="user-parameter">{{user.firstName}}</div>
+                                    <div class="user-parameter">{{user.secondName}}</div>
+                                    <div><span [class]="getUserClass(user)">{{user.role}}</span></div>
                                 </div>
                             </div>
                         </a>

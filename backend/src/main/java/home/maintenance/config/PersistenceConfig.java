@@ -26,8 +26,6 @@ import java.sql.SQLException;
  * Created by Buibi on 29.10.2016.
  */
 @Configuration
-//@ComponentScan(basePackages = "home.maintenance.dao")
-//@EnableTransactionManagement(proxyTargetClass = true, mode = AdviceMode.PROXY)
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "home.maintenance.dao.common")
 public class PersistenceConfig {

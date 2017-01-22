@@ -7,6 +7,10 @@ public class UserVO extends SimpleUserVO {
     public String email;
     public String password;
 
+    public UserVO() {
+        super(null);
+    }
+
     @Override
     public String toString() {
         return "UserVO{" +

@@ -25,8 +25,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState state;
     @Column
-    private byte[] image;
-    @Column
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column
@@ -38,12 +36,11 @@ public class User {
 
     public User() {}
 
-    public User(String firstName, String secondName, String email, String hash, byte[] image, Role role) {
+    public User(String firstName, String secondName, String email, String hash, Role role) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.hash = hash;
-        this.image = image;
         this.role = role;
         this.creationDate = new Date();
         this.modificationDate = new Date();
@@ -96,14 +93,6 @@ public class User {
 
     public void setState(UserState state) {
         this.state = state;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     public Role getRole() {

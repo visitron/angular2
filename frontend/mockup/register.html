@@ -1,26 +1,34 @@
 <div id="register-form" class="container well general-form register-form">
-    <form class="form">
-        <div id="image-id" class="form-group">
-            <span class="upload-logo glyphicon glyphicon-save"></span>
-            <span class="upload-logo">Upload</span>
+    <form class="form" enctype="multipart/form-data" method="post" action="http://localhost:3002/register/request">
+        <div id="image-id" [class]="imageURL === null ? 'image-empty' : ''" class="form-group" (click)="selectFile()">
+            <div [ngSwitch]="imageURL === null">
+                <template [ngSwitchCase]="true">
+                    <span class="upload-logo glyphicon glyphicon-save"></span>
+                    <span class="upload-logo">Upload</span>
+                </template>
+                <template [ngSwitchCase]="false">
+                    <img [src]="imageURL">
+                </template>
+            </div>
+            <input type="file" name="image" id="image-file-id" style="display: none" (change)="previewImage($event)">
         </div>
         <div id="role-id">
-            <div id="role-id-name" class="label label-warning">Admin</div>
+            <div id="role-id-name" [class]="userClass">{{userType}}</div>
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="text" id="first-name-id" class="form-control" placeholder="First Name">
+            <input type="text" name="firstName" id="first-name-id" class="form-control" placeholder="First Name">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="text" id="second-name-id" class="form-control" placeholder="Second Name">
+            <input type="text" name="secondName" id="second-name-id" class="form-control" placeholder="Second Name">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="email" id="email-name-id" class="form-control" placeholder="E-Mail">
+            <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
             <input type="password" id="password-id" class="form-control" placeholder="Password">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="password" id="password-confirm-id" class="form-control" placeholder="Repeate Password">
+            <input type="password" name="password" id="password-confirm-id" class="form-control" placeholder="Repeate Password">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
             <button type="submit" class="btn btn-primary" data-target="#message-registration-id" data-toggle="modal">Create</button>

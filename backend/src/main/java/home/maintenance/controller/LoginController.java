@@ -3,10 +3,7 @@ package home.maintenance.controller;
 import home.maintenance.dao.common.UserRepository;
 import home.maintenance.vo.SimpleUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +12,7 @@ import java.util.List;
  * Created by vsoshyn on 25/10/2016.
  */
 @RestController
-//@CrossOrigin
+@CrossOrigin
 @RequestMapping("/login")
 public class LoginController {
 
@@ -29,10 +26,10 @@ public class LoginController {
         return users;
     }
 
-    @RequestMapping("/image")
-    public byte[] image(@RequestParam long userId) {
-        return userRepository.findOne(userId).getImage();
-    }
+//    @RequestMapping("/image")
+//    public byte[] image(@RequestParam long userId) {
+//        return userRepository.findOne(userId).getImage();
+//    }
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public String auth(@RequestParam String userName, @RequestParam String password) {

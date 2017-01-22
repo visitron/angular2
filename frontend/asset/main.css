@@ -320,8 +320,6 @@ label {
 }
 
 #image-id {
-    border: solid 1px grey;
-    background-color: lightgrey;
     width: 100px;
     height: 100px;
     border-radius: 5px;
@@ -329,6 +327,15 @@ label {
     margin-left: 15px;
     cursor: pointer;
     position: absolute;
+}
+
+#image-id img {
+    border-radius: 5px;
+}
+
+.image-empty {
+    border: solid 1px grey;
+    background-color: lightgrey;
 }
 
 .upload-logo {
