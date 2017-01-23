@@ -27,7 +27,7 @@ import {TaskPurchaseComponent} from "./task/task-purchase.component";
 import {DataProvider} from "./service/data.service";
 import {SlickGridProvider} from "./service/slick-grid.service";
 import {FormsModule} from "@angular/forms";
-import {ConfirmPasswordValidator} from "./confirm-password-validator.directive";
+import {EqualValidator} from "./equal-validator.directive";
 
 
 const routes: Routes = [
@@ -65,7 +65,7 @@ const routes: Routes = [
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,
         ShellComponent, AdminComponent, AdminUsersComponent, AdminConfigComponent, AdminAuditComponent, TemplateComponent,
         TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent,
-        AccessDeniedComponent, ConfirmPasswordValidator
+        AccessDeniedComponent, EqualValidator
     ],
     providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })

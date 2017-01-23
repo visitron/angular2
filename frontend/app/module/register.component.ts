@@ -34,7 +34,8 @@ export class RegisterComponent implements OnInit {
         reader.readAsDataURL((<any> event.target).files[0]);
     }
 
-    public onSubmit(): void {
+    public onSubmit(form: any): void {
+        form.submit();
         console.log(this.model);
     }
 

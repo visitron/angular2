@@ -1,5 +1,5 @@
 <div id="register-form" class="container well general-form register-form">
-    <form class="form" enctype="multipart/form-data" method="post" action="http://localhost:3002/register/request" #registrationForm="ngForm" (ngSubmit)="onSubmit()">
+    <form class="form" enctype="multipart/form-data" method="post" action="http://localhost:3002/register/request" #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm)">
         <div id="image-id" [class]="imageURL === null ? 'image-empty' : ''" class="form-group" (click)="selectFile()">
             <div [ngSwitch]="imageURL === null">
                 <template [ngSwitchCase]="true">
@@ -28,8 +28,7 @@
             <input type="password" name="password" id="password-id" class="form-control" placeholder="Password" required [(ngModel)]="model.password">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="password" name="passwordConfirmed" confirmPassword="password" id="password-confirm-id" class="form-control" placeholder="Repeate Password" required [(ngModel)]="model.passwordConfirmed"
-                   >
+            <input type="password" name="passwordConfirmed" validateEqual="password" id="password-confirm-id" class="form-control" placeholder="Repeat Password" required [(ngModel)]="model.passwordConfirmed">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
             <button type="submit" class="btn btn-primary" data-target="#message-registration-id" data-toggle="modal" [disabled]="!registrationForm.form.valid">Register</button>
