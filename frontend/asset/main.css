@@ -358,6 +358,18 @@ label {
     display: block;
 }
 
+#errors-id {
+    padding: 5px;
+    position: absolute;
+    top: 160px;
+    margin-left: 0;
+    width: 130px;
+    border: 1px solid lightcoral;
+    box-shadow: 4px 4px;
+    border-radius: 5px;
+    min-height: 50px;
+}
+
 /* page not found */
 #page-not-found-id {
     height: 320px;

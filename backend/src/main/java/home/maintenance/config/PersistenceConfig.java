@@ -50,7 +50,7 @@ public class PersistenceConfig {
         LocalContainerEntityManagerFactoryBean bean = createCommonEMFBean(dataSource);
         bean.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "validate");
         bean.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.Oracle12cDialect");
-        bean.getJpaPropertyMap().put("hibernate.default_schema", "soshvla");
+        bean.getJpaPropertyMap().put("hibernate.default_schema", environment.getProperty("application.oracle.jdbc.schema"));
 
         bean.afterPropertiesSet();
         return bean.getObject();
@@ -63,7 +63,7 @@ public class PersistenceConfig {
         bean.setPersistenceUnitName("home-maintenance");
         bean.setPackagesToScan("home.maintenance.model");
 
-        bean.getJpaPropertyMap().put("hibernate.show_sql", "false");
+        bean.getJpaPropertyMap().put("hibernate.show_sql", environment.getProperty("spring.jpa.show-sql"));
         bean.getJpaPropertyMap().put("hibernate.format_sql", "true");
         return bean;
     }
@@ -81,8 +81,8 @@ public class PersistenceConfig {
     public DataSource dataSourceH2() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriver(new Driver());
-        dataSource.setUrl("jdbc:h2:mem:soshvla;DB_CLOSE_DELAY=-1");
-        dataSource.setUsername("soshvla");
+        dataSource.setUrl(environment.getProperty("application.h2.jdbc.url"));
+        dataSource.setUsername(environment.getProperty("application.h2.jdbc.user"));
         return dataSource;
     }
 
@@ -90,9 +90,9 @@ public class PersistenceConfig {
     @Profile("oracle")
     public DataSource dataSourceOracle() throws SQLException {
         OracleConnectionPoolDataSource dataSource = new OracleConnectionPoolDataSource();
-        dataSource.setURL("jdbc:oracle:thin:@//localhost:1521/XE");
-        dataSource.setUser("soshvla");
-        dataSource.setPassword("12345678");
+        dataSource.setURL(environment.getProperty("application.oracle.jdbc.url"));
+        dataSource.setUser(environment.getProperty("application.oracle.jdbc.user"));
+        dataSource.setPassword(environment.getProperty("application.oracle.jdbc.password"));
         return dataSource;
     }
 

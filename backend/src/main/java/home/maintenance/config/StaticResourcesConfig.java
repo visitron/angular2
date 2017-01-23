@@ -16,7 +16,7 @@ import java.io.IOException;
 @Configuration
 public class StaticResourcesConfig extends WebMvcConfigurerAdapter {
 
-    @Value("${spring.resources.static-locations}")
+    @Value("${application.resources.static-locations}")
     private String staticResourcesLocation;
     @Autowired
     private ImageRepositoryManager imageRepository;
@@ -25,7 +25,7 @@ public class StaticResourcesConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/public/**").addResourceLocations(staticResourcesLocation);
+        registry.addResourceHandler("/public/**").addResourceLocations("file:/" + staticResourcesLocation);
     }
 
     @PostConstruct

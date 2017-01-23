@@ -15,12 +15,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 @Service("imageRepository")
 public class ImageRepositoryImpl implements ImageRepositoryManager {
 
-    @Value("${spring.resources.static-locations}")
+    @Value("${application.resources.static-locations}")
     private String folder;
 
     @Override
     public void save(byte[] image, long id) throws IOException {
-        Files.copy(new ByteArrayInputStream(image), Paths.get("e:/temp/images/" + id + ".jpg"));
+        Files.copy(new ByteArrayInputStream(image), Paths.get(folder + "images/" + id + ".jpg"));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ImageRepositoryImpl implements ImageRepositoryManager {
 
     @Override
     public void drop() throws IOException {
-        Files.walkFileTree(Paths.get("e:/temp/images"), new SimpleFileVisitor<Path>() {
+        Files.walkFileTree(Paths.get(folder + "images/"), new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Files.delete(file);

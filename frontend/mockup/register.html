@@ -15,20 +15,23 @@
         <div id="role-id">
             <div id="role-id-name" [class]="userClass">{{userType}}</div>
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="text" name="firstName" id="first-name-id" class="form-control" placeholder="First Name" required [(ngModel)]="model.firstName">
+        <div id="errors-id" [hidden]="!registrationForm.form.invalid">
+            <span>Not all mandatory fields have been filled and/or password and its confirmation don't match each other</span>
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="text" name="secondName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.secondName">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="firstName.invalid">
+            <input type="text" name="firstName" id="first-name-id" class="form-control" placeholder="First Name" required [(ngModel)]="model.firstName" #firstName="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required [(ngModel)]="model.email">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="secondName.invalid">
+            <input type="text" name="secondName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.secondName" #secondName="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="password" name="password" id="password-id" class="form-control" placeholder="Password" required [(ngModel)]="model.password">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="email.invalid">
+            <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9]+@[a-zA-Z0-9]+" [(ngModel)]="model.email" #email="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9">
-            <input type="password" name="passwordConfirmed" validateEqual="password" id="password-confirm-id" class="form-control" placeholder="Repeat Password" required [(ngModel)]="model.passwordConfirmed">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="password.invalid">
+            <input type="password" name="password" validateEqual="passwordConfirmed" required id="password-id" class="form-control" placeholder="Password" [(ngModel)]="model.password" #password="ngModel">
+        </div>
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="passwordConfirmed.invalid">
+            <input type="password" name="passwordConfirmed" validateEqual="password" validateEqualPrimary required id="password-confirm-id" class="form-control" placeholder="Repeat Password" [(ngModel)]="model.passwordConfirmed" #passwordConfirmed="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
             <button type="submit" class="btn btn-primary" data-target="#message-registration-id" data-toggle="modal" [disabled]="!registrationForm.form.valid">Register</button>

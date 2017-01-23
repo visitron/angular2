@@ -27,7 +27,6 @@ export class RegisterComponent implements OnInit {
     public previewImage(event: Event): void {
         let reader: FileReader = new FileReader;
         reader.onload = (ev: Event) => {
-            console.log('File uploading has been hooked: ' + ev.target);
             this.imageURL = (<any> ev.target).result;
         };
 
@@ -36,7 +35,6 @@ export class RegisterComponent implements OnInit {
 
     public onSubmit(form: any): void {
         form.submit();
-        console.log(this.model);
     }
 
     public checkPasswords(form: any, passwordConfirmed: string) {
