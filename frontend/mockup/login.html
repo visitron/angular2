@@ -9,7 +9,7 @@
                         <a href="#">
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <img height="64" width="64" [src]="'http://localhost:3002/public/' + user.id + '.jpg'">
+                                    <img height="64" width="64" [src]="getImageURL(user)">
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="user-parameter">{{user.firstName}}</div>

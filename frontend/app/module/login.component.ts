@@ -23,6 +23,10 @@ export class LoginComponent implements OnInit {
         return user.role == 'USER' ? 'label label-success' : 'label label-danger';
     }
 
+    getImageURL(user: User): string {
+        return user.photo ? `http://localhost:3002/public/images/${user.id}.jpg` : '/mockup/nophoto.jpg'
+    }
+
 }
 
 class User {
@@ -31,4 +35,5 @@ class User {
     public secondName: string;
     public role: string;
     public password: string;
+    public photo: boolean;
 }

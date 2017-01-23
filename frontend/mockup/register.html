@@ -7,7 +7,7 @@
                     <span class="upload-logo">Upload</span>
                 </template>
                 <template [ngSwitchCase]="false">
-                    <img [src]="imageURL">
+                    <img height="100" width="100" [src]="imageURL">
                 </template>
             </div>
             <input type="file" name="image" id="image-file-id" style="display: none" (change)="previewImage($event)">
@@ -25,7 +25,7 @@
             <input type="text" name="secondName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.secondName" #secondName="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="email.invalid">
-            <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9]+@[a-zA-Z0-9]+" [(ngModel)]="model.email" #email="ngModel">
+            <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9.]+@[a-zA-Z0-9.]+" [(ngModel)]="model.email" #email="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="password.invalid">
             <input type="password" name="password" validateEqual="passwordConfirmed" required id="password-id" class="form-control" placeholder="Password" [(ngModel)]="model.password" #password="ngModel">
@@ -34,24 +34,24 @@
             <input type="password" name="passwordConfirmed" validateEqual="password" validateEqualPrimary required id="password-confirm-id" class="form-control" placeholder="Repeat Password" [(ngModel)]="model.passwordConfirmed" #passwordConfirmed="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
-            <button type="submit" class="btn btn-primary" data-target="#message-registration-id" data-toggle="modal" [disabled]="!registrationForm.form.valid">Register</button>
-            <button type="button" class="btn btn-default">Cancel</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message-registration-id" [disabled]="!registrationForm.form.valid">Register</button>
+            <button type="button" class="btn btn-default" routerLink="/login">Cancel</button>
+        </div>
+        <div id="message-registration-id" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm notification" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Once your account is activated, you will be able to login. It can take a day.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="confirm-registration-btn-id" type="submit" class="btn btn-default">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>
 
-<div id="message-registration-id" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm notification" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Information</h4>
-            </div>
-            <div class="modal-body">
-                <p>Once your account is activated, you will be able to login. It can take a day.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>

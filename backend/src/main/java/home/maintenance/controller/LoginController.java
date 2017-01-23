@@ -26,11 +26,6 @@ public class LoginController {
         return users;
     }
 
-//    @RequestMapping("/image")
-//    public byte[] image(@RequestParam long userId) {
-//        return userRepository.findOne(userId).getImage();
-//    }
-
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public String auth(@RequestParam String userName, @RequestParam String password) {
 

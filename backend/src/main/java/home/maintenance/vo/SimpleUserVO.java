@@ -10,14 +10,14 @@ public class SimpleUserVO {
     public long id;
     public String firstName;
     public String secondName;
-//    public byte[] image;
+    public boolean photo;
     public Role role;
 
     public SimpleUserVO(User user) {
         id = user.getId();
         firstName = user.getFirstName();
         secondName = user.getSecondName();
-//        image = user.getImage();
+        photo = user.hasPhoto();
         role = user.getRole();
     }
 

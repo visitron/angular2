@@ -1,5 +1,7 @@
 package home.maintenance.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,6 +22,9 @@ public class User {
     @Column
     private String email;
     @Column
+    @Type(type = "yes_no")
+    private boolean photo;
+    @Column
     private String hash;
     @Column
     @Enumerated(EnumType.STRING)
@@ -36,10 +41,11 @@ public class User {
 
     public User() {}
 
-    public User(String firstName, String secondName, String email, String hash, Role role) {
+    public User(String firstName, String secondName, String email, boolean hasPhoto, String hash, Role role) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
+        this.photo = hasPhoto;
         this.hash = hash;
         this.role = role;
         this.creationDate = new Date();
@@ -117,5 +123,13 @@ public class User {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    public boolean hasPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(boolean photo) {
+        this.photo = photo;
     }
 }
