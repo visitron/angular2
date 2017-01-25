@@ -50,7 +50,7 @@ public class User {
         this.role = role;
         this.creationDate = new Date();
         this.modificationDate = new Date();
-        this.state = UserState.DRAFT;
+        this.state = role == Role.ADMIN ? UserState.ACTIVE : UserState.DRAFT;
     }
 
     public long getId() {

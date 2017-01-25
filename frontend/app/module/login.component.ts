@@ -36,4 +36,9 @@ class User {
     public role: string;
     public password: string;
     public photo: boolean;
+    public state: UserState;
+}
+
+enum UserState {
+    DRAFT, ACTIVE, BLOCKED
 }
