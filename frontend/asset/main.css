@@ -341,6 +341,13 @@ label {
     margin-top: 35px;
 }
 
+#user-activation-pending-id {
+    font-style: italic;
+    color: grey;
+    background-color: transparent;
+    border: 1px grey double;
+}
+
 /* register form */
 .register-form {
     height: 320px;
