@@ -15,7 +15,7 @@
         <div id="role-id">
             <div id="role-id-name" [class]="userClass">{{userType}}</div>
         </div>
-        <div id="errors-id" [hidden]="!registrationForm.form.invalid">
+        <div id="errors-id" [hidden]="!registrationForm.invalid">
             <span>Not all mandatory fields have been filled and/or password and its confirmation don't match each other</span>
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="firstName.invalid">
@@ -34,7 +34,7 @@
             <input type="password" name="passwordConfirmed" validateEqual="password" validateEqualPrimary required id="password-confirm-id" class="form-control" placeholder="Repeat Password" [(ngModel)]="model.passwordConfirmed" #passwordConfirmed="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message-registration-id" [disabled]="!registrationForm.form.valid">Register</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message-registration-id" [disabled]="!registrationForm.valid">Register</button>
             <button type="button" class="btn btn-default" routerLink="/login">Cancel</button>
         </div>
         <div id="message-registration-id" class="modal fade" tabindex="-1" role="dialog">

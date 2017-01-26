@@ -5,6 +5,7 @@ import home.maintenance.model.Role;
 import home.maintenance.model.User;
 import home.maintenance.service.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class RegisterController {
 
     @Transactional
     @RequestMapping(value = "/request", method = RequestMethod.POST)
-    public String request(@RequestParam(required = false) MultipartFile image,
+    public ResponseEntity request(@RequestParam(required = false) MultipartFile image,
                                       @RequestParam(required = false) String firstName,
                                       @RequestParam(required = false) String secondName,
                                       @RequestParam(required = false) String email,
@@ -39,8 +40,9 @@ public class RegisterController {
         userRepository.save(user);
         if (!image.isEmpty()) {
             imageRepository.save(image.getBytes(), user.getId());
+            System.out.println("New user is created");
         }
-        return "redirect:http://localhost:3000/login";
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping("hasAdmin")
