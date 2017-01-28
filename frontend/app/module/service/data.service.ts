@@ -5,7 +5,7 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class DataProvider {
 
-    private mockMode: boolean = true;
+    private mockMode: boolean = false;
 
     constructor(private http: Http) {}
 
@@ -22,7 +22,7 @@ export class DataProvider {
         if (this.ignoreURL(location)) return;
 
         this.http
-            .get(this.toURL(location, part))
+            .get(this.toInternalUrl(location, part))
             .map(data => data.json())
             .subscribe(callback);
     }
@@ -47,7 +47,11 @@ export class DataProvider {
 
     private toURL(location: string, part?: string): string {
         part = _.isEmpty(part) ? '' : '-' + part;
-        return this.mockMode ? 'mock/' + location + part + '.json' : location + part;
+        return this.mockMode ? 'mock/' + location + part + '.json' : 'http://localhost:3002' + location + part;
+    }
+
+    private toInternalUrl(location: string, part: string): string {
+        return 'mock/' + location + '-' + part + '.json';
     }
 
 }

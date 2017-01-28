@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Buibi on 21.01.2017.
  */
 @Entity
-@Table
+@Table(name = "[STATISTIC]")
 public class Statistic {
 
     @Id
@@ -18,7 +18,7 @@ public class Statistic {
     private Task task;
     @Column
     private int cost;
-    @Column
+    @Column(name = "[DATE]")
     @Temporal(TemporalType.DATE)
     private Date date;
     @Column

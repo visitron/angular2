@@ -1,5 +1,5 @@
 <div id="register-form" class="container well general-form register-form">
-    <form class="form" enctype="multipart/form-data" method="post" action="http://localhost:3002/register/request" #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm)">
+    <form class="form" enctype="multipart/form-data" method="post" action="http://localhost:3002/register/request" #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm, model)">
         <div id="image-id" [class]="imageURL === null ? 'image-empty' : ''" class="form-group" (click)="selectFile()">
             <div [ngSwitch]="imageURL === null">
                 <template [ngSwitchCase]="true">
@@ -15,22 +15,22 @@
         <div id="role-id">
             <div id="role-id-name" [class]="userClass">{{userType}}</div>
         </div>
-        <div id="errors-id" [hidden]="!registrationForm.invalid">
+        <div id="errors-id" [hidden]="registrationForm.valid || registrationForm.pristine">
             <span>Not all mandatory fields have been filled and/or password and its confirmation don't match each other</span>
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="firstName.invalid">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="firstName.invalid && !firstName.pristine">
             <input type="text" name="firstName" id="first-name-id" class="form-control" placeholder="First Name" required [(ngModel)]="model.firstName" #firstName="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="secondName.invalid">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="secondName.invalid && !secondName.pristine">
             <input type="text" name="secondName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.secondName" #secondName="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="email.invalid">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="email.invalid && !email.pristine">
             <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9.]+@[a-zA-Z0-9.]+" [(ngModel)]="model.email" #email="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="password.invalid">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="password.invalid && !password.pristine">
             <input type="password" name="password" validateEqual="passwordConfirmed" required id="password-id" class="form-control" placeholder="Password" [(ngModel)]="model.password" #password="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="passwordConfirmed.invalid">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="passwordConfirmed.invalid && !passwordConfirmed.pristine">
             <input type="password" name="passwordConfirmed" validateEqual="password" validateEqualPrimary required id="password-confirm-id" class="form-control" placeholder="Repeat Password" [(ngModel)]="model.passwordConfirmed" #passwordConfirmed="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
@@ -47,7 +47,7 @@
                         <p>Once your account is activated, you will be able to login. It can take a day.</p>
                     </div>
                     <div class="modal-footer">
-                        <button id="confirm-registration-btn-id" type="submit" class="btn btn-default">Close</button>
+                        <button id="confirm-registration-btn-id" type="submit" class="btn btn-default">Ok</button>
                     </div>
                 </div>
             </div>

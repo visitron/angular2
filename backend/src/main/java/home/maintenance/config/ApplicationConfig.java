@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 @Configuration
 @EnableWebMvc
-@Import({PersistenceConfig.class, StaticResourcesConfig.class})
+@Import({PersistenceConfig.class, StaticResourcesConfig.class, SecurityConfig.class})
 @ComponentScan(basePackages = {"home.maintenance.controller", "home.maintenance.service"})
 @PropertySource("classpath:application.properties")
 public class ApplicationConfig {

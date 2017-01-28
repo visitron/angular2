@@ -4,6 +4,7 @@ import {Router, NavigationStart} from "@angular/router";
 import {DataProvider} from "../service/data.service";
 import "rxjs/operator/map";
 import {Subscription} from "rxjs";
+import {SlickGridProvider} from "../service/slick-grid.service";
 
 @Component({
     selector: 'filters',
@@ -17,7 +18,7 @@ export class FiltersComponent implements OnDestroy {
     private allFiltersExpanded: boolean = true;
     private subscription: Subscription = null;
 
-    constructor(private dataProvider: DataProvider, private router: Router, private location: Location) {
+    constructor(private dataProvider: DataProvider, private router: Router, private location: Location, private slickGridProvider: SlickGridProvider) {
 
         console.log("FiltersComponent is created");
 
@@ -58,6 +59,7 @@ export class FiltersComponent implements OnDestroy {
     applyFilter(filter: Filter): void {
         filter.active = true;
         this.appliedFilters.push(filter);
+        this.slickGridProvider.filter(this.filterGroups);
     }
 
     applyBtnDisabled(filter: Filter): boolean {
@@ -69,6 +71,7 @@ export class FiltersComponent implements OnDestroy {
         filter.from = null;
         filter.to = null;
         this.appliedFilters.splice(this.appliedFilters.indexOf(filter), 1);
+        this.slickGridProvider.filter(this.filterGroups);
     }
 
     clearFilters(): void {
@@ -78,6 +81,7 @@ export class FiltersComponent implements OnDestroy {
             filter.to = null;
         });
         this.appliedFilters.splice(0);
+        this.slickGridProvider.filter(null);
     }
 
     collapseOrExpand(group: FilterGroup): void {
@@ -94,10 +98,10 @@ export class FiltersComponent implements OnDestroy {
 
 }
 
-class FilterGroup {
+export class FilterGroup {
     constructor(private _name: string, private _filters: Filter[], private _expanded?: boolean) {
         this._filters = this._filters
-            .map((raw: any) => new Filter(raw.filterType, raw.filterName, false));
+            .map((raw: any) => new Filter(raw.filterType, raw.filterName, raw.field, raw.value, false));
     }
 
     public get name(): string {return this._name}
@@ -106,13 +110,17 @@ class FilterGroup {
     public set expanded(value: boolean) {this._expanded = value}
 }
 
-class Filter {
-    constructor(private _type: 'boolean' | 'numeric' | 'date', private _name: string, private _active?: boolean) {}
+export class Filter {
+    constructor(private _type: 'boolean' | 'numeric' | 'date', private _name: string, private _field: string, private _value?: any, private _active?: boolean) {}
 
     public get name(): string {return this._name}
     public get type(): string {return this._type}
     public get active(): boolean {return this._active}
     public set active(value: boolean) {this._active = value}
+    public get field(): string {return this._field};
+    public set field(field: string) {this._field = field};
+    public get value(): any {return this._value};
+    public set value(value: any) {this._value = value};
 
     private _from: number | Date = null;
     private _to: number | Date = null;

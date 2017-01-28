@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Buibi on 21.01.2017.
  */
 @Entity
-@Table
+@Table(name = "[AUDIT]")
 public class Audit {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
@@ -23,7 +23,7 @@ public class Audit {
     private String oldValue;
     @Column
     private String newValue;
-    @Column
+    @Column(name = "[DATE]")
     @Temporal(TemporalType.DATE)
     private Date date;
 

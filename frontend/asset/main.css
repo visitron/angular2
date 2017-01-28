@@ -78,6 +78,15 @@
     border-bottom: 1px solid blue;
 }
 
+.empty-logo {
+    font-size: x-large;
+    font-style: italic;
+    color: darkgrey;
+    text-align: center;
+    margin-top: 20px;
+    text-shadow: 1px 1px 4px;
+}
+
 @media only screen and (min-width: 1474px) {
     #actions {
         left: 1294px;
@@ -136,7 +145,24 @@
     width: 100%;
     margin-bottom: 20px;
     border-radius: 5px;
+    background: white;
+    outline: 0;
+    border: 1px solid lightgray;
 }
+
+.slick-header-column.ui-state-default {
+    height: auto;
+}
+
+#grid-id > div.slick-viewport .slick-row.active {
+    background: aquamarine;
+}
+
+/*#grid-id > div.slick-viewport .slick-row > .slick-cell.active {*/
+    /*border-style: inherit;*/
+    /*border-color: inherit;*/
+/*}*/
+
 
 /* login info */
 #login-info {
@@ -348,6 +374,20 @@ label {
     border: 1px grey double;
 }
 
+.description {
+    margin-bottom: 10px;
+}
+
+#invalid-password-error {
+    padding: 5px;
+    /*text-align: center;*/
+    top: -50px;
+    width: 402px;
+    border: 1px solid lightcoral;
+    box-shadow: 4px 4px;
+    border-radius: 5px;
+}
+
 /* register form */
 .register-form {
     height: 320px;
@@ -384,15 +424,4 @@ label {
 
 #page-not-found-id button {
     float: right;
-}
-
-/* slick grid */
-#grid-id {
-    background: white;
-    outline: 0;
-    border: 1px solid lightgray;
-}
-
-.slick-header-column.ui-state-default {
-    height: auto;
 }

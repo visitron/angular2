@@ -25,8 +25,10 @@
             'jquery': 'npm:jquery/dist',
             'slickgrid-core': 'npm:slickgrid/slick.core.js',
             'slickgrid-grid': 'npm:slickgrid/slick.grid.js',
+            'slickgrid-dataview': 'npm:slickgrid/slick.dataview.js',
             'slickgrid-cellrangeselector': 'npm:slickgrid/plugins/slick.cellrangeselector.js',
             'slickgrid-cellrangedecorator': 'npm:slickgrid/plugins/slick.cellrangedecorator.js',
+            'slickgrid-rowselectionmodel': 'npm:slickgrid/plugins/slick.rowselectionmodel.js',
             'slickgrid-jquery-event-drag': 'npm:slickgrid/lib/jquery.event.drag-2.3.0.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension

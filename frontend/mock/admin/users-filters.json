@@ -1,54 +1,68 @@
 [
   {
     "groupId": "group1",
-    "groupName": "Group 1",
+    "groupName": "Role",
     "filters": [
       {
         "filterId": "filter1",
         "filterType": "boolean",
-        "filterName": "Filter 1"
+        "filterName": "Admin",
+        "field": "role",
+        "value": "ADMIN"
       },
       {
         "filterId": "filter2",
         "filterType": "boolean",
-        "filterName": "Filter 2"
+        "filterName": "User",
+        "field": "role",
+        "value": "USER"
       }
     ]
   },
   {
     "groupId": "group2",
-    "groupName": "Group 2",
+    "groupName": "Photo",
     "filters": [
+      {
+        "filterId": "filter3",
+        "filterType": "boolean",
+        "filterName": "Yes",
+        "field": "photo",
+        "value": true
+      },
       {
         "filterId": "filter4",
         "filterType": "boolean",
-        "filterName": "Filter 4"
-      },
-      {
-        "filterId": "filter5",
-        "filterType": "numeric",
-        "filterName": "Price"
-      },
-      {
-        "filterId": "filter6",
-        "filterType": "date",
-        "filterName": "First Login"
+        "filterName": "No",
+        "field": "photo",
+        "value": false
       }
     ]
   },
   {
     "groupId": "group3",
-    "groupName": "Group 3",
+    "groupName": "State",
     "filters": [
+      {
+        "filterId": "filter5",
+        "filterType": "boolean",
+        "filterName": "Draft",
+        "field": "state",
+        "value": "DRAFT"
+      },
+      {
+        "filterId": "filter6",
+        "filterType": "boolean",
+        "filterName": "Active",
+        "field": "state",
+        "value": "ACTIVE"
+      },
       {
         "filterId": "filter7",
         "filterType": "boolean",
-        "filterName": "Filter 7"
-      },
-      {
-        "filterId": "filter8",
-        "filterType": "boolean",
-        "filterName": "Filter 8"
+        "filterName": "Blocked",
+        "field": "state",
+        "value": "BLOCKED"
       }
     ]
   }

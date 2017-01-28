@@ -39,10 +39,6 @@ export class RegisterComponent implements OnInit {
     }
 
     public onSubmit(form: NgForm, model: User): void {
-        console.log(form.valid);
-
-        // if (true) throw new Error;
-
         let formData: FormData = new FormData();
         formData.append("firstName", model.firstName);
         formData.append("secondName", model.secondName);
@@ -50,16 +46,9 @@ export class RegisterComponent implements OnInit {
         formData.append("password", model.password);
         formData.append("image", this.file);
 
-
         let headers = new Headers;
-        // headers.append('Content-Type', 'boundary=---myOwnBoundary---');
-        headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
-        headers.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        headers.append("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        headers.append("Access-Control-Allow-Credentials", "true");
         this.http.post('http://localhost:3002/register/request', formData, {headers: headers}).subscribe(
             (data) => {
-                // debugger;
                 console.log(data);
                 $('#message-registration-id').modal('hide');
                 this.router.navigate(['/login']);
@@ -67,9 +56,6 @@ export class RegisterComponent implements OnInit {
             (error) => console.log(error)
         );
 
-
-        // (<any>form).submit();
-        // throw new Error;
     }
 
     public checkPasswords(form: any, passwordConfirmed: string) {

@@ -3,7 +3,9 @@ package home.maintenance.controller;
 import home.maintenance.dao.common.UserRepository;
 import home.maintenance.vo.SimpleUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +13,7 @@ import java.util.List;
 /**
  * Created by vsoshyn on 25/10/2016.
  */
-@RestController
-@CrossOrigin
+@Controller
 @RequestMapping("/login")
 public class LoginController {
 
@@ -20,16 +21,10 @@ public class LoginController {
     private UserRepository userRepository;
 
     @RequestMapping("/users")
-    public List<SimpleUserVO> users() {
+    @ResponseBody public List<SimpleUserVO> users() {
         List<SimpleUserVO> users = new ArrayList<>();
         userRepository.findAll().forEach(user -> users.add(new SimpleUserVO(user)));
         return users;
-    }
-
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public String auth(@RequestParam String userName, @RequestParam String password) {
-
-        return "Failed";
     }
 
 }

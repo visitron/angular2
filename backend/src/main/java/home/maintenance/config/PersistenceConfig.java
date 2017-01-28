@@ -48,7 +48,7 @@ public class PersistenceConfig {
     @Profile("oracle")
     public EntityManagerFactory entityManagerFactoryOracle(@Autowired DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean bean = createCommonEMFBean(dataSource);
-        bean.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "validate");
+        bean.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "update");
         bean.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.Oracle12cDialect");
         bean.getJpaPropertyMap().put("hibernate.default_schema", environment.getProperty("application.oracle.jdbc.schema"));
 

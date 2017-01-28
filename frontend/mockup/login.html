@@ -1,12 +1,12 @@
 <div id="login-form" class="container well general-form">
     <div class="description">To login please select a user or <a routerLink="/register" class="hyperlink">register</a></div>
-    <form class="form-horizontal">
+    <form class="form-horizontal" #loginForm="ngForm" (ngSubmit)="login(loginForm, user)">
         <div class="form-group col-sm-4">
             <div class="btn-group">
-                <button id="select-user-btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select user</button>
+                <button id="select-user-btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{selectedUser()}}</button>
                 <ul class="dropdown-menu user-list">
                     <li *ngFor="let user of users; let last = last">
-                        <a href="#">
+                        <a [style.cursor]="'pointer'" (click)="selectUser(user)">
                             <div class="row">
                                 <div class="col-sm-2">
                                     <img height="64" width="64" [src]="getImageURL(user)">
@@ -25,8 +25,9 @@
                 </ul>
             </div>
         </div>
+        <input type="text" name="username" [value]="user?.firstName" hidden>
         <div class="form-group col-sm-8">
-            <input type="password" class="form-control" id="password-id" placeholder="Password">
+            <input type="password" class="form-control" id="password-id" placeholder="Password" name="password" [value]="user?.password" (input)="user.password = $event.target.value; lastLoginFailed = false">
         </div>
         <div class="form-group col-sm-12">
             <div class="checkbox">
@@ -35,8 +36,11 @@
                 </label>
             </div>
         </div>
-        <div class="form-group col-sm-12">
-            <button type="submit" class="btn btn-default" routerLink="/admin">Sign in</button>
+        <div class="form-group col-sm-4">
+            <button type="submit" class="btn btn-default" [disabled]="canLogin(user)">Sign in</button>
+        </div>
+        <div [hidden]="!lastLoginFailed" id="invalid-password-error" class="col-sm-4">
+            Invalid password. Please try again.
         </div>
     </form>
 </div>

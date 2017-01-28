@@ -18,7 +18,6 @@ import java.io.IOException;
  * Created by vsoshyn on 25/10/2016.
  */
 @Controller
-@CrossOrigin
 @RequestMapping("/register")
 public class RegisterController {
 
@@ -30,15 +29,15 @@ public class RegisterController {
     @Transactional
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public ResponseEntity request(@RequestParam(required = false) MultipartFile image,
-                                      @RequestParam(required = false) String firstName,
-                                      @RequestParam(required = false) String secondName,
-                                      @RequestParam(required = false) String email,
-                                      @RequestParam(required = false) String password) throws IOException {
+                                      @RequestParam String firstName,
+                                      @RequestParam String secondName,
+                                      @RequestParam String email,
+                                      @RequestParam String password) throws IOException {
 
         boolean isAdminExists = userRepository.adminExists();
-        User user = new User(firstName, secondName, email, !image.isEmpty(), password, isAdminExists ? Role.USER : Role.ADMIN);
+        User user = new User(firstName, secondName, email, image != null, password, isAdminExists ? Role.USER : Role.ADMIN);
         userRepository.save(user);
-        if (!image.isEmpty()) {
+        if (image != null) {
             imageRepository.save(image.getBytes(), user.getId());
             System.out.println("New user is created");
         }
