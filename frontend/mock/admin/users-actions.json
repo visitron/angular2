@@ -1,8 +1,8 @@
 [
-  "Drop",
-  "Block",
-  "Unblock",
+  {"name": "Drop Session", "id": "DROP_SESSION"},
+  {"name": "Block", "id": "BLOCK"},
+  {"name": "Unblock", "id": "UNBLOCK"},
   null,
-  "Approve",
-  "Remove"
+  {"name": "Approve", "id": "APPROVE"},
+  {"name": "Remove", "id": "REMOVE"}
 ]

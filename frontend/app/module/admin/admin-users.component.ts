@@ -13,6 +13,7 @@ export class AdminUsersComponent implements OnInit {
     ngOnInit(): void {
         this.dataProvider.getData(this.location.path(), data => {
             this.slickGridProvider.create(data);
+            this.slickGridProvider.attachDataProvider(this.dataProvider, this.location.path());
         });
     }
 

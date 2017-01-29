@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {Location} from "@angular/common";
 import {Router, NavigationStart} from "@angular/router";
+import {SlickGridProvider} from "../service/slick-grid.service";
 
 @Component({
     selector: 'navigation-bar',
@@ -10,7 +11,7 @@ export class NavigationBarComponent {
 
     private show: boolean;
 
-    constructor(private router: Router, private location: Location) {
+    constructor(private router: Router, private location: Location, private slickGridProvider: SlickGridProvider) {
 
         this.show = !location.path().endsWith('/config');
 
@@ -20,6 +21,10 @@ export class NavigationBarComponent {
             }
         });
 
+    }
+
+    select(mode: "all" | "nothing" | "invert"): void {
+        this.slickGridProvider.select(mode);
     }
 
 }

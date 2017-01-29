@@ -1,14 +1,16 @@
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
 import {FilterGroup} from "../page-component/filters.component";
+import {DataProvider} from "./data.service";
 import Column = Slick.Column;
-import List = _.List;
 
 @Injectable()
 export class SlickGridProvider {
 
     private grid: Slick.Grid<any>;
     private view: Slick.Data.DataView<any>;
+    private dataProvider: DataProvider = null;
+    private location: string = null;
 
     private extractColumnDescriptors(data: any[]): any[] {
         if (_.isEmpty(data)) return [];
@@ -32,16 +34,29 @@ export class SlickGridProvider {
         return result;
     }
 
+    public attachDataProvider(dataProvider: DataProvider, location: string) {
+        this.dataProvider = dataProvider;
+        this.location = location;
+    }
+
+    public refresh(): void {
+        this.dataProvider.getData(this.location, (data: any[]) => {
+            this.view.beginUpdate();
+            this.view.setItems(data);
+            this.view.endUpdate();
+            this.grid.onSort.notify(<any>{sortAsc: true, sortCol: {field: 'id'}});
+        });
+    }
+
     public create(data: any[], columnNameOverrides?: {field: string, name: string}[]): Slick.Grid<any> {
+        this.dataProvider = null;
+        this.location = null;
         if (_.isEmpty(data)) return null;
         let columns = this.extractColumnDescriptors(data);
         let options = {
             enableCellNavigation: true,
             enableColumnReorder: false,
-            forceFitColumns: true,
-            // multiSelect: true,
-            // selectedCellCssClass: '.user',
-            // enableAddRow: true
+            forceFitColumns: true
         };
 
         let getItem = function (index: number) {
@@ -118,22 +133,22 @@ export class SlickGridProvider {
             };
 
             view.sort(comparator, args.sortAsc);
+            grid.setSelectedRows([]);
         });
 
         grid.init();
+        grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow: true}));
+        grid.setSortColumn("id", true);
+
         view.beginUpdate();
         view.setItems(data);
         view.endUpdate();
 
-        grid.setSortColumn("id", true);
         grid.onSort.notify(<any>{sortAsc: true, sortCol: {field: 'id'}});
         view.setFilterArgs(null);
 
         this.grid = grid;
         this.view = view;
-
-        this.grid.setSelectionModel(new RowSelectionModel());
-        this.grid.setSelectedRows([1,2,5]);
 
         return grid;
     }
@@ -143,19 +158,35 @@ export class SlickGridProvider {
         this.view.refresh();
     }
 
-}
-
-class RowSelectionModel<T, E> implements Slick.SelectionModel<T, E> {
-
-    onSelectedRangesChanged: Slick.Event<E> = new Slick.Event<E>();
-
-    init(grid: Slick.Grid<T>): void {
+    public getSelectedIds(): number[] {
+        let rows: number[] = this.grid.getSelectedRows();
+        return rows.map(row => this.grid.getDataItem(row)["id"]);
     }
 
-    destroy(): void {
+    public select(mode: "all" | "nothing" | "invert"): void {
+        let rowNums: number[] = [];
+        let i: number = 0;
+        switch (mode) {
+            case "all":
+                for (i = 0; i < this.grid.getDataLength(); i++) {
+                    rowNums.push(i);
+                }
+                this.grid.setSelectedRows(rowNums);
+                break;
+            case "invert":
+                for (i = 0; i < this.grid.getDataLength(); i++) {
+                    rowNums.push(i);
+                }
+                let selectedRows: number[] = this.grid.getSelectedRows();
+                selectedRows.forEach(id => {
+                    rowNums.splice(rowNums.indexOf(id), 1);
+                });
+                this.grid.setSelectedRows(rowNums);
+                break;
+            case "nothing":
+                this.grid.setSelectedRows([]);
+                break;
+        }
     }
 
-    setSelectedRanges(ranges: any): void {
-        console.log(ranges);
-    }
 }

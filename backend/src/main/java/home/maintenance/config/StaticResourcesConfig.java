@@ -28,12 +28,6 @@ public class StaticResourcesConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/public/**").addResourceLocations("file:/" + staticResourcesLocation);
     }
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**").allowedOrigins("http://localhost:3000", "http://localhost:3002");
-//    }
-
-
     @PostConstruct
     public void postConstruct() throws IOException {
         if (dropUserData) {

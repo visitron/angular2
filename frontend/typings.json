@@ -6,6 +6,7 @@
     "jquery": "registry:dt/jquery#1.10.0+20170104155652",
     "node": "registry:dt/node#6.0.0+20161110151007",
     "slickgrid": "registry:dt/slickgrid#2.1.0+20160818215330",
+    "slickgrid/slick.rowselectionmodel": "registry:dt/slickgrid/slick.rowselectionmodel#2.1.0+20160317120654",
     "tinycolor": "registry:dt/tinycolor#1.1.1+20160317120654",
     "underscore": "registry:dt/underscore#1.8.3+20161016154529"
   }
