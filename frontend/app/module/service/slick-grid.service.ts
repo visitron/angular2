@@ -2,7 +2,8 @@ import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
 import {FilterGroup} from "../page-component/filters.component";
 import {DataProvider} from "./data.service";
-import Column = Slick.Column;
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
 
 @Injectable()
 export class SlickGridProvider {
@@ -11,6 +12,17 @@ export class SlickGridProvider {
     private view: Slick.Data.DataView<any>;
     private dataProvider: DataProvider = null;
     private location: string = null;
+    private publisher: Observable<string>;
+    private observer: Observer<string>;
+
+    constructor() {
+        this.publisher = new Observable<string>((observer: Observer<string>) => {
+            debugger;
+            this.observer = observer;
+            return () => {};
+        });
+
+    }
 
     private extractColumnDescriptors(data: any[]): any[] {
         if (_.isEmpty(data)) return [];
@@ -32,6 +44,14 @@ export class SlickGridProvider {
         });
 
         return result;
+    }
+
+    public subscribe(callback: (state: string) => void) {
+        return this.publisher.subscribe(callback);
+    }
+
+    public getData(): any[] {
+        return this.grid.getData();
     }
 
     public attachDataProvider(dataProvider: DataProvider, location: string) {
@@ -150,6 +170,7 @@ export class SlickGridProvider {
         this.grid = grid;
         this.view = view;
 
+        this.observer.next("FG loaded");
         return grid;
     }
 

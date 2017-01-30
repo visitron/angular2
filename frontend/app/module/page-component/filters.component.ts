@@ -32,9 +32,11 @@ export class FiltersComponent implements OnDestroy {
                 this.show = true;
                 this.filterGroups.splice(0);
 
-                (<FilterGroup []> data).forEach((group: any) => {
-                    this.filterGroups.push(new FilterGroup(group.groupName, group.filters, true));
-                });
+                this.slickGridProvider.subscribe((state: string) => {
+                    debugger;
+                    this.filterGroups = (<FilterConfig[]> data).map(config => FilterGroupBuilder.createGroup(config, this.slickGridProvider.getData()));
+                })
+
             });
         };
 
@@ -98,11 +100,41 @@ export class FiltersComponent implements OnDestroy {
 
 }
 
-export class FilterGroup {
-    constructor(private _name: string, private _filters: Filter[], private _expanded?: boolean) {
-        this._filters = this._filters
-            .map((raw: any) => new Filter(raw.filterType, raw.filterName, raw.field, raw.value, false));
+type FilterType = 'boolean' | 'numeric' | 'date';
+
+class FilterConfig {
+    name: string;
+    type:  FilterType;
+    field: string;
+}
+
+class FilterGroupBuilder {
+    static createGroup(config: FilterConfig, data: any[]): FilterGroup {
+        let group: FilterGroup;
+        switch (config.type) {
+            case "date":
+                group = new FilterGroup(config.name, [new Filter("date", config.field)]);
+                break;
+            case "numeric":
+                group = new FilterGroup(config.name, [new Filter("numeric", config.field)]);
+                break;
+            case "boolean":
+                group = new FilterGroup(config.name, this.createBooleanFilters(config, data));
+                break;
+        }
+
+        return group;
     }
+
+    private static createBooleanFilters(config: FilterConfig, data: any[]): Filter[] {
+        let uniqueValues: any[] = _.uniq(data, false, (value, index, data) => data[index][config.field]);
+        return uniqueValues.map(value => new Filter("boolean", config.field, value));
+    }
+
+}
+
+export class FilterGroup {
+    constructor(private _name: string, private _filters: Filter[], private _expanded?: boolean) {}
 
     public get name(): string {return this._name}
     public get filters(): Filter[] {return this._filters}
@@ -111,7 +143,21 @@ export class FilterGroup {
 }
 
 export class Filter {
-    constructor(private _type: 'boolean' | 'numeric' | 'date', private _name: string, private _field: string, private _value?: any, private _active?: boolean) {}
+    private _name: string;
+    constructor(private _type: FilterType, private _field: string, private _value?: any, private _active?: boolean) {
+        if (_type === 'boolean') {
+            switch (this._name.toLowerCase()) {
+                case "true":
+                    this._name = "Yes";
+                    break;
+                case "false":
+                    this._name = 'No';
+                    break;
+                default:
+                    this._name = _value.substring(0, 1).toUpperCase() + _value.substring(1).toLowerCase();
+            }
+        }
+    }
 
     public get name(): string {return this._name}
     public get type(): string {return this._type}

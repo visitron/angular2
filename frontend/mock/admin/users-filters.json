@@ -1,69 +1,17 @@
 [
   {
-    "groupId": "group1",
-    "groupName": "Role",
-    "filters": [
-      {
-        "filterId": "filter1",
-        "filterType": "boolean",
-        "filterName": "Admin",
-        "field": "role",
-        "value": "ADMIN"
-      },
-      {
-        "filterId": "filter2",
-        "filterType": "boolean",
-        "filterName": "User",
-        "field": "role",
-        "value": "USER"
-      }
-    ]
+    "name": "Role",
+    "type": "boolean",
+    "field": "role"
   },
   {
-    "groupId": "group2",
-    "groupName": "Photo",
-    "filters": [
-      {
-        "filterId": "filter3",
-        "filterType": "boolean",
-        "filterName": "Yes",
-        "field": "photo",
-        "value": true
-      },
-      {
-        "filterId": "filter4",
-        "filterType": "boolean",
-        "filterName": "No",
-        "field": "photo",
-        "value": false
-      }
-    ]
+    "name": "Photo",
+    "type": "boolean",
+    "field": "photo"
   },
   {
-    "groupId": "group3",
-    "groupName": "State",
-    "filters": [
-      {
-        "filterId": "filter5",
-        "filterType": "boolean",
-        "filterName": "Draft",
-        "field": "state",
-        "value": "DRAFT"
-      },
-      {
-        "filterId": "filter6",
-        "filterType": "boolean",
-        "filterName": "Active",
-        "field": "state",
-        "value": "ACTIVE"
-      },
-      {
-        "filterId": "filter7",
-        "filterType": "boolean",
-        "filterName": "Blocked",
-        "field": "state",
-        "value": "BLOCKED"
-      }
-    ]
+    "name": "State",
+    "type": "boolean",
+    "field": "state"
   }
 ]
