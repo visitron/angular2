@@ -9,17 +9,17 @@
         <div class="panel-body">
             <div [class]="hasAnyFilter() ? 'filter-list' : 'filter-list last-item'">
                 <div *ngFor="let filterGroup of filterGroups">
-                    <span class="highlight" (click)="collapseOrExpand(filterGroup)"><b>{{filterGroup.name}} </b></span><span [class]="filterGroup.expanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
+                    <span class="highlight" (click)="collapseOrExpand(filterGroup)"><b>{{filterGroup.configName}} </b></span><span [class]="filterGroup.expanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
                     <ul *ngIf="filterGroup.expanded">
                         <li *ngFor="let filter of filterGroup.filters" [class]="filter!=='boolean' ? 'composite' : ''">
                             <div *ngIf="!filter.active">
                                 <div [ngSwitch]="filter.type">
                                     <template [ngSwitchCase]="'boolean'">
-                                        <span class="glyphicon glyphicon-plus-sign"></span><span class="highlight" (click)="applyFilter(filter)"> {{filter.name}}</span>
+                                        <span class="glyphicon glyphicon-plus-sign"></span><span class="highlight" (click)="applyFilter(filter)"> {{filter.configName}}</span>
                                     </template>
                                     <template [ngSwitchCase]="'numeric'">
                                         <span class="glyphicon glyphicon-plus-sign"></span>
-                                        <span>{{filter.name}}</span>
+                                        <span>{{filter.configName}}</span>
                                         <div class="filter-item-input-group">
                                             <input type="text" class="filter-item-input" (input)="filter.from=$event.target.value"> -
                                             <input type="text" class="filter-item-input" (input)="filter.to=$event.target.value">
@@ -28,7 +28,7 @@
                                     </template>
                                     <template [ngSwitchCase]="'date'">
                                         <span class="glyphicon glyphicon-plus-sign"></span>
-                                        <span>{{filter.name}}</span>
+                                        <span>{{filter.configName}}</span>
                                         <div class="filter-item-input-group">
                                             <input type="date" class="filter-item-input" (input)="filter.from=$event.target.value">
                                             <input type="date" class="filter-item-input" (input)="filter.to=$event.target.value">

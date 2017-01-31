@@ -10,28 +10,28 @@
                     <img height="100" width="100" [src]="imageURL">
                 </template>
             </div>
-            <input type="file" name="image" id="image-file-id" style="display: none" (change)="previewImage($event)">
+            <input type="file" configName="image" id="image-file-id" style="display: none" (change)="previewImage($event)">
         </div>
         <div id="role-id">
-            <div id="role-id-name" [class]="userClass">{{userType}}</div>
+            <div id="role-id-configName" [class]="userClass">{{userType}}</div>
         </div>
         <div id="errors-id" [hidden]="registrationForm.valid || registrationForm.pristine">
             <span>Not all mandatory fields have been filled and/or password and its confirmation don't match each other</span>
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="firstName.invalid && !firstName.pristine">
-            <input type="text" name="firstName" id="first-name-id" class="form-control" placeholder="First Name" required [(ngModel)]="model.firstName" #firstName="ngModel">
+            <input type="text" configName="firstName" id="first-configName-id" class="form-control" placeholder="First Name" required [(ngModel)]="model.firstName" #firstName="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="secondName.invalid && !secondName.pristine">
-            <input type="text" name="secondName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.secondName" #secondName="ngModel">
+            <input type="text" configName="secondName" id="second-configName-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.secondName" #secondName="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="email.invalid && !email.pristine">
-            <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9.]+@[a-zA-Z0-9.]+" [(ngModel)]="model.email" #email="ngModel">
+            <input type="email" configName="email" id="email-configName-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9.]+@[a-zA-Z0-9.]+" [(ngModel)]="model.email" #email="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="password.invalid && !password.pristine">
-            <input type="password" name="password" validateEqual="passwordConfirmed" required id="password-id" class="form-control" placeholder="Password" [(ngModel)]="model.password" #password="ngModel">
+            <input type="password" configName="password" validateEqual="passwordConfirmed" required id="password-id" class="form-control" placeholder="Password" [(ngModel)]="model.password" #password="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="passwordConfirmed.invalid && !passwordConfirmed.pristine">
-            <input type="password" name="passwordConfirmed" validateEqual="password" validateEqualPrimary required id="password-confirm-id" class="form-control" placeholder="Repeat Password" [(ngModel)]="model.passwordConfirmed" #passwordConfirmed="ngModel">
+            <input type="password" configName="passwordConfirmed" validateEqual="password" validateEqualPrimary required id="password-confirm-id" class="form-control" placeholder="Repeat Password" [(ngModel)]="model.passwordConfirmed" #passwordConfirmed="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message-registration-id" [disabled]="!registrationForm.valid">Register</button>

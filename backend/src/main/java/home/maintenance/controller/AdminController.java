@@ -1,10 +1,8 @@
 package home.maintenance.controller;
 
+import home.maintenance.dao.common.ConfigRepository;
 import home.maintenance.dao.common.UserRepository;
-import home.maintenance.model.AdminAction;
-import home.maintenance.model.Audit;
-import home.maintenance.model.User;
-import home.maintenance.model.UserState;
+import home.maintenance.model.*;
 import home.maintenance.service.UserStateGraph;
 import home.maintenance.vo.SimpleUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,8 @@ public class AdminController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ConfigRepository configRepository;
     @Autowired
     private UserStateGraph graph;
 
@@ -59,6 +59,16 @@ public class AdminController {
         return ResponseEntity.ok(null);
     }
 
+    @RequestMapping(value = "/config/get")
+    public List<Config> getConfig() {
+        return StreamSupport.stream(configRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
 
+    @Transactional
+    @RequestMapping(value = "/config/save", method = RequestMethod.POST)
+    public ResponseEntity saveConfig(List<Config> config) {
+        configRepository.save(config);
+        return ResponseEntity.ok(null);
+    }
 
 }

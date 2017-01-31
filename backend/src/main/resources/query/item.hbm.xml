@@ -3,5 +3,5 @@
         "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <!--<sql-query name="Item.getAll">SELECT * FROM ITEM</sql-query>|"?;-->
+    <!--<sql-query configName="Item.getAll">SELECT * FROM ITEM</sql-query>|"?;-->
 </hibernate-mapping>

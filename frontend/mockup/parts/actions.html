@@ -7,12 +7,12 @@
     </div>
     <div class="panel-body">
         <div *ngFor="let action of actions">
-            <div [ngSwitch]="action.name === null">
+            <div [ngSwitch]="action.configName === null">
                 <template [ngSwitchCase]="true">
                     <hr>
                 </template>
                 <template [ngSwitchCase]="false">
-                    <span [class]="action.detail.iconClass"></span><span [class]="busy ? 'disabled' : action.disabledClass" (click)="sendAction(action)"> {{action.name}}</span>
+                    <span [class]="action.detail.iconClass"></span><span [class]="busy ? 'disabled' : action.disabledClass" (click)="sendAction(action)"> {{action.configName}}</span>
                 </template>
             </div>
         </div>

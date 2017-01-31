@@ -13,22 +13,24 @@ import javax.persistence.Table;
 public class Config {
     @Id
     @Column
-    private String name;
+    private ConfigName configName;
+    @Column
+    private ValueType valueType;
     @Column
     private String stringValue;
     @Column
-    private boolean booleanValue;
+    private Boolean booleanValue;
     @Column
-    private int intValue;
+    private Integer intValue;
 
     public Config() {}
 
-    public String getName() {
-        return name;
+    public ConfigName getConfigName() {
+        return configName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setConfigName(ConfigName configName) {
+        this.configName = configName;
     }
 
     public String getStringValue() {
@@ -54,4 +56,14 @@ public class Config {
     public void setIntValue(int intValue) {
         this.intValue = intValue;
     }
+
+    public ValueType getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(ValueType valueType) {
+        this.valueType = valueType;
+    }
 }
+
+enum ValueType {INTEGER, BOOLEAN, STRING}
