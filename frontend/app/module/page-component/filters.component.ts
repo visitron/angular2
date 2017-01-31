@@ -32,9 +32,8 @@ export class FiltersComponent implements OnDestroy {
                 this.show = true;
                 this.filterGroups.splice(0);
 
-                this.slickGridProvider.subscribe((state: string) => {
-                    debugger;
-                    this.filterGroups = (<FilterConfig[]> data).map(config => FilterGroupBuilder.createGroup(config, this.slickGridProvider.getData()));
+                this.slickGridProvider.onLoad((state: string) => {
+                    this.filterGroups = (<FilterConfig[]> data).map(config => FilterGroupBuilder.createGroup(config, this.slickGridProvider.getItems()));
                 })
 
             });
@@ -127,14 +126,17 @@ class FilterGroupBuilder {
     }
 
     private static createBooleanFilters(config: FilterConfig, data: any[]): Filter[] {
-        let uniqueValues: any[] = _.uniq(data, false, (value, index, data) => data[index][config.field]);
-        return uniqueValues.map(value => new Filter("boolean", config.field, value));
+        return _
+            .uniq(data, false, (value, index, data) => data[index][config.field])
+            .map((value: any) => new Filter("boolean", config.field, value[config.field]));
     }
 
 }
 
 export class FilterGroup {
-    constructor(private _name: string, private _filters: Filter[], private _expanded?: boolean) {}
+    constructor(private _name: string, private _filters: Filter[], private _expanded?: boolean) {
+        this.expanded = _.isEmpty(_expanded) ? true : _expanded;
+    }
 
     public get name(): string {return this._name}
     public get filters(): Filter[] {return this._filters}
@@ -146,11 +148,11 @@ export class Filter {
     private _name: string;
     constructor(private _type: FilterType, private _field: string, private _value?: any, private _active?: boolean) {
         if (_type === 'boolean') {
-            switch (this._name.toLowerCase()) {
-                case "true":
+            switch (this._value) {
+                case true:
                     this._name = "Yes";
                     break;
-                case "false":
+                case false:
                     this._name = 'No';
                     break;
                 default:

@@ -17,7 +17,6 @@ export class SlickGridProvider {
 
     constructor() {
         this.publisher = new Observable<string>((observer: Observer<string>) => {
-            debugger;
             this.observer = observer;
             return () => {};
         });
@@ -46,12 +45,12 @@ export class SlickGridProvider {
         return result;
     }
 
-    public subscribe(callback: (state: string) => void) {
+    public onLoad(callback: (state: string) => void) {
         return this.publisher.subscribe(callback);
     }
 
-    public getData(): any[] {
-        return this.grid.getData();
+    public getItems(): any[] {
+        return this.view.getItems();
     }
 
     public attachDataProvider(dataProvider: DataProvider, location: string) {
@@ -64,7 +63,9 @@ export class SlickGridProvider {
             this.view.beginUpdate();
             this.view.setItems(data);
             this.view.endUpdate();
+            this.grid.invalidate();
             this.grid.onSort.notify(<any>{sortAsc: true, sortCol: {field: 'id'}});
+            this.observer.next("SG has been reloaded");
         });
     }
 
