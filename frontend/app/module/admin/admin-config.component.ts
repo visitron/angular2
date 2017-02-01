@@ -9,7 +9,11 @@ export class AdminConfigComponent implements OnInit {
 
     private config: Map<string, Config> = new Map<string, Config>();
 
-    constructor(private dataProvider: DataProvider, private location: Location) {}
+    constructor(private dataProvider: DataProvider, private location: Location) {
+
+        //onAction() => executeAction();
+
+    }
 
     ngOnInit(): void {
         $('[data-toggle="tooltip"]').tooltip();

@@ -1,25 +1,22 @@
 import {Injectable} from "@angular/core";
-import {Observable, Observer} from "rxjs";
+import {Observable, Observer, Subscription} from "rxjs";
+import {ActionContext} from "../page-component/actions.component";
 
 @Injectable()
-export class Signals {
-    private actions: Observable<any>;
-    private observer: Observer<any>;
+export class ActionService {
+    private observable: Observable<ActionContext>;
+    private observer: Observer<ActionContext>;
 
     constructor() {
-        this.actions = Observable.create((observer: Observer<any>) => this.observer = observer);
+        this.observable = Observable.create((observer: Observer<any>) => this.observer = observer);
     }
 
-    sendAction(action: string): void {
-
-
-        if (this.onActionSent(true)) {
-            //post
-        }
+    sendAction(context: ActionContext): void {
+        this.observer.next(context);
     }
 
-    onActionSent(proceed: boolean): boolean {
-        return proceed;
+    onActionSent(callback: (context: ActionContext) => void) : Subscription {
+        return this.observable.subscribe(callback);
     }
 
 }
