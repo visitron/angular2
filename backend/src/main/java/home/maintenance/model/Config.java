@@ -1,23 +1,27 @@
 package home.maintenance.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 
 /**
  * Created by Buibi on 21.01.2017.
  */
 @Entity
 @Table
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY, content = JsonInclude.Include.NON_NULL)
 public class Config {
     @Id
+    @Enumerated(EnumType.STRING)
     @Column
     private ConfigName configName;
+    @Enumerated(EnumType.STRING)
     @Column
     private ValueType valueType;
     @Column
     private String stringValue;
+    @Type(type = "yes_no")
     @Column
     private Boolean booleanValue;
     @Column
@@ -41,15 +45,15 @@ public class Config {
         this.stringValue = stringValue;
     }
 
-    public boolean isBooleanValue() {
+    public Boolean isBooleanValue() {
         return booleanValue;
     }
 
-    public void setBooleanValue(boolean booleanValue) {
+    public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
 
-    public int getIntValue() {
+    public Integer getIntValue() {
         return intValue;
     }
 

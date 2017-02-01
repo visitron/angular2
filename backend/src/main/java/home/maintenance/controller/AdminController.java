@@ -65,8 +65,8 @@ public class AdminController {
     }
 
     @Transactional
-    @RequestMapping(value = "/config/save", method = RequestMethod.POST)
-    public ResponseEntity saveConfig(List<Config> config) {
+    @RequestMapping(value = "/config/action/{action}", method = RequestMethod.POST)
+    public ResponseEntity saveConfig(@RequestBody List<Config> config) {
         configRepository.save(config);
         return ResponseEntity.ok(null);
     }

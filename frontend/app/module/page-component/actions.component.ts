@@ -15,6 +15,7 @@ export class ActionsComponent implements OnDestroy {
     private actions: Action[] = [];
     private subscription: Subscription = null;
     private busy: boolean = false;
+    private actionURL: string;
 
     constructor(private dataProvider: DataProvider, private location: Location, private router: Router,
                 private activatedRoute: ActivatedRoute, private slickGridProvider: SlickGridProvider, private http: Http) {
@@ -29,11 +30,12 @@ export class ActionsComponent implements OnDestroy {
                 });
             });
         };
-
+        this.actionURL = location.path();
         getActions(location.path());
 
         this.subscription = this.router.events.subscribe(event => {
             if (event instanceof NavigationStart) {
+                this.actionURL = event.url;
                 getActions(event.url);
             }
         });
@@ -50,7 +52,7 @@ export class ActionsComponent implements OnDestroy {
         let headers: Headers = new Headers;
         headers.append('Content-Type', 'application/json');
         this.http
-            .post(`http://localhost:3002/admin/users/action/${action.id}`, ids, {headers: headers})
+            .post(`http://localhost:3002${this.actionURL}/action/${action.id}`, ids, {headers: headers})
             .subscribe(response => {
                 this.busy = false;
                 this.slickGridProvider.refresh();

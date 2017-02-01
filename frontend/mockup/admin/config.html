@@ -1,10 +1,11 @@
 <div class="well pre-scrollable" id="grid-id">
+    <form>
     <div class="row">
         <div class="col-md-3">
             <label for="config-expiry-in-id" class="control-label">Expiry task in</label>
         </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="config-expiry-in-id">
+            <input type="text" class="form-control" id="config-expiry-in-id" [value]="getValue('AUTO_EXPIRE_TASK')">
         </div>
         <div class="col-md-3">
             <span class="input-metric-label">days</span>
@@ -16,7 +17,7 @@
             <label for="config-capacity-id" class="control-label">Capacity per day</label>
         </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="config-capacity-id">
+            <input type="text" class="form-control" id="config-capacity-id" [value]="getValue('CAPACITY')">
         </div>
         <div class="col-md-3">
             <span class="input-metric-label">points</span>
@@ -28,7 +29,7 @@
             <label for="config-release-cart-id" class="control-label">Autorelease cart in</label>
         </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="config-release-cart-id">
+            <input type="text" class="form-control" id="config-release-cart-id" [value]="getValue('AUTO_RELEASE_CART')">
         </div>
         <div class="col-md-3">
             <span class="input-metric-label">days</span>
@@ -40,7 +41,7 @@
             <label for="config-delete-draft-users-id" class="control-label">Autoremove draft users in</label>
         </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="config-delete-draft-users-id">
+            <input type="text" class="form-control" id="config-delete-draft-users-id" [value]="getValue('AUTO_REMOVE_DRAFT_USER')">
         </div>
         <div class="col-md-3">
             <span class="input-metric-label">days</span>
@@ -52,11 +53,12 @@
             <label class="control-label">Send notifications</label>
         </div>
         <div class="col-md-1">
-            <ui-switch id="config-send-notifications-id"></ui-switch>
+            <ui-switch id="config-send-notifications-id" [checked]="getValue('SEND_NOTIFICATIONS')"></ui-switch>
         </div>
         <div class="col-md-3">
             <span class="input-metric-label"></span>
             <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Check this button to receive mail notifications about user activities."></span>
         </div>
     </div>
+    </form>
 </div>

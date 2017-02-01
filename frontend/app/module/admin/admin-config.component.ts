@@ -7,13 +7,23 @@ import {DataProvider} from "../service/data.service";
 })
 export class AdminConfigComponent implements OnInit {
 
+    private config: Map<string, Config> = new Map<string, Config>();
+
     constructor(private dataProvider: DataProvider, private location: Location) {}
 
     ngOnInit(): void {
         $('[data-toggle="tooltip"]').tooltip();
+        this.dataProvider.getData('/admin/config/get', data => data
+            .map((raw: any) => new Config(raw))
+            .forEach((config: Config) => {
+                this.config.set(ConfigName[config.configName], config);
+            }));
 
-        this.dataProvider.getData('/admin/config/get', data => data.map((raw: any) => new Config(raw)));
+    }
 
+    getValue(configName: string): any {
+        if (this.config.size === 0) return null;
+        return this.config.get(configName).value;
     }
 
 }
@@ -47,9 +57,20 @@ class Config {
         }
         return this;
     }
+
+    get value(): any {
+        switch (this.valueType) {
+            case ValueType.BOOLEAN:
+                return this.booleanValue;
+            case ValueType.INTEGER:
+                return this.intValue;
+            case ValueType.STRING:
+                return this.stringValue;
+        }
+    }
 }
 
 enum ValueType {INTEGER, BOOLEAN, STRING}
-enum ConfigName {
+export enum ConfigName {
     AUTO_EXPIRE_TASK, CAPACITY, AUTO_RELEASE_CART, AUTO_REMOVE_DRAFT_USER, SEND_NOTIFICATIONS
 }
