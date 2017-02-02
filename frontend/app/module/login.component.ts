@@ -62,9 +62,10 @@ export class LoginComponent implements OnInit {
         let formData: FormData = new FormData();
         formData.append("username", user.firstName);
         formData.append("password", user.password);
+        formData.append("remember-me", user.rememberMe);
 
         let headers = new Headers;
-        this.http.post('http://localhost:3002/login/auth', formData, {headers: headers}).subscribe(
+        this.http.post('http://localhost:3002/login/auth', formData, {headers: headers, withCredentials: true}).subscribe(
             data => {
                 this.router.navigate(['/admin/users']);
             },
@@ -85,4 +86,5 @@ class User {
     public password: string;
     public photo: boolean;
     public state: 'DRAFT' | 'ACTIVE' | 'BLOCKED';
+    public rememberMe: boolean;
 }

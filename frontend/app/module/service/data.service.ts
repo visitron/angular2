@@ -13,9 +13,9 @@ export class DataProvider {
         if (this.ignoreURL(location)) return;
 
         let headers: Headers = new Headers;
-        headers.append('Authorization', 'Basic ' + btoa('Vladimir:1'));
+        // headers.append('Authorization', 'Basic ' + btoa('Vladimir:1'));
         this.http
-            .get(this.toURL(location), {headers: headers})
+            .get(this.toURL(location), {headers: headers, withCredentials: true})
             .map(data => data.json())
             .subscribe(callback);
     }

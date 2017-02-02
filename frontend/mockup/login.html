@@ -32,7 +32,7 @@
         <div class="form-group col-sm-12">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="remember-me-id"> Remember me
+                    <input type="checkbox" id="remember-me-id" name="remember-me" (change)="user.rememberMe = $event.target.value.toLowerCase() == 'on'"> Remember me
                 </label>
             </div>
         </div>
