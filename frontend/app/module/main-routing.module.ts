@@ -28,6 +28,7 @@ import {DataProvider} from "./service/data.service";
 import {SlickGridProvider} from "./service/slick-grid.service";
 import {FormsModule} from "@angular/forms";
 import {EqualValidator} from "./equal-validator.directive";
+import {ActionService} from "./service/action.service";
 
 
 const routes: Routes = [
@@ -67,7 +68,7 @@ const routes: Routes = [
         TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent,
         AccessDeniedComponent, EqualValidator
     ],
-    providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
+    providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, ActionService]
 })
 export class MainRoutingModule {
 }

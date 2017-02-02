@@ -6,6 +6,7 @@ import "rxjs/add/operator/map";
 import {Subscription} from "rxjs";
 import {SlickGridProvider} from "../service/slick-grid.service";
 import {Http, Headers} from "@angular/http";
+import {ActionService} from "../service/action.service";
 
 @Component({
     selector: 'actions',
@@ -18,7 +19,8 @@ export class ActionsComponent implements OnDestroy {
     private actionURL: string;
 
     constructor(private dataProvider: DataProvider, private location: Location, private router: Router,
-                private activatedRoute: ActivatedRoute, private slickGridProvider: SlickGridProvider, private http: Http) {
+                private activatedRoute: ActivatedRoute, private slickGridProvider: SlickGridProvider, private http: Http,
+                private actionService: ActionService) {
 
         console.log('ActionsComponent is created');
 
@@ -47,32 +49,13 @@ export class ActionsComponent implements OnDestroy {
     }
 
     sendAction(action: Action): void {
+        this.busy = true;
+        let context: ActionContext = new ActionContext(action, this.actionURL, this.http, this.slickGridProvider, this.complete.bind(this));
+        this.actionService.sendAction(context);
+    }
 
-        let context: ActionContext = new ActionContext(this.actionURL, this.http, this.slickGridProvider, this.busy);
-
-        // this.busy = true;
-        // let ids: number[] = this.slickGridProvider.getSelectedIds();
-        // let headers: Headers = new Headers;
-        // headers.append('Content-Type', 'application/json');
-        // this.http
-        //     .post(`http://localhost:3002${this.actionURL}/action/${action.id}`, ids, {headers: headers})
-        //     .subscribe(response => {
-        //         this.busy = false;
-        //         this.slickGridProvider.refresh();
-        //     }, error => {
-        //         this.busy = false;
-        //         let selector = $('#action-error-popover-id');
-        //         selector
-        //             .popover({
-        //                 content: error.text(),
-        //                 delay: 300,
-        //                 placement: 'left',
-        //                 title: "Error",
-        //             })
-        //             .popover('show');
-        //
-        //         setTimeout(() => {selector.popover('destroy')}, 2000);
-        //     });
+    complete() {
+        this.busy = false;
     }
 
 }
@@ -132,21 +115,20 @@ class IconRepository {
 }
 
 export class ActionContext {
-    public action: Action;
     public data: any;
 
-    constructor(private actionURL: string, private http: Http, private slickGridProvider: SlickGridProvider, private busy: boolean) {}
+    constructor(public action: Action, private actionURL: string, private http: Http, private slickGridProvider: SlickGridProvider, private complete: () => void) {}
 
-    public executeAction(refreshSlickGrid: boolean): void {
+    public executeAction(refreshSlickGrid?: boolean): void {
         let headers: Headers = new Headers;
         headers.append('Content-Type', 'application/json');
         this.http
             .post(`http://localhost:3002${this.actionURL}/action/${this.action.id}`, this.data, {headers: headers})
             .subscribe(response => {
                 if (refreshSlickGrid) this.slickGridProvider.refresh();
-                this.busy = false;
+                this.complete();
             }, error => {
-                this.busy = false;
+                this.complete();
                 let selector = $('#action-error-popover-id');
                 selector
                     .popover({

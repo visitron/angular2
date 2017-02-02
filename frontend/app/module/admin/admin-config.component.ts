@@ -1,18 +1,18 @@
 import {Component, OnInit} from "@angular/core";
 import {Location} from "@angular/common";
 import {DataProvider} from "../service/data.service";
+import {ActionService} from "../service/action.service";
+import {ActionContext} from "../page-component/actions.component";
 
 @Component({
     templateUrl: 'mockup/admin/config.html'
 })
 export class AdminConfigComponent implements OnInit {
 
-    private config: Map<string, Config> = new Map<string, Config>();
+    private config: any = {};
 
-    constructor(private dataProvider: DataProvider, private location: Location) {
-
-        //onAction() => executeAction();
-
+    constructor(private dataProvider: DataProvider, private location: Location, private actionService: ActionService) {
+        this.actionService.subscribe(this.onAction.bind(this));
     }
 
     ngOnInit(): void {
@@ -20,14 +20,14 @@ export class AdminConfigComponent implements OnInit {
         this.dataProvider.getData('/admin/config/get', data => data
             .map((raw: any) => new Config(raw))
             .forEach((config: Config) => {
-                this.config.set(ConfigName[config.configName], config);
+                this.config[ConfigName[config.configName]] = config;
             }));
 
     }
 
-    getValue(configName: string): any {
-        if (this.config.size === 0) return null;
-        return this.config.get(configName).value;
+    onAction(context: ActionContext): void {
+        context.data = _.values(this.config);
+        context.executeAction(false);
     }
 
 }
@@ -70,6 +70,20 @@ class Config {
                 return this.intValue;
             case ValueType.STRING:
                 return this.stringValue;
+        }
+    }
+
+    set value(value: any) {
+        switch (this.valueType) {
+            case ValueType.BOOLEAN:
+                this.booleanValue = value;
+                break;
+            case ValueType.INTEGER:
+                this.intValue = value;
+                break;
+            case ValueType.STRING:
+                this.stringValue = value;
+                break;
         }
     }
 }
