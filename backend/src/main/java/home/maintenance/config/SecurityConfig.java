@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login/users").permitAll()
                 .antMatchers("/login/auth").permitAll()
-                .antMatchers("/admin/users/**").permitAll()
-//                .antMatchers("/admin/users").authenticated()
+//                .antMatchers("/admin/users/**").permitAll()
+                .antMatchers("/admin/users").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("http://localhost:3000/login")
@@ -50,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 })
                 .and()
+                .httpBasic()
+                .and()
                 .logout().logoutUrl("/logout").logoutSuccessHandler((request, response, authentication) -> System.out.println("Logout"));
     }
 
@@ -58,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedHeader("Access-Control-Allow-Origin");
         configuration.addAllowedHeader("Content-Type");
+        configuration.addAllowedHeader("Authorization");
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedMethod(HttpMethod.OPTIONS);
         configuration.addAllowedMethod(HttpMethod.GET);

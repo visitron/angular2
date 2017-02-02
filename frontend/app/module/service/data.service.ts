@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 import "rxjs/add/operator/map";
 
 @Injectable()
@@ -12,8 +12,10 @@ export class DataProvider {
     public getData(location: string, callback: (data: any) => void): void {
         if (this.ignoreURL(location)) return;
 
+        let headers: Headers = new Headers;
+        headers.append('Authorization', 'Basic ' + btoa('Vladimir:1'));
         this.http
-            .get(this.toURL(location))
+            .get(this.toURL(location), {headers: headers})
             .map(data => data.json())
             .subscribe(callback);
     }
