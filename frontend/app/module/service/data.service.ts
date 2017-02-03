@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers} from "@angular/http";
+import {Router} from "@angular/router";
 import "rxjs/add/operator/map";
 
 @Injectable()
@@ -7,17 +8,18 @@ export class DataProvider {
 
     private mockMode: boolean = false;
 
-    constructor(private http: Http) {}
+    constructor(private http: Http, private router: Router) {}
 
     public getData(location: string, callback: (data: any) => void): void {
         if (this.ignoreURL(location)) return;
 
         let headers: Headers = new Headers;
-        // headers.append('Authorization', 'Basic ' + btoa('Vladimir:1'));
         this.http
             .get(this.toURL(location), {headers: headers, withCredentials: true})
             .map(data => data.json())
-            .subscribe(callback);
+            .subscribe(callback, data => {
+                this.router.navigate(['/login']);
+            });
     }
 
     public getPart(location: string, part: string, callback: (data: any) => void): void {
