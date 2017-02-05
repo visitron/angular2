@@ -30,6 +30,7 @@ import {FormsModule} from "@angular/forms";
 import {EqualValidator} from "./equal-validator.directive";
 import {ActionService} from "./service/action.service";
 import {Auth} from "./service/auth.service";
+import {DeactivateGuard} from "./service/deactivate-guard.service";
 
 
 const routes: Routes = [
@@ -41,7 +42,7 @@ const routes: Routes = [
         {path: '', component: AdminComponent, children: [
             {path: '', redirectTo: 'users'},
             {path: 'users', component: AdminUsersComponent},
-            {path: 'config', component: AdminConfigComponent},
+            {path: 'config', component: AdminConfigComponent, canDeactivate: [DeactivateGuard]},
             {path: 'audit', component: AdminAuditComponent}
         ]},
     ]},
@@ -69,7 +70,8 @@ const routes: Routes = [
         TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent,
         AccessDeniedComponent, EqualValidator
     ],
-    providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, ActionService, Auth]
+    providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy},
+        ActionService, Auth, DeactivateGuard]
 })
 export class MainRoutingModule {
 }

@@ -10,6 +10,11 @@ import {ActionContext} from "../page-component/actions.component";
 export class AdminConfigComponent implements OnInit {
 
     private config: any = {};
+    private configInitial: string;
+
+    public get dirty(): boolean {
+        return JSON.stringify(this.config) != this.configInitial;
+    }
 
     constructor(private dataProvider: DataProvider, private location: Location, private actionService: ActionService) {
         this.actionService.subscribe(this.onAction.bind(this));
@@ -17,17 +22,30 @@ export class AdminConfigComponent implements OnInit {
 
     ngOnInit(): void {
         $('[data-toggle="tooltip"]').tooltip();
-        this.dataProvider.getData('/admin/config/get', data => data
-            .map((raw: any) => new Config(raw))
-            .forEach((config: Config) => {
-                this.config[ConfigName[config.configName]] = config;
-            }));
+        this.load();
+    }
 
+    load(monitor?: () => void): void {
+        this.dataProvider.getData('/admin/config/get', data => {
+            data
+                .map((raw: any) => new Config(raw))
+                .forEach((config: Config) => this.config[ConfigName[config.configName]] = config);
+
+            this.configInitial = JSON.stringify(this.config);
+            if (_.isFunction(monitor)) {
+                monitor();
+            }
+        });
     }
 
     onAction(context: ActionContext): void {
-        context.data = _.values(this.config);
-        context.executeAction(false);
+        if (context.action.id === 'SAVE') {
+            context.data = _.values(this.config);
+            context.executeAction(false);
+            this.configInitial = JSON.stringify(this.config);
+        } else if (context.action.id === 'RESET') {
+            context.executeAction(null, this.load.bind(this));
+        }
     }
 
 }

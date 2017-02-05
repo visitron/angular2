@@ -120,7 +120,13 @@ export class ActionContext {
 
     constructor(public action: Action, private actionURL: string, private http: Http, private slickGridProvider: SlickGridProvider, private complete: () => void) {}
 
-    public executeAction(refreshSlickGrid?: boolean): void {
+    public executeAction(refreshSlickGrid?: boolean, action?: (monitor: () => void) => void): void {
+
+        if (_.isFunction(action)) {
+            action(this.complete.bind(this));
+            return;
+        }
+
         let headers: Headers = new Headers;
         headers.append('Content-Type', 'application/json');
         this.http
