@@ -12,14 +12,17 @@ import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {ShellComponent} from "./shell.component";
 import {MainRoutingModule} from "./main-routing.module";
+import {ConfigProvider} from "./service/config.service";
 
 /**
  * App constants:
- * 'BACKEND_MODE' = 'mock' | 'real'
+ * 'mode' = 'mock' | 'remote'
  */
 
-const APP_PARAMS = {
-    "BACKEND_MODE": "real"
+export const CONFIG = {
+    "mode": "remote",
+    "remote": "http://localhost:3002",
+    "mock": "/mock"
 };
 
 @NgModule({
@@ -27,6 +30,7 @@ const APP_PARAMS = {
         BrowserModule,
         MainRoutingModule,
     ],
+    providers: [ConfigProvider],
     bootstrap: [ShellComponent]
 })
 export class MainModule {

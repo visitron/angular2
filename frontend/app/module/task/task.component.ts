@@ -7,7 +7,6 @@ import {Router} from "@angular/router";
 export class TaskComponent {
 
     constructor(private router: Router) {
-        router.navigate(['/access-denied']);
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.stream.Collectors;
 
 /**
  * Created by vsoshyn on 28/10/2016.
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login/auth")
                 .successHandler((request, response, authentication) -> {
                     response.setStatus(HttpServletResponse.SC_OK);
+                    response.addHeader("Role", authentication.getAuthorities().stream().map(authority -> authority.getAuthority().substring(5)).collect(Collectors.joining(", ")));
                 })
                 .failureHandler((request, response, exception) -> {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -69,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedMethod(HttpMethod.GET);
         configuration.addAllowedMethod(HttpMethod.POST);
         configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Role");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

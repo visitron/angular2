@@ -3,6 +3,8 @@ import {DataProvider} from "./service/data.service";
 import {NgForm} from "@angular/forms";
 import {Headers, Http} from "@angular/http";
 import {Router} from "@angular/router";
+import {ConfigProvider} from "./service/config.service";
+import {Auth} from "./service/auth.service";
 
 @Component({
     templateUrl: 'mockup/login.html'
@@ -13,7 +15,8 @@ export class LoginComponent implements OnInit {
     private user: User = null;
     private lastLoginFailed: boolean = false;
 
-    constructor(private dataProvider: DataProvider, private router: Router, private http: Http) {
+    constructor(private dataProvider: DataProvider, private router: Router, private http: Http,
+                private configProvider: ConfigProvider, private auth: Auth) {
         console.log('LoginComponent has been created');
     }
 
@@ -37,7 +40,7 @@ export class LoginComponent implements OnInit {
     }
 
     getImageURL(user: User): string {
-        return user.photo ? `http://localhost:3002/public/images/${user.id}.jpg` : '/mockup/nophoto.jpg'
+        return user.photo ? `${this.configProvider.host}/public/images/${user.id}.jpg` : '/mockup/nophoto.jpg'
     }
 
     selectUser(user: User): void {
@@ -65,9 +68,11 @@ export class LoginComponent implements OnInit {
         formData.append("remember-me", user.rememberMe);
 
         let headers = new Headers;
-        this.http.post('http://localhost:3002/login/auth', formData, {headers: headers, withCredentials: true}).subscribe(
+        this.http.post(`${this.configProvider.host}/login/auth`, formData, {headers: headers, withCredentials: true}).subscribe(
             data => {
-                this.router.navigate(['/admin/users']);
+                this.auth.user = new User(data.headers.get('Role'));
+                localStorage.setItem('homeManagementUser', JSON.stringify(this.auth.user));
+                this.router.navigate(this.auth.initialUrl);
             },
             error => {
                 this.lastLoginFailed = true;
@@ -78,7 +83,7 @@ export class LoginComponent implements OnInit {
 
 }
 
-class User {
+export class User {
     public id: number;
     public firstName: string;
     public secondName: string;
@@ -87,4 +92,8 @@ class User {
     public photo: boolean;
     public state: 'DRAFT' | 'ACTIVE' | 'BLOCKED';
     public rememberMe: boolean;
+
+    constructor(role?: string) {
+        if (!_.isEmpty(role)) this.role = role;
+    }
 }

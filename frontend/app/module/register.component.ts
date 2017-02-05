@@ -3,6 +3,7 @@ import {DataProvider} from "./service/data.service";
 import {NgForm} from "@angular/forms";
 import {Http, Headers} from "@angular/http";
 import {Router} from "@angular/router";
+import {ConfigProvider} from "./service/config.service";
 
 @Component({
     templateUrl: 'mockup/register.html'
@@ -15,7 +16,8 @@ export class RegisterComponent implements OnInit {
 
     private model: User = new User;
 
-    constructor(private dataProvider: DataProvider, private http: Http, private router: Router) {}
+    constructor(private dataProvider: DataProvider, private http: Http, private router: Router,
+                private configProvider: ConfigProvider) {}
 
     ngOnInit(): void {
         this.dataProvider.hasAdmin(hasAdmin => {
@@ -47,7 +49,7 @@ export class RegisterComponent implements OnInit {
         formData.append("image", this.file);
 
         let headers = new Headers;
-        this.http.post('http://localhost:3002/register/request', formData, {headers: headers}).subscribe(
+        this.http.post(`${this.configProvider.host}/register/request`, formData, {headers: headers}).subscribe(
             (data) => {
                 console.log(data);
                 $('#message-registration-id').modal('hide');

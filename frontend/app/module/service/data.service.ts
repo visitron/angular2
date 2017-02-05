@@ -2,24 +2,28 @@ import {Injectable} from "@angular/core";
 import {Http, Headers} from "@angular/http";
 import {Router} from "@angular/router";
 import "rxjs/add/operator/map";
+import {ConfigProvider} from "./config.service";
+import {Auth} from "./auth.service";
 
 @Injectable()
 export class DataProvider {
 
-    private mockMode: boolean = false;
+    private host: string;
 
-    constructor(private http: Http, private router: Router) {}
+    constructor(private http: Http, private router: Router, private configProvider: ConfigProvider, private auth: Auth) {
+        this.host = configProvider.host;
+    }
 
     public getData(location: string, callback: (data: any) => void): void {
         if (this.ignoreURL(location)) return;
+
+        localStorage.getItem("remember-me-token");
 
         let headers: Headers = new Headers;
         this.http
             .get(this.toURL(location), {headers: headers, withCredentials: true})
             .map(data => data.json())
-            .subscribe(callback, data => {
-                this.router.navigate(['/login']);
-            });
+            .subscribe(callback, this.errorCallback.bind(this));
     }
 
     public getPart(location: string, part: string, callback: (data: any) => void): void {
@@ -33,14 +37,14 @@ export class DataProvider {
 
     public getUsers(callback: (data: any) => void): void {
         this.http
-            .get('http://localhost:3002/login/users')
+            .get(`${this.host}/login/users`)
             .map(data => data.json())
             .subscribe(callback);
     }
 
     public hasAdmin(callback: (data: any) => void): void {
         this.http
-            .get('http://localhost:3002/register/hasAdmin')
+            .get(`${this.host}/register/hasAdmin`)
             .map(data => data.json())
             .subscribe(callback);
     }
@@ -51,11 +55,18 @@ export class DataProvider {
 
     private toURL(location: string, part?: string): string {
         part = _.isEmpty(part) ? '' : '-' + part;
-        return this.mockMode ? 'mock/' + location + part + '.json' : 'http://localhost:3002' + location + part;
+        let url = this.host + location + part;
+        if (this.configProvider.isMockMode) url += '.json';
+        return url;
     }
 
     private toInternalUrl(location: string, part: string): string {
         return 'mock/' + location + '-' + part + '.json';
+    }
+
+    private errorCallback(error: any): void {
+        this.auth.user = null;
+        this.router.navigate(['login']);
     }
 
 }

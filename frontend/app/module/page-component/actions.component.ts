@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from "@angular/core";
-import {Router, NavigationStart, ActivatedRoute} from "@angular/router";
+import {Router, NavigationStart} from "@angular/router";
 import {DataProvider} from "../service/data.service";
 import {Location} from "@angular/common";
 import "rxjs/add/operator/map";
@@ -7,6 +7,7 @@ import {Subscription} from "rxjs";
 import {SlickGridProvider} from "../service/slick-grid.service";
 import {Http, Headers} from "@angular/http";
 import {ActionService} from "../service/action.service";
+import {ConfigProvider} from "../service/config.service";
 
 @Component({
     selector: 'actions',
@@ -19,8 +20,8 @@ export class ActionsComponent implements OnDestroy {
     private actionURL: string;
 
     constructor(private dataProvider: DataProvider, private location: Location, private router: Router,
-                private activatedRoute: ActivatedRoute, private slickGridProvider: SlickGridProvider, private http: Http,
-                private actionService: ActionService) {
+                private slickGridProvider: SlickGridProvider, private http: Http,
+                private actionService: ActionService, private configProvider: ConfigProvider) {
 
         console.log('ActionsComponent is created');
 
@@ -32,12 +33,12 @@ export class ActionsComponent implements OnDestroy {
                 });
             });
         };
-        this.actionURL = location.path();
+        this.actionURL = configProvider.host + location.path();
         getActions(location.path());
 
         this.subscription = this.router.events.subscribe(event => {
             if (event instanceof NavigationStart) {
-                this.actionURL = event.url;
+                this.actionURL = configProvider.host + event.url;
                 getActions(event.url);
             }
         });
@@ -123,7 +124,7 @@ export class ActionContext {
         let headers: Headers = new Headers;
         headers.append('Content-Type', 'application/json');
         this.http
-            .post(`http://localhost:3002${this.actionURL}/action/${this.action.id}`, this.data, {headers: headers})
+            .post(`${this.actionURL}/action/${this.action.id}`, this.data, {headers: headers})
             .subscribe(response => {
                 if (refreshSlickGrid) this.slickGridProvider.refresh();
                 this.complete();

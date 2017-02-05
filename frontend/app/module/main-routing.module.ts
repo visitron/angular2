@@ -29,14 +29,15 @@ import {SlickGridProvider} from "./service/slick-grid.service";
 import {FormsModule} from "@angular/forms";
 import {EqualValidator} from "./equal-validator.directive";
 import {ActionService} from "./service/action.service";
+import {Auth} from "./service/auth.service";
 
 
 const routes: Routes = [
-    {path: 'login', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
+    {path: 'login', component: LoginComponent, canActivate: [Auth]},
+    {path: 'register', component: RegisterComponent, canActivate: [Auth]},
     {path: '', redirectTo: 'login', pathMatch: 'full'},
 
-    {path: 'admin', component: TemplateComponent, children: [
+    {path: 'admin', component: TemplateComponent, canActivate:[Auth], children: [
         {path: '', component: AdminComponent, children: [
             {path: '', redirectTo: 'users'},
             {path: 'users', component: AdminUsersComponent},
@@ -45,7 +46,7 @@ const routes: Routes = [
         ]},
     ]},
 
-    {path: 'task', component: TemplateComponent, children: [
+    {path: 'task', component: TemplateComponent, canActivate:[Auth], children: [
         {path: '', component: TaskComponent, children: [
             {path: '', redirectTo: 'purchase'},
             {path: 'purchase', component: TaskPurchaseComponent},
@@ -68,7 +69,7 @@ const routes: Routes = [
         TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent,
         AccessDeniedComponent, EqualValidator
     ],
-    providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, ActionService]
+    providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}, ActionService, Auth]
 })
 export class MainRoutingModule {
 }
