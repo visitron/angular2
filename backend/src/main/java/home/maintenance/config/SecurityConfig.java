@@ -1,9 +1,12 @@
 package home.maintenance.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.util.stream.Collectors;
 
 /**
@@ -24,10 +28,16 @@ import java.util.stream.Collectors;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private DataSource dataSource;
+
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.inMemoryAuthentication().withUser("Vladimir").password("1").roles("ADMIN").and()
-                .withUser("Marina").password("2").roles("USER");
+        builder.jdbcAuthentication()
+                .dataSource(dataSource)
+                .rolePrefix("ROLE_")
+                .usersByUsernameQuery("SELECT ID AS USERNAME, HASH AS PASSWORD, CASE WHEN STATE = 'ACTIVE' THEN 1 ELSE 0 END AS ENABLED FROM \"USER\" WHERE ID = ?")
+                .authoritiesByUsernameQuery("SELECT ID AS USERNAME, ROLE FROM \"USER\" WHERE ID = ?");
     }
 
     @Override
@@ -50,7 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     response.addHeader("Role", authentication.getAuthorities().stream().map(authority -> authority.getAuthority().substring(5)).collect(Collectors.joining(", ")));
                 })
                 .failureHandler((request, response, exception) -> {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    if (exception instanceof DisabledException) {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Your account has been locked or hasn't been approved yet.");
+                    } else if (exception instanceof BadCredentialsException) {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid password. Please try again.");
+                    }
                 })
                 .and()
                 .rememberMe()

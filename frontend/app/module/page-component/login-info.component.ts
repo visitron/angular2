@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from "@angular/core";
+import {Component} from "@angular/core";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {Http, Headers} from "@angular/http";
@@ -9,7 +9,7 @@ import {Auth} from "../service/auth.service";
     selector: 'login-info',
     templateUrl: 'mockup/parts/login-info.html'
 })
-export class LoginInfoComponent implements OnDestroy {
+export class LoginInfoComponent {
 
     private subscription: Subscription = null;
 
@@ -18,7 +18,11 @@ export class LoginInfoComponent implements OnDestroy {
         console.log('LoginInfo component has been created');
     }
 
-    ngOnDestroy(): void {
+    get loggedInUserName(): string {
+        let userName: string = null;
+        if (this.auth.authorized)
+            userName = `${this.auth.user.firstName} ${this.auth.user.secondName}`;
+        return userName;
     }
 
     public logout(): void {

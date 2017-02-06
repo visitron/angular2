@@ -7,6 +7,7 @@ import {Injectable} from "@angular/core";
 export class DeactivateGuard implements CanDeactivate<AdminConfigComponent> {
 
     canDeactivate(component: AdminConfigComponent, route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
+
         return !component.dirty;
     }
 }

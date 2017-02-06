@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
     private users: User[] = [];
     private user: User = null;
     private lastLoginFailed: boolean = false;
+    private rejectReason: string;
 
     constructor(private dataProvider: DataProvider, private router: Router, private http: Http,
                 private configProvider: ConfigProvider, private auth: Auth) {
@@ -63,19 +64,20 @@ export class LoginComponent implements OnInit {
 
     login(loginForm: NgForm, user: User) {
         let formData: FormData = new FormData();
-        formData.append("username", user.firstName);
+        formData.append("username", user.id);
         formData.append("password", user.password);
         formData.append("remember-me", user.rememberMe);
 
         let headers = new Headers;
         this.http.post(`${this.configProvider.host}/login/auth`, formData, {headers: headers, withCredentials: true}).subscribe(
             data => {
-                this.auth.user = new User(data.headers.get('Role'));
+                this.auth.user = new User(user.firstName, user.secondName, data.headers.get('Role'));
                 localStorage.setItem('homeManagementUser', JSON.stringify(this.auth.user));
                 this.router.navigate(this.auth.initialUrl);
             },
             error => {
                 this.lastLoginFailed = true;
+                this.rejectReason = error.json().message;
             }
         );
 
@@ -93,7 +95,9 @@ export class User {
     public state: 'DRAFT' | 'ACTIVE' | 'BLOCKED';
     public rememberMe: boolean;
 
-    constructor(role?: string) {
+    constructor(firstName?: string, secondName?: string, role?: string) {
         if (!_.isEmpty(role)) this.role = role;
+        if (!_.isEmpty(firstName)) this.firstName = firstName;
+        if (!_.isEmpty(secondName)) this.secondName = secondName;
     }
 }
