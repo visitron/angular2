@@ -28,7 +28,7 @@ export const CONFIG = {
 @NgModule({
     imports: [
         BrowserModule,
-        MainRoutingModule,
+        MainRoutingModule
     ],
     providers: [ConfigProvider],
     bootstrap: [ShellComponent]

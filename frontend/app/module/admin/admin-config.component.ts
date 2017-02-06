@@ -11,8 +11,10 @@ export class AdminConfigComponent implements OnInit {
 
     private config: any = {};
     private configInitial: string;
+    public ignoreDirtyFlag: boolean = false;
 
     public get dirty(): boolean {
+        if (this.ignoreDirtyFlag) return false;
         return JSON.stringify(this.config) != this.configInitial;
     }
 

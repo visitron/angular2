@@ -1,0 +1,15 @@
+<div id="common-dialog-id" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm notification" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{dialog.title}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{dialog.content}}</p>
+            </div>
+            <div class="modal-footer">
+                <button *ngFor="let action of dialog.actions" type="button" [class]="'btn btn-' + action.style" (click)="sendAction(action)">{{action.name}}</button>
+            </div>
+        </div>
+    </div>
+</div>

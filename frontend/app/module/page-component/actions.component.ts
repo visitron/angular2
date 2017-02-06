@@ -1,5 +1,5 @@
-import {Component, OnDestroy} from "@angular/core";
-import {Router, NavigationStart} from "@angular/router";
+import {Component, OnDestroy, HostListener} from "@angular/core";
+import {Router, NavigationEnd} from "@angular/router";
 import {DataProvider} from "../service/data.service";
 import {Location} from "@angular/common";
 import "rxjs/add/operator/map";
@@ -18,6 +18,7 @@ export class ActionsComponent implements OnDestroy {
     private subscription: Subscription = null;
     private busy: boolean = false;
     private actionURL: string;
+    private id: string;
 
     constructor(private dataProvider: DataProvider, private location: Location, private router: Router,
                 private slickGridProvider: SlickGridProvider, private http: Http,
@@ -37,11 +38,16 @@ export class ActionsComponent implements OnDestroy {
         getActions(location.path());
 
         this.subscription = this.router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
+            if (event instanceof NavigationEnd) {
                 this.actionURL = configProvider.host + event.url;
                 getActions(event.url);
             }
         });
+    }
+
+    @HostListener('click')
+    onClick(): void {
+        $(`#action-id-${this.id}`).popover('destroy');
     }
 
     ngOnDestroy(): void {
@@ -53,6 +59,7 @@ export class ActionsComponent implements OnDestroy {
         this.busy = true;
         let context: ActionContext = new ActionContext(action, this.actionURL, this.http, this.slickGridProvider, this.complete.bind(this));
         this.actionService.sendAction(context);
+        this.id = action.id;
     }
 
     complete() {
@@ -136,17 +143,16 @@ export class ActionContext {
                 this.complete();
             }, error => {
                 this.complete();
-                let selector = $('#action-error-popover-id');
+                let selector = $(`#action-id-${this.action.id}`);
                 selector
                     .popover({
                         content: error.text(),
                         delay: 300,
-                        placement: 'left',
+                        placement: 'top',
                         title: "Error",
                     })
                     .popover('show');
 
-                setTimeout(() => {selector.popover('destroy')}, 2000);
             });
     };
 }

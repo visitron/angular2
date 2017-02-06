@@ -1,6 +1,6 @@
 import {Component, OnDestroy} from "@angular/core";
 import {Location} from "@angular/common";
-import {Router, NavigationStart} from "@angular/router";
+import {Router, NavigationEnd} from "@angular/router";
 import {DataProvider} from "../service/data.service";
 import "rxjs/operator/map";
 import {Subscription} from "rxjs";
@@ -42,7 +42,7 @@ export class FiltersComponent implements OnDestroy {
         getFilters(location.path());
 
         this.subscription = router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
+            if (event instanceof NavigationEnd) {
                 getFilters(event.url);
             }
         });

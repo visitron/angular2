@@ -415,3 +415,11 @@ label {
 #page-not-found-id button {
     float: right;
 }
+
+/* popover */
+/*.popover.fade.left.in {*/
+    /*top: 0 !important;*/
+    /*left: -500px !important;*/
+    /*width: 500px;*/
+    /*max-width: 500px;*/
+/*}*/

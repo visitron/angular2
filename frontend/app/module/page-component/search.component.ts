@@ -1,4 +1,7 @@
-import {Component, trigger, state, style, transition, animate} from "@angular/core";
+import {Component, trigger, state, style, transition, animate, OnDestroy} from "@angular/core";
+import {NavigationEnd, Router} from "@angular/router";
+import {Location} from "@angular/common";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'search',
@@ -28,13 +31,25 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
         ])
     ]
 })
-export class SearchComponent {
+export class SearchComponent implements OnDestroy {
 
     private searchActivated: boolean = false;
     private searchInputState: string = 'inactive';
     private searchBtnState: string = 'active';
     private searchString: string = null;
     private clearSearchBtnName: string = 'Hide';
+    private show: boolean;
+    private subscription: Subscription;
+
+    constructor(private router: Router, private location: Location) {
+        this.show = !location.path().endsWith('/config');
+
+        this.subscription = router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                this.show = !event.url.endsWith('/config');
+            }
+        });
+    }
 
     toggle(): void {
         this.searchActivated = !this.searchActivated;
@@ -59,4 +74,7 @@ export class SearchComponent {
         }
     }
 
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 }

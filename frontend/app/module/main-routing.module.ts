@@ -31,6 +31,9 @@ import {EqualValidator} from "./equal-validator.directive";
 import {ActionService} from "./service/action.service";
 import {Auth} from "./service/auth.service";
 import {DeactivateGuard} from "./service/deactivate-guard.service";
+import {DialogComponent} from "./page-component/dialog.component";
+import {DialogSupport} from "./service/dialog.service";
+import {PopoverModule} from "ngx-popover";
 
 
 const routes: Routes = [
@@ -62,16 +65,16 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes), UiSwitchModule, CommonModule, HttpModule, FormsModule
+        RouterModule.forRoot(routes), UiSwitchModule, CommonModule, HttpModule, FormsModule, PopoverModule
     ],
     declarations: [LoginComponent, SearchComponent, LoginInfoComponent,
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,
         ShellComponent, AdminComponent, AdminUsersComponent, AdminConfigComponent, AdminAuditComponent, TemplateComponent,
         TaskComponent, TaskPurchaseComponent, TaskPaymentComponent, TaskJobComponent, TaskMaintenanceComponent,
-        AccessDeniedComponent, EqualValidator
+        AccessDeniedComponent, EqualValidator, DialogComponent
     ],
     providers: [DataProvider, SlickGridProvider, Location, {provide: LocationStrategy, useClass: PathLocationStrategy},
-        ActionService, Auth, DeactivateGuard]
+        ActionService, Auth, DeactivateGuard, DialogSupport]
 })
 export class MainRoutingModule {
 }

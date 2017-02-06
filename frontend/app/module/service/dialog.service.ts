@@ -1,36 +1,17 @@
 import {Injectable} from "@angular/core";
+import {Subscription} from "rxjs/Subscription";
+import {Subject} from "rxjs/Subject";
+import {Dialog} from "../page-component/dialog.component";
 
 @Injectable()
 export class DialogSupport {
+    private subject: Subject<Dialog> = new Subject<Dialog>();
 
-    public createDialog(): Dialog {
-        return new Dialog;
+    public onOpen(callback: (dialog: Dialog) => void): Subscription {
+        return this.subject.subscribe(callback);
     }
 
-}
-
-export class Dialog {
-    private _title: string;
-    private _content: string;
-    private _actions: DialogAction[];
-
-    public addTitle(title: string): this {
-        return this;
+    public open(dialog: Dialog): void {
+        this.subject.next(dialog);
     }
-
-    public addContent(content: string): this {
-        return this;
-    }
-
-    public addAction(action: DialogAction): this {
-        return this;
-    }
-
-    public show() {
-
-    }
-}
-
-export class DialogAction {
-    public constructor(private name: string, private callback: () => void) {}
 }
