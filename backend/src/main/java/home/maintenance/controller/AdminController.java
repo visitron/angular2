@@ -47,6 +47,7 @@ public class AdminController {
     @Transactional
     @RequestMapping(value = "/users/action/{action}", method = RequestMethod.POST)
     public ResponseEntity doAction(@RequestBody List<Long> ids, @PathVariable AdminAction action) {
+        if (ids == null || ids.isEmpty()) return new ResponseEntity<>("None of records was chosen", HttpStatus.BAD_REQUEST);
         Iterable<User> iterable = userRepository.findAll(ids);
         List<User> users = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
         if (users.stream().map(User::getState).distinct().collect(Collectors.toSet()).size() > 1) return new ResponseEntity<>("Chosen users have not the same state", HttpStatus.BAD_REQUEST);

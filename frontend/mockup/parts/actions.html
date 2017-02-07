@@ -5,14 +5,14 @@
             <span class="glyphicon glyphicon-refresh"> Performing...</span>
         </span>
     </div>
-    <div class="panel-body">
+    <div id="viewport-id" class="panel-body">
         <div *ngFor="let action of actions">
-            <div [ngSwitch]="action.name === null">
+            <div [id]="'action-id-' + action.id" [ngSwitch]="action.name === null">
                 <template [ngSwitchCase]="true">
                     <hr>
                 </template>
                 <template [ngSwitchCase]="false">
-                    <span [id]="'action-id-' + action.id" [class]="action.detail.iconClass"></span><span [class]="busy ? 'disabled' : action.disabledClass" (click)="sendAction(action)"> {{action.name}}</span>
+                    <span [class]="action.detail.iconClass"></span><span [class]="busy ? 'disabled' : action.disabledClass" (click)="sendAction(action)"> {{action.name}}</span>
                 </template>
             </div>
         </div>

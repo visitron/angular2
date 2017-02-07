@@ -34,13 +34,11 @@ export class ActionsComponent implements OnDestroy {
                 });
             });
         };
-        this.actionURL = configProvider.host + location.path();
-        getActions(location.path());
 
         this.subscription = this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
-                this.actionURL = configProvider.host + event.url;
-                getActions(event.url);
+                this.actionURL = configProvider.host + event.urlAfterRedirects;
+                getActions(event.urlAfterRedirects);
             }
         });
     }
@@ -148,8 +146,8 @@ export class ActionContext {
                     .popover({
                         content: error.text(),
                         delay: 300,
-                        placement: 'top',
-                        title: "Error",
+                        placement: 'bottom',
+                        title: "Error"
                     })
                     .popover('show');
 

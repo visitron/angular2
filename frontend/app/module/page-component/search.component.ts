@@ -2,6 +2,7 @@ import {Component, trigger, state, style, transition, animate, OnDestroy} from "
 import {NavigationEnd, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {Subscription} from "rxjs/Subscription";
+import {SlickGridProvider, Search} from "../service/slick-grid.service";
 
 @Component({
     selector: 'search',
@@ -41,12 +42,10 @@ export class SearchComponent implements OnDestroy {
     private show: boolean;
     private subscription: Subscription;
 
-    constructor(private router: Router, private location: Location) {
-        this.show = !location.path().endsWith('/config');
-
+    constructor(private router: Router, private location: Location, private slickGridProvider: SlickGridProvider) {
         this.subscription = router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
-                this.show = !event.url.endsWith('/config');
+                this.show = !event.urlAfterRedirects.endsWith('/config');
             }
         });
     }
@@ -58,7 +57,7 @@ export class SearchComponent implements OnDestroy {
     }
 
     clear(): void {
-        if (this.searchString === null) {
+        if (this.searchString === null || this.searchString == '') {
             this.toggle();
         } else {
             this.setSearchString(null);
@@ -72,6 +71,16 @@ export class SearchComponent implements OnDestroy {
         } else {
             this.clearSearchBtnName = 'Clear';
         }
+
+        if (value === null || value.length < 3) {
+            this.slickGridProvider.search(null);
+        } else {
+            let search: Search = new Search;
+            search.value = value;
+            search.fields = ['firstName', 'secondName'];
+            this.slickGridProvider.search(search);
+        }
+
     }
 
     ngOnDestroy(): void {

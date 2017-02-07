@@ -33,7 +33,6 @@ import {Auth} from "./service/auth.service";
 import {DeactivateGuard} from "./service/deactivate-guard.service";
 import {DialogComponent} from "./page-component/dialog.component";
 import {DialogSupport} from "./service/dialog.service";
-import {PopoverModule} from "ngx-popover";
 
 
 const routes: Routes = [
@@ -65,7 +64,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes), UiSwitchModule, CommonModule, HttpModule, FormsModule, PopoverModule
+        RouterModule.forRoot(routes), UiSwitchModule, CommonModule, HttpModule, FormsModule
     ],
     declarations: [LoginComponent, SearchComponent, LoginInfoComponent,
         FiltersComponent, ActionsComponent, NavigationBarComponent, RegisterComponent, PageNotFoundComponent,

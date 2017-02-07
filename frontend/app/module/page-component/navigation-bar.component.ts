@@ -15,11 +15,9 @@ export class NavigationBarComponent implements OnDestroy {
 
     constructor(private router: Router, private location: Location, private slickGridProvider: SlickGridProvider) {
 
-        this.show = !location.path().endsWith('/config');
-
         this.subscription = router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
-                this.show = !event.url.endsWith('/config');
+                this.show = !event.urlAfterRedirects.endsWith('/config');
             }
         });
 
