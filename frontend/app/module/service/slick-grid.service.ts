@@ -27,7 +27,7 @@ export class SlickGridProvider {
         if (_.isEmpty(data)) return [];
 
         let columnIds: string[] = _.keys(data[0]);
-        let result: {id: string, name: string, field: string, sortable: boolean}[] = [];
+        let result: {id: string, name: string, field: string, sortable: boolean, formatter?: any}[] = [];
 
         columnIds.forEach(id => {
             let name: string = id[0].toUpperCase();
@@ -39,6 +39,7 @@ export class SlickGridProvider {
                 }
             }
 
+            //todo add formatters for highlighting search matches
             result.push({id: id, name: name, field: id, sortable: true});
         });
 
