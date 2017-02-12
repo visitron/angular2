@@ -2,6 +2,8 @@ package com.tech.task;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -13,16 +15,26 @@ public class CombinerTest1 {
 
     @Test
     public void test() throws Exception {
-        SynchronousQueue<Integer> listener = new SynchronousQueue<>();
-        Combiner<Integer> combiner = new CombinerImpl1<>(listener);
+        SynchronousQueue<String> listener = new SynchronousQueue<>();
+        Combiner<String> combiner = new CombinerImpl1<>(listener);
+        Map<String, Integer> statistic = new HashMap<>();
+        statistic.put("E1", 0);
+        statistic.put("E2", 0);
+        statistic.put("E3", 0);
+        statistic.put("E4", 0);
 
         Future listenerFuture = service.submit(() -> {
             while (!Thread.interrupted()) {
                 try {
-                    Integer val = listener.take();
-                    System.out.println("Got <- " + val);
+                    String val = listener.take();
+                    String[] parts = val.split(" ");
+                    statistic.put(parts[0], Integer.valueOf(parts[1]));
+//                    System.out.println("Got <- " + val);
                 } catch (InterruptedException e) {
-                    System.out.println("Listener's take has been interrupted");
+//                    System.out.println("Listener's take has been interrupted");
+                    statistic.entrySet().forEach(entry -> {
+                        System.out.println(entry.getKey() + " " + entry.getValue());
+                    });
                     break;
                 }
             }
@@ -30,20 +42,27 @@ public class CombinerTest1 {
         });
 
         Future emitterFuture1 = service.submit(() -> {
-            BlockingQueue<Integer> emitter = new ArrayBlockingQueue<Integer>(100);
+            BlockingQueue<String> emitter = new ArrayBlockingQueue<String>(100) {
+                @Override
+                public String toString() {
+                    return "Emitter 1";
+                }
+            };
+
             try {
                 combiner.addInputQueue(emitter, 1, 2, TimeUnit.SECONDS);
             } catch (Combiner.CombinerException e) {
                 e.printStackTrace();
             }
+
             int i = 0;
             while (!Thread.interrupted()) {
                 try {
-                    Thread.sleep(100);
-                    emitter.put(++i);
-                    System.out.println("Emitter 1 -> " + i);
+//                    Thread.sleep(100);
+                    emitter.put("E1 " + (++i));
+//                    System.out.println("Emitter 1 -> " + i);
                 } catch (InterruptedException e) {
-                    System.out.println("Emitter's 1 put has been interrupted");
+//                    System.out.println("Emitter's 1 put has been interrupted");
                     break;
                 }
             }
@@ -52,58 +71,77 @@ public class CombinerTest1 {
         });
 
         Future emitterFuture2 = service.submit(() -> {
-            BlockingQueue<Integer> emitter = new ArrayBlockingQueue<Integer>(100);
+            BlockingQueue<String> emitter = new ArrayBlockingQueue<String>(100) {
+                @Override
+                public String toString() {
+                    return "Emitter 2";
+                }
+            };
+
             try {
-                combiner.addInputQueue(emitter, 1, 2, TimeUnit.SECONDS);
+                combiner.addInputQueue(emitter, 0.5, 2, TimeUnit.SECONDS);
             } catch (Combiner.CombinerException e) {
                 e.printStackTrace();
             }
-            int i = 200;
+
+            int i = 0;
             while (!Thread.interrupted()) {
                 try {
-                    Thread.sleep(300);
-                    emitter.put(++i);
-                    if (i == 206) {
+//                    Thread.sleep(300);
+                    emitter.put("E2 " + (++i));
+//                    if (i == 206) {
+                    if (false) {
                         combiner.removeInputQueue(emitter);
 //                        break;
                     }
-                    System.out.println("Emitter 2 -> " + i);
+//                    System.out.println("Emitter 2 -> " + i);
                 } catch (InterruptedException | Combiner.CombinerException e) {
-                    System.out.println("Emitter's 1 put has been interrupted");
+//                    System.out.println("Emitter's 2 put has been interrupted");
                     break;
                 }
             }
 
-            System.out.println("Emitter 1 has been interrupted");
+            System.out.println("Emitter 2 has been interrupted");
         });
 
-        try {
-            emitterFuture1.get(8, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            emitterFuture1.cancel(true);
-        }
+        service.submit(() -> {
+            try {
+                emitterFuture1.get(8, TimeUnit.SECONDS);
+            } catch (TimeoutException | InterruptedException | ExecutionException e) {
+                emitterFuture1.cancel(true);
+            }
+        });
 
-        try {
-            emitterFuture2.get(8, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            emitterFuture2.cancel(true);
-        }
+        service.submit(() -> {
+            try {
+                emitterFuture2.get(8, TimeUnit.SECONDS);
+            } catch (TimeoutException | InterruptedException | ExecutionException e) {
+                emitterFuture2.cancel(true);
+            }
+        });
+
 
         Future emitterFuture3 = service.submit(() -> {
-            BlockingQueue<Integer> emitter = new ArrayBlockingQueue<Integer>(100);
+            BlockingQueue<String> emitter = new ArrayBlockingQueue<String>(100) {
+                @Override
+                public String toString() {
+                    return "Emitter 3";
+                }
+            };
+
             try {
-                combiner.addInputQueue(emitter, 1, 2, TimeUnit.SECONDS);
+                combiner.addInputQueue(emitter, 4, 2, TimeUnit.SECONDS);
             } catch (Combiner.CombinerException e) {
                 e.printStackTrace();
             }
-            int i = 200;
+            int i = 0;
             while (!Thread.interrupted()) {
                 try {
-                    Thread.sleep(300);
-                    emitter.put(++i);
-                    System.out.println("Emitter 3 -> " + i);
+//                    Thread.sleep(300);
+                    emitter.put("E3 " + (++i));
+//                    System.out.println("Emitter 3 -> " + i);
                 } catch (InterruptedException e) {
-                    System.out.println("Emitter's 3 put has been interrupted");
+//                    System.out.println("Emitter's 3 put has been interrupted");
                     break;
                 }
             }
@@ -112,20 +150,26 @@ public class CombinerTest1 {
         });
 
         Future emitterFuture4 = service.submit(() -> {
-            BlockingQueue<Integer> emitter = new ArrayBlockingQueue<Integer>(100);
+            BlockingQueue<String> emitter = new ArrayBlockingQueue<String>(100) {
+                @Override
+                public String toString() {
+                    return "Emitter 4";
+                }
+            };
+
             try {
-                combiner.addInputQueue(emitter, 1, 2, TimeUnit.SECONDS);
+                combiner.addInputQueue(emitter, 10, 2, TimeUnit.SECONDS);
             } catch (Combiner.CombinerException e) {
                 e.printStackTrace();
             }
-            int i = 400;
+            int i = 0;
             while (!Thread.interrupted()) {
                 try {
-                    emitter.put(++i);
-                    System.out.println("Emitter 4 -> " + i);
+                    emitter.put("E4 " + (++i));
+//                    System.out.println("Emitter 4 -> " + i);
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
-                    System.out.println("Emitter's 4 put has been interrupted");
+//                    System.out.println("Emitter's 4 put has been interrupted");
                     break;
                 }
             }
