@@ -2,6 +2,7 @@ package com.tech.task;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Buibi on 12.02.2017.
@@ -29,14 +30,42 @@ public class CombinerImpl1<T> extends Combiner<T> {
 //            generator = new Random(System.currentTimeMillis()).doubles(priorities.first().priority, priorities.last().priority).iterator();
 //        }
 
+        AtomicInteger counter0 = new AtomicInteger();
+        AtomicInteger counter1 = new AtomicInteger();
+        AtomicInteger counter2 = new AtomicInteger();
+
         Future future = executor.submit(() -> {
             while (!Thread.interrupted()) {
                 try {
                     T val = queue.poll(isEmptyTimeout, timeUnit);
                     if (val == null) {
-                        System.out.println(queue + " was auto removed due to idle timeout");
+//                        System.out.println(queue + " was auto removed due to idle timeout");
                         removeInputQueue(queue);
                         break;
+                    }
+
+                    if (priority == 0.5) {
+                        if (counter0.incrementAndGet() % 100 == 99) {
+                            Thread.sleep(1);
+                        }
+                    } else if (priority == 1.0) {
+                        if (counter0.incrementAndGet() % 1000 == 999) {
+                            Thread.sleep(1);
+                        }
+                    } else if (priority == 2.0) {
+                        if (counter0.incrementAndGet() % 2000 == 1999) {
+                            Thread.sleep(1);
+                        }
+                    } else if (priority == 3.0) {
+                        if (counter0.incrementAndGet() % 3000 == 2999) {
+                            Thread.sleep(1);
+                        }
+                    } else if (priority == 4.0) {
+                        if (counter0.incrementAndGet() % 4000 == 3999) {
+                            Thread.sleep(1);
+                        }
+                    } else {
+                        counter0.incrementAndGet();
                     }
 
 //                    Double key;
