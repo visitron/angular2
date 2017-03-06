@@ -106,7 +106,7 @@ export class SlickGridProvider {
             let search0: (item0: any, search: Search) => boolean = (item0: any, search: Search) => {
                 let like = function (value: any, pattern: any): boolean {
                     if (typeof value == 'string') {
-                        return value.indexOf(pattern) !== -1;
+                        return value.toLowerCase().indexOf(pattern) !== -1;
                     } else if (typeof value == 'number') {
                         return value.toString().indexOf(pattern) !== -1;
                     }

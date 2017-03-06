@@ -2,7 +2,7 @@
     <div class="search" [@searchInputState]="searchInputState">
         <div class="input-group">
             <span class="input-group-addon" id="search-id">Search for</span>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="search-id" placeholder="Type for search" (input)="setSearchString($event.target.value)" [value]="searchString">
+            <input id="search-input-id" type="text" class="form-control" aria-describedby="search-id" placeholder="Type for search" (input)="setSearchString($event.target.value)" [value]="searchString" (keyup)="keypress($event)">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" id="btn-clear-hide-search" (click)="clear()">{{clearSearchBtnName}}</button>
             </span>

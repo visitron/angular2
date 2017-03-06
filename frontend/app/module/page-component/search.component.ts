@@ -54,6 +54,15 @@ export class SearchComponent implements OnDestroy {
         this.searchActivated = !this.searchActivated;
         this.searchInputState = this.searchActivated ? 'active' : 'inactive';
         this.searchBtnState = this.searchActivated ? 'inactive' : 'active';
+        setTimeout(() => {
+            if (this.searchActivated) $('#search-input-id').focus();
+        }, 200)
+    }
+
+    keypress(ev: KeyboardEvent) {
+        if (ev.keyCode === 27) {
+            this.searchString ? this.setSearchString(null) : this.toggle();
+        }
     }
 
     clear(): void {
@@ -64,12 +73,13 @@ export class SearchComponent implements OnDestroy {
         }
     }
 
-    private setSearchString(value: string): void {
-        this.searchString = value;
+    setSearchString(value: string): void {
         if (value === null || value === '') {
             this.clearSearchBtnName = 'Hide';
+            this.searchString = null;
         } else {
             this.clearSearchBtnName = 'Clear';
+            this.searchString = value.toLowerCase();
         }
 
         if (value === null || value.length < 3) {
