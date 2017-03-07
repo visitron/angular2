@@ -21,7 +21,7 @@
         <module>backend</module>
         <!--<module>dependencies</module>-->
         <!--<module>database</module>-->
-        <module>config</module>
+        <!--<module>config</module>-->
         <module>boot</module>
     </modules>
 
