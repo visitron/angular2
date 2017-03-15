@@ -4,35 +4,12 @@ apply plugin: 'application'
 
 mainClassName = 'hone.maintenance.boot.Bootstrap'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
-    }
-}
-
 jar {
     baseName = 'home-management'
     version =  '0.1.0'
 }
 
-project.buildDir = 'target'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    jcenter()
-
-    flatDir {
-        dirs '../dependencies/lib'
-    }
-}
-
 dependencies {
-//    compile 'org.springframework.boot:spring-boot:1.5.2.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE'
     compile project(':backend')
 

@@ -1,32 +1,4 @@
 apply plugin: 'java'
-//apply plugin: 'org.springframework.boot'
-
-//buildscript {
-//    repositories {
-//        jcenter()
-//    }
-//    dependencies {
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
-//    }
-//}
-
-//jar {
-//    baseName = 'home-management'
-//    version =  '0.1.0'
-//}
-//
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-project.buildDir = 'target'
-
-repositories {
-    jcenter()
-
-    flatDir {
-        dirs '../dependencies/lib'
-    }
-}
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE'
