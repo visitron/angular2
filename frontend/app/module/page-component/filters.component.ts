@@ -5,6 +5,7 @@ import {DataProvider} from "../service/data.service";
 import "rxjs/operator/map";
 import {Subscription} from "rxjs";
 import {SlickGridProvider, FilterGroup, Filter, FilterConfig, FilterGroupBuilder} from "../service/slick-grid.service";
+import * as _ from "underscore";
 
 @Component({
     selector: 'filters',

@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import "rxjs/operator/map";
 import {DialogSupport} from "../service/dialog.service";
+import * as _ from "underscore";
 
 @Component({
     selector: 'common-dialog',

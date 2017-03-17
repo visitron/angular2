@@ -5,6 +5,7 @@ import {Headers, Http} from "@angular/http";
 import {Router} from "@angular/router";
 import {ConfigProvider} from "./service/config.service";
 import {Auth} from "./service/auth.service";
+import * as _ from "underscore";
 
 @Component({
     templateUrl: 'mockup/login.html'

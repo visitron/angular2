@@ -3,7 +3,6 @@ import {CommonModule, Location, LocationStrategy, PathLocationStrategy} from "@a
 import {RouterModule, Routes} from "@angular/router";
 import {HttpModule} from "@angular/http";
 import {UiSwitchModule} from "angular2-ui-switch";
-import "underscore";
 import {LoginComponent} from "./login.component";
 import {SearchComponent} from "./page-component/search.component";
 import {LoginInfoComponent} from "./page-component/login-info.component";
@@ -42,7 +41,7 @@ const routes: Routes = [
 
     {path: 'admin', component: TemplateComponent, canActivate:[Auth], children: [
         {path: '', component: AdminComponent, children: [
-            {path: '', redirectTo: 'users'},
+            {path: '', redirectTo: 'users', pathMatch: 'full'},
             {path: 'users', component: AdminUsersComponent},
             {path: 'config', component: AdminConfigComponent, canDeactivate: [DeactivateGuard]},
             {path: 'audit', component: AdminAuditComponent}
@@ -51,7 +50,7 @@ const routes: Routes = [
 
     {path: 'task', component: TemplateComponent, canActivate:[Auth], children: [
         {path: '', component: TaskComponent, children: [
-            {path: '', redirectTo: 'purchase'},
+            {path: '', redirectTo: 'purchase', pathMatch: 'full'},
             {path: 'purchase', component: TaskPurchaseComponent},
             {path: 'payment', component: TaskPaymentComponent},
             {path: 'job', component: TaskJobComponent},

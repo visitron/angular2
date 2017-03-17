@@ -1,5 +1,6 @@
 import {Validator, AbstractControl, NG_VALIDATORS} from "@angular/forms";
 import {Directive, Attribute} from "@angular/core";
+import * as _ from "underscore";
 
 @Directive({
     selector: '[validateEqual],[validateEqualPrimary]',

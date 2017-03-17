@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from "@angular/router";
 import {User} from "../login.component";
+import * as _ from "underscore";
 
 @Injectable()
 export class Auth implements CanActivate {

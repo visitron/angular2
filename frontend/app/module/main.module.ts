@@ -1,6 +1,6 @@
 import "jquery";
 import "slickgrid-jquery-event-drag";
-import "tinycolor2";
+import "tinycolor";
 import "bootstrap";
 import "slickgrid-core";
 import "slickgrid-grid";

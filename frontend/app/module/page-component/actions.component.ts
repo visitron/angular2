@@ -8,6 +8,7 @@ import {SlickGridProvider} from "../service/slick-grid.service";
 import {Http, Headers} from "@angular/http";
 import {ActionService} from "../service/action.service";
 import {ConfigProvider} from "../service/config.service";
+import * as _ from "underscore";
 
 @Component({
     selector: 'actions',

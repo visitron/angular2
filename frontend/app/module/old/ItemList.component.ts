@@ -1,7 +1,7 @@
 import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import * as moment from "moment";
-import * as tinycolor from "tinycolor2";
+import "@types/tinycolor";
 import {ItemService} from "./Item.service";
 import {Item, InfoMapping, ItemAdvanced} from "./Item";
 import {NotificationService} from "./notification.service";

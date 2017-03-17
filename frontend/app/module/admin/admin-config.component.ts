@@ -3,6 +3,7 @@ import {Location} from "@angular/common";
 import {DataProvider} from "../service/data.service";
 import {ActionService} from "../service/action.service";
 import {ActionContext} from "../page-component/actions.component";
+import * as _ from "underscore";
 
 @Component({
     templateUrl: 'mockup/admin/config.html'

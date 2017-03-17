@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import "rxjs/add/operator/map";
 import {ConfigProvider} from "./config.service";
 import {Auth} from "./auth.service";
+import * as _ from "underscore";
 
 @Injectable()
 export class DataProvider {

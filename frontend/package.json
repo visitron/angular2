@@ -6,23 +6,28 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
-    "lite": "lite-server",
-    "postinstall": "typings install",
     "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "typings": "typings"
+    "tsc:w": "tsc -w"
   },
   "dependencies": {
-    "@angular/common": "~2.0.1",
-    "@angular/compiler": "~2.0.1",
-    "@angular/core": "~2.0.1",
-    "@angular/forms": "~2.0.1",
-    "@angular/http": "~2.0.1",
-    "@angular/platform-browser": "~2.0.1",
-    "@angular/platform-browser-dynamic": "~2.0.1",
-    "@angular/router": "~3.0.1",
-    "@angular/upgrade": "~2.0.1",
-    "angular-in-memory-web-api": "~0.1.1",
+    "@angular/common": "~2.4.9",
+    "@angular/compiler": "~2.4.9",
+    "@angular/core": "~2.4.9",
+    "@angular/forms": "~2.4.9",
+    "@angular/http": "~2.4.9",
+    "@angular/platform-browser": "~2.4.9",
+    "@angular/platform-browser-dynamic": "~2.4.9",
+    "@angular/router": "~3.4.9",
+    "@angular/upgrade": "~2.4.9",
+    "@types/bootstrap": "^3.3.32",
+    "@types/core-js": "^0.9.37",
+    "@types/jasmine": "^2.5.45",
+    "@types/jquery": "^2.0.41",
+    "@types/node": "^7.0.8",
+    "@types/slickgrid": "^2.1.22",
+    "@types/tinycolor": "^1.1.27",
+    "@types/underscore": "^1.8.0",
+    "angular-in-memory-web-api": "~0.3.1",
     "angular2-ui-switch": "^1.1.0",
     "bootstrap": "^3.3.7",
     "bootstrap-toggle": "^2.2.2",
@@ -31,18 +36,19 @@
     "jquery": "^3.1.1",
     "less": "^2.7.1",
     "moment": "^2.15.2",
+    "plugin-typescript": "^7.0.6",
     "reflect-metadata": "^0.1.8",
-    "rxjs": "5.0.0-beta.12",
+    "rxjs": "5.2.0",
     "slickgrid": "^2.3.3",
-    "systemjs": "0.19.39",
+    "systemjs": "0.20.9",
     "tinycolor2": "^1.4.1",
+    "typescript": "^2.0.3",
     "underscore": "^1.8.3",
-    "zone.js": "^0.6.25"
+    "zone.js": "^0.8.2"
   },
   "devDependencies": {
     "concurrently": "^3.0.0",
     "lite-server": "^2.2.2",
-    "typescript": "^2.0.3",
-    "typings": "^1.4.0"
+    "typings": "^2.1.0"
   }
 }

@@ -4,6 +4,7 @@ import {DataProvider} from "../service/data.service";
 import {SlickGridProvider} from "../service/slick-grid.service";
 import {ActionContext} from "../page-component/actions.component";
 import {ActionService} from "../service/action.service";
+import * as _ from "underscore";
 
 @Component({
     templateUrl: 'mockup/admin/users.html'
