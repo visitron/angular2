@@ -87,6 +87,10 @@
     text-shadow: 1px 1px 4px;
 }
 
+.nav.nav-tabs [role="presentation"] {
+    cursor: pointer;
+}
+
 @media only screen and (min-width: 1474px) {
     #actions {
         left: 1294px;
