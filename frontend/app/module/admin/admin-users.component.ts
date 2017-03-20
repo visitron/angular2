@@ -24,8 +24,14 @@ export class AdminUsersComponent implements OnInit {
     }
 
     onAction(context: ActionContext): void {
-        context.data = _.values(this.slickGridProvider.getSelectedIds());
-        context.executeAction(true);
+        if (context.action.id === 'refresh') {
+            context.executeAction(true, (monitor) => {
+                monitor();
+            });
+        } else {
+            context.data = _.values(this.slickGridProvider.getSelectedIds());
+            context.executeAction(true);
+        }
     }
 
 }

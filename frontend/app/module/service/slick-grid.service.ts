@@ -62,7 +62,7 @@ export class SlickGridProvider {
         this.location = location;
     }
 
-    public refresh(): void {
+    public refresh(callback?: () => void): void {
         this.dataProvider.getData(this.location, (data: any[]) => {
             this.view.beginUpdate();
             this.view.setItems(data);
@@ -70,6 +70,7 @@ export class SlickGridProvider {
             this.grid.invalidate();
             this.grid.onSort.notify(<any>{sortAsc: true, sortCol: {field: 'id'}});
             this.observer.next("SG has been reloaded");
+            if (callback) callback();
         });
     }
 

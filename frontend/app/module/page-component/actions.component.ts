@@ -67,7 +67,7 @@ export class ActionsComponent implements OnDestroy {
 
 }
 
-class Action {
+export class Action {
     disabled: boolean = false;
     protected get detail(): IconDetail {
 
@@ -124,12 +124,17 @@ class IconRepository {
 export class ActionContext {
     public data: any;
 
-    constructor(public action: Action, private actionURL: string, private http: Http, private slickGridProvider: SlickGridProvider, private complete: () => void) {}
+    constructor(public action: Action, public actionURL: string, private http: Http, private slickGridProvider: SlickGridProvider, private complete: () => void) {}
 
     public executeAction(refreshSlickGrid?: boolean, action?: (monitor: () => void) => void): void {
 
         if (_.isFunction(action)) {
-            action(this.complete.bind(this));
+            if (refreshSlickGrid) {
+                if (action) action(() => {});
+                this.slickGridProvider.refresh(this.complete.bind(this));
+            } else {
+                action(this.complete.bind(this));
+            }
             return;
         }
 

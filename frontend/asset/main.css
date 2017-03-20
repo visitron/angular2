@@ -55,7 +55,15 @@
     top: 67px;
 }
 
-.refresh > button {
+#refreshing-text-id {
+    font-size: large;
+    color: dimgrey;
+    position: absolute;
+    right: 0;
+    top: 7px;
+}
+
+.refresh > div > button {
     height: 34px;
     width: 34px;
     border: none;
@@ -63,7 +71,7 @@
     margin: 0;
 }
 
-.refresh > button > span {
+.refresh > div > button > span {
     color: lightskyblue;
     font-size: larger;
     font-weight: bold;
