@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table
 @PrimaryKeyJoinColumn(name = "task")
 public class Maintenance extends Task {
-    @Column(name = "m_cost")
+    @Column
     private int cost;
     @ManyToOne
     private Maintenance parent;

@@ -11,11 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by vsoshyn on 25/10/2016.
@@ -33,10 +32,7 @@ public class AdminController {
 
     @RequestMapping(value = "/users")
     public List<SimpleUserVO> users() {
-        List<SimpleUserVO> users = new ArrayList<>();
-        userRepository.findAll().forEach(user -> users.add(new SimpleUserVO(user)));
-
-        return users;
+        return userRepository.findAll().stream().map(SimpleUserVO::new).collect(toList());
     }
 
     @RequestMapping(value = "/audit")
@@ -48,21 +44,20 @@ public class AdminController {
     @RequestMapping(value = "/users/action/{action}", method = RequestMethod.POST)
     public ResponseEntity doAction(@RequestBody List<Long> ids, @PathVariable AdminAction action) {
         if (ids == null || ids.isEmpty()) return new ResponseEntity<>("None of records was chosen", HttpStatus.BAD_REQUEST);
-        Iterable<User> iterable = userRepository.findAll(ids);
-        List<User> users = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
-        if (users.stream().map(User::getState).distinct().collect(Collectors.toSet()).size() > 1) return new ResponseEntity<>("Chosen users have not the same state", HttpStatus.BAD_REQUEST);
+        List<User> users = userRepository.findAll(ids);
+        if (users.stream().map(User::getState).distinct().count() > 1) return new ResponseEntity<>("Chosen users have not the same state", HttpStatus.BAD_REQUEST);
 
         UserState nextState = graph.next(users.get(0).getState(), action);
         if (nextState == null) return new ResponseEntity<>("An action under chosen transition is not supported", HttpStatus.BAD_REQUEST);
 
-        iterable.forEach(user -> user.setState(nextState));
-        userRepository.save(iterable);
+        users.forEach(user -> user.setState(nextState));
+        userRepository.save(users);
         return ResponseEntity.ok(null);
     }
 
     @RequestMapping(value = "/config/get")
     public List<Config> getConfig() {
-        return StreamSupport.stream(configRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return configRepository.findAll();
     }
 
     @Transactional

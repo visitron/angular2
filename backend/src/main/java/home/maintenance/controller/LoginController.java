@@ -7,8 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by vsoshyn on 25/10/2016.
@@ -22,9 +23,7 @@ public class LoginController {
 
     @RequestMapping("/users")
     @ResponseBody public List<SimpleUserVO> users() {
-        List<SimpleUserVO> users = new ArrayList<>();
-        userRepository.findAll().forEach(user -> users.add(new SimpleUserVO(user)));
-        return users;
+        return userRepository.findAll().stream().map(SimpleUserVO::new).collect(toList());
     }
 
 }

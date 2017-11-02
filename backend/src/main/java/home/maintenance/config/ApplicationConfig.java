@@ -14,9 +14,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @PropertySource("classpath:application.properties")
 public class ApplicationConfig {
 
-    @Bean
-    public InternalResourceViewResolver internalResourceViewResolver() {
-        return new InternalResourceViewResolver();
-    }
+//    @Bean
+//    public InternalResourceViewResolver internalResourceViewResolver() {
+//        return new InternalResourceViewResolver();
+//    }
 
 }

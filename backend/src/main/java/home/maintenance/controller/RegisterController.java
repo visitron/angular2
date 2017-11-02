@@ -29,10 +29,10 @@ public class RegisterController {
     @Transactional
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public ResponseEntity request(@RequestParam(required = false) MultipartFile image,
-                                      @RequestParam String firstName,
-                                      @RequestParam String secondName,
-                                      @RequestParam String email,
-                                      @RequestParam String password) throws IOException {
+                                  @RequestParam String firstName,
+                                  @RequestParam String secondName,
+                                  @RequestParam String email,
+                                  @RequestParam String password) throws IOException {
 
         boolean isAdminExists = userRepository.adminExists();
         User user = new User(firstName, secondName, email, image != null, password, isAdminExists ? Role.USER : Role.ADMIN);
