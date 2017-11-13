@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "task")
-public class Maintenance extends Task {
+public class Maintenance extends AbstractTask {
     @Column
     private int cost;
     @ManyToOne
@@ -21,12 +21,8 @@ public class Maintenance extends Task {
     @Embedded
     private Specialist specialist;
     @Column
-    private int difficulty;
-    @Column
     @Lob
     private byte[] image;
-    @Column
-    private String target;
 
     public Maintenance() {}
 
@@ -62,27 +58,11 @@ public class Maintenance extends Task {
         this.specialist = specialist;
     }
 
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public byte[] getImage() {
         return image;
     }
 
     public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
     }
 }

@@ -13,10 +13,10 @@ public class Cart {
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
     private long id;
-    @ManyToOne
+    @OneToOne
     private User user;
     @ManyToOne
-    private Task task;
+    private AbstractTask task;
     @Column
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -42,11 +42,11 @@ public class Cart {
         this.user = user;
     }
 
-    public Task getTask() {
+    public AbstractTask getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(AbstractTask task) {
         this.task = task;
     }
 

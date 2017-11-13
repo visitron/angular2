@@ -11,11 +11,9 @@ import javax.persistence.Table;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "fk_task")
-public class Payment extends Task {
+public class Payment extends AbstractTask {
     @Column
     private int cost;
-    @Column
-    private String target;
 
     public Payment() {}
 
@@ -25,13 +23,5 @@ public class Payment extends Task {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
     }
 }

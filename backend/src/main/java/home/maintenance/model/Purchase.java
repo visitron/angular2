@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "fk_task")
-public class Purchase extends Task {
+public class Purchase extends AbstractTask {
     @Column
     private int price;
     @Column

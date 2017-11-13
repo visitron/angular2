@@ -15,7 +15,7 @@ public class Statistic {
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
     private long id;
     @ManyToOne
-    private Task task;
+    private AbstractTask abstractTask;
     @Column
     private int cost;
     @Column(name = "[DATE]")
@@ -34,12 +34,12 @@ public class Statistic {
         this.id = id;
     }
 
-    public Task getTask() {
-        return task;
+    public AbstractTask getAbstractTask() {
+        return abstractTask;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public void setAbstractTask(AbstractTask abstractTask) {
+        this.abstractTask = abstractTask;
     }
 
     public int getCost() {

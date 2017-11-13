@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Table
 public class Product {
-//    todo redo to table with relations parent-children
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)

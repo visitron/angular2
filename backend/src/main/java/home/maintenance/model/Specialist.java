@@ -14,9 +14,6 @@ public class Specialist {
     private String name;
     @Column
     private String company;
-    /**
-     * Has to start from 0
-     */
     @Column
     private int phone;
     /**
