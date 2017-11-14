@@ -29,13 +29,14 @@ public class RegisterController {
     @Transactional
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public ResponseEntity request(@RequestParam(required = false) MultipartFile image,
+                                  @RequestParam String username,
                                   @RequestParam String firstName,
                                   @RequestParam String secondName,
                                   @RequestParam String email,
                                   @RequestParam String password) throws IOException {
 
         boolean isAdminExists = userRepository.adminExists();
-        User user = new User(firstName, secondName, email, image != null, password, isAdminExists ? Role.USER : Role.ADMIN);
+        User user = new User(username, firstName, secondName, email, image != null, password, isAdminExists ? Role.USER : Role.ADMIN);
         userRepository.save(user);
         if (image != null) {
             imageRepository.save(image.getBytes(), user.getId());
@@ -49,10 +50,10 @@ public class RegisterController {
         return userRepository.adminExists();
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity handleStorageFileNotFound(Exception exc) {
-        exc.printStackTrace();
-        return ResponseEntity.notFound().build();
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity handleStorageFileNotFound(Exception exc) {
+//        exc.printStackTrace();
+//        return ResponseEntity.notFound().build();
+//    }
 
 }

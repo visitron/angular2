@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         builder.jdbcAuthentication()
                 .dataSource(dataSource)
                 .rolePrefix("ROLE_")
-                .usersByUsernameQuery("SELECT ID AS USERNAME, HASH AS PASSWORD, CASE WHEN STATE = 'ACTIVE' THEN 1 ELSE 0 END AS ENABLED FROM \"USER\" WHERE ID = ?")
-                .authoritiesByUsernameQuery("SELECT ID AS USERNAME, ROLE FROM \"USER\" WHERE ID = ?");
+                .usersByUsernameQuery("SELECT USERNAME, HASH AS PASSWORD, CASE WHEN STATE = 'ACTIVE' THEN 1 ELSE 0 END AS ENABLED FROM \"USER\" WHERE USERNAME = ?")
+                .authoritiesByUsernameQuery("SELECT USERNAME, ROLE FROM \"USER\" WHERE USERNAME = ?");
     }
 
     @Override

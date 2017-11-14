@@ -16,6 +16,8 @@ public class User {
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
     private long id;
     @Column
+    private String username;
+    @Column
     private String firstName;
     @Column
     private String secondName;
@@ -41,7 +43,8 @@ public class User {
 
     public User() {}
 
-    public User(String firstName, String secondName, String email, boolean hasPhoto, String hash, Role role) {
+    public User(String username, String firstName, String secondName, String email, boolean hasPhoto, String hash, Role role) {
+        this.username = username;
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
@@ -59,6 +62,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {

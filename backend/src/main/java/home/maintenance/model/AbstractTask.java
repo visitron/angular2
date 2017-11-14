@@ -1,5 +1,7 @@
 package home.maintenance.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -11,6 +13,13 @@ import java.util.Date;
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Task.class, name = "task"),
+        @JsonSubTypes.Type(value = Maintenance.class, name = "maintenance"),
+        @JsonSubTypes.Type(value = Payment.class, name = "payment"),
+        @JsonSubTypes.Type(value = Purchase.class, name = "purchase")
+})
 public abstract class AbstractTask {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
@@ -31,7 +40,8 @@ public abstract class AbstractTask {
     @Enumerated(EnumType.STRING)
     private TaskState state;
     @Column
-    private int priority;
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
     @Column
     private String target;
     @ManyToOne
@@ -79,12 +89,20 @@ public abstract class AbstractTask {
         this.state = state;
     }
 
-    public int getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     public User getOwner() {
