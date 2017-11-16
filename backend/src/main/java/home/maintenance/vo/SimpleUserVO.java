@@ -1,8 +1,10 @@
 package home.maintenance.vo;
 
-import home.maintenance.model.Role;
+import home.maintenance.model.Authority;
 import home.maintenance.model.User;
 import home.maintenance.model.UserState;
+
+import java.util.List;
 
 /**
  * Created by Buibi on 21.01.2017.
@@ -12,7 +14,7 @@ public class SimpleUserVO {
     public String firstName;
     public String secondName;
     public boolean photo;
-    public Role role;
+    public List<Authority> authority;
     public UserState state;
 
     public SimpleUserVO(User user) {
@@ -20,7 +22,7 @@ public class SimpleUserVO {
         firstName = user.getFirstName();
         secondName = user.getSecondName();
         photo = user.hasPhoto();
-        role = user.getRole();
+        authority = user.getAuthority();
         state = user.getState();
     }
 
@@ -29,7 +31,7 @@ public class SimpleUserVO {
         return "SimpleUserVO{" +
                 "firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
-                ", role=" + role +
+                ", authority=" + authority +
                 '}';
     }
 }

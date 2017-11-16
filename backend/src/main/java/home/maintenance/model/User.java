@@ -1,21 +1,26 @@
 package home.maintenance.model;
 
 import org.hibernate.annotations.Type;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Buibi on 21.01.2017.
  */
 @Entity
 @Table(name = "[USER]")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
     private long id;
-    @Column
+    @Column(unique = true)
     private String username;
     @Column
     private String firstName;
@@ -32,8 +37,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState state;
     @Column
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private List<Authority> authority = new ArrayList<>();
     @Column
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -43,17 +49,17 @@ public class User {
 
     public User() {}
 
-    public User(String username, String firstName, String secondName, String email, boolean hasPhoto, String hash, Role role) {
+    public User(String username, String firstName, String secondName, String email, boolean hasPhoto, String hash, Authority authority) {
         this.username = username;
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.photo = hasPhoto;
         this.hash = hash;
-        this.role = role;
+        this.authority.add(authority);
         this.creationDate = new Date();
         this.modificationDate = new Date();
-        this.state = role == Role.ADMIN ? UserState.ACTIVE : UserState.DRAFT;
+        this.state = authority == Authority.ADMIN ? UserState.ACTIVE : UserState.DRAFT;
     }
 
     public long getId() {
@@ -64,8 +70,38 @@ public class User {
         this.id = id;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authority;
+    }
+
+    @Override
+    public String getPassword() {
+        return hash;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setUsername(String username) {
@@ -112,12 +148,12 @@ public class User {
         this.state = state;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Authority> getAuthority() {
+        return authority;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setAuthority(List<Authority> authority) {
+        this.authority = authority;
     }
 
     public Date getCreationDate() {

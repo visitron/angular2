@@ -1,5 +1,6 @@
 package home.maintenance.config;
 
+import home.maintenance.dao.common.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,7 +24,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Optional.*;
 
 /**
  * Created by vsoshyn on 28/10/2016.
@@ -29,15 +37,16 @@ import java.util.stream.Collectors;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
+    private UserRepository userRepository;
 
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.jdbcAuthentication()
-                .dataSource(dataSource)
-                .rolePrefix("ROLE_")
-                .usersByUsernameQuery("SELECT USERNAME, HASH AS PASSWORD, CASE WHEN STATE = 'ACTIVE' THEN 1 ELSE 0 END AS ENABLED FROM \"USER\" WHERE USERNAME = ?")
-                .authoritiesByUsernameQuery("SELECT USERNAME, ROLE FROM \"USER\" WHERE USERNAME = ?");
+        builder.userDetailsService(new CustomUserDetailService());
+//        builder.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .rolePrefix("ROLE_")
+//                .usersByUsernameQuery("SELECT USERNAME, HASH AS PASSWORD, CASE WHEN STATE = 'ACTIVE' THEN 1 ELSE 0 END AS ENABLED FROM \"USER\" WHERE USERNAME = ?")
+//                .authoritiesByUsernameQuery("SELECT USERNAME, ROLE FROM \"USER\" WHERE USERNAME = ?");
     }
 
     @Override
@@ -51,13 +60,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/users").permitAll()
                 .antMatchers("/login/auth").permitAll()
                 .antMatchers("/admin/users").authenticated()
+                .antMatchers("/tasks").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("http://localhost:3000/login")
                 .loginProcessingUrl("/login/auth")
                 .successHandler((request, response, authentication) -> {
                     response.setStatus(HttpServletResponse.SC_OK);
-                    response.addHeader("Role", authentication.getAuthorities().stream().map(authority -> authority.getAuthority().substring(5)).collect(Collectors.joining(", ")));
+                    response.addHeader("Authority",
+                            authentication.getAuthorities().stream()
+                                    .map(GrantedAuthority::getAuthority)
+                                    .collect(Collectors.joining(", "))
+                    );
                 })
                 .failureHandler((request, response, exception) -> {
                     if (exception instanceof DisabledException) {
@@ -85,10 +99,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedMethod(HttpMethod.GET);
         configuration.addAllowedMethod(HttpMethod.POST);
         configuration.setAllowCredentials(true);
-        configuration.addExposedHeader("Role");
+        configuration.addExposedHeader("Authority");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    class CustomUserDetailService implements UserDetailsService {
+
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            return ofNullable(userRepository.findByUsername(username))
+                    .orElseThrow(() -> new UsernameNotFoundException("User [" + username + "] is not found"));
+        }
     }
 
 }

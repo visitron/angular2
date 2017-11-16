@@ -14,7 +14,7 @@
                                 <div class="col-sm-4">
                                     <div class="user-parameter">{{user.firstName}}</div>
                                     <div class="user-parameter">{{user.secondName}}</div>
-                                    <div><span [class]="getUserClass(user)">{{user.role}}</span>  <span id="user-activation-pending-id" class="label label-default" *ngIf="user.state === 'DRAFT'">Not Activated</span></div>
+                                    <div><span [class]="getUserClass(user)">{{user.authority}}</span>  <span id="user-activation-pending-id" class="label label-default" *ngIf="user.state === 'DRAFT'">Not Activated</span></div>
                                 </div>
                             </div>
                         </a>

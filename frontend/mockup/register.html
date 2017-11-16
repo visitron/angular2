@@ -12,8 +12,8 @@
             </div>
             <input type="file" name="image" id="image-file-id" style="display: none" (change)="previewImage($event)">
         </div>
-        <div id="role-id">
-            <div id="role-id-name" [class]="userClass">{{userType}}</div>
+        <div id="authority-id">
+            <div id="authority-id-name" [class]="userClass">{{userType}}</div>
         </div>
         <div id="errors-id" [hidden]="registrationForm.valid || registrationForm.pristine">
             <span>Not all mandatory fields have been filled and/or password and its confirmation don't match each other</span>
@@ -37,8 +37,8 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message-registration-id" [disabled]="!registrationForm.valid">Register</button>
             <button type="button" class="btn btn-default" routerLink="/login">Cancel</button>
         </div>
-        <div id="message-registration-id" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-sm notification" role="document">
+        <div id="message-registration-id" class="modal fade" tabindex="-1" authority="dialog">
+            <div class="modal-dialog modal-sm notification" authority="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="myModalLabel">Information</h4>

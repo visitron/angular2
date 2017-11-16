@@ -1,17 +1,21 @@
 package home.maintenance.controller;
 
 import home.maintenance.dao.common.UserRepository;
-import home.maintenance.model.Role;
+import home.maintenance.model.Authority;
 import home.maintenance.model.User;
 import home.maintenance.service.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 
 /**
@@ -35,8 +39,11 @@ public class RegisterController {
                                   @RequestParam String email,
                                   @RequestParam String password) throws IOException {
 
-        boolean isAdminExists = userRepository.adminExists();
-        User user = new User(username, firstName, secondName, email, image != null, password, isAdminExists ? Role.USER : Role.ADMIN);
+        User user = new User(username, firstName, secondName, email, image != null, password, Authority.USER);
+        if (userRepository.countByUsername(username) != 0) {
+            return ResponseEntity.badRequest().body("Such username is already exist. Try another one.");
+        }
+
         userRepository.save(user);
         if (image != null) {
             imageRepository.save(image.getBytes(), user.getId());
@@ -45,15 +52,14 @@ public class RegisterController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping("hasAdmin")
-    @ResponseBody public boolean hasAdmin() {
-        return userRepository.adminExists();
-    }
+    @ExceptionHandler(JpaSystemException.class)
+    public ResponseEntity handleError(HttpServletRequest req, Exception ex) {
+        String message = ex.getMessage();
+        if (message.contains("ConstraintViolationException")) {
+            message = "It seems somebody has just registered specified username";
+        }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity handleStorageFileNotFound(Exception exc) {
-//        exc.printStackTrace();
-//        return ResponseEntity.notFound().build();
-//    }
+        return ResponseEntity.badRequest().body(message);
+    }
 
 }
