@@ -1,6 +1,9 @@
 FROM store/oracle/serverjre:8
-WORKDIR /home
-COPY boot/target/libs /libs
-COPY boot/target/scripts /scripts
 
-CMD ['scripts/boot']
+ADD boot/target/distributions/boot.tar /home
+
+WORKDIR /home/boot/bin/
+
+CMD ./boot
+
+EXPOSE 3002:3002
