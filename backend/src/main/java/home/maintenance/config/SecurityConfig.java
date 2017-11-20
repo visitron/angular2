@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -34,6 +35,7 @@ import static java.util.Optional.*;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -41,12 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
+//        builder.inMemoryAuthentication();
         builder.userDetailsService(new CustomUserDetailService());
-//        builder.jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .rolePrefix("ROLE_")
-//                .usersByUsernameQuery("SELECT USERNAME, HASH AS PASSWORD, CASE WHEN STATE = 'ACTIVE' THEN 1 ELSE 0 END AS ENABLED FROM \"USER\" WHERE USERNAME = ?")
-//                .authoritiesByUsernameQuery("SELECT USERNAME, ROLE FROM \"USER\" WHERE USERNAME = ?");
     }
 
     @Override
@@ -61,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/auth").permitAll()
                 .antMatchers("/admin/users").authenticated()
                 .antMatchers("/tasks").authenticated()
+                .antMatchers("/register/requestAdmin").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("http://localhost:3000/login")
@@ -70,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     response.addHeader("Authority",
                             authentication.getAuthorities().stream()
                                     .map(GrantedAuthority::getAuthority)
-                                    .collect(Collectors.joining(", "))
+                                    .collect(Collectors.joining(","))
                     );
                 })
                 .failureHandler((request, response, exception) -> {

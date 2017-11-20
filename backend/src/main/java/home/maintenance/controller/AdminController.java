@@ -4,23 +4,22 @@ import home.maintenance.dao.common.ConfigRepository;
 import home.maintenance.dao.common.UserRepository;
 import home.maintenance.model.*;
 import home.maintenance.service.UserStateGraph;
-import home.maintenance.vo.SimpleUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * Created by vsoshyn on 25/10/2016.
  */
 @RestController
 @RequestMapping("/admin")
+@Secured("ROLE_ADMIN")
 public class AdminController {
 
     @Autowired
@@ -31,8 +30,8 @@ public class AdminController {
     private UserStateGraph graph;
 
     @RequestMapping(value = "/users")
-    public List<SimpleUserVO> users() {
-        return userRepository.findAll().stream().map(SimpleUserVO::new).collect(toList());
+    public List<User> users() {
+        return userRepository.findAll();
     }
 
     @RequestMapping(value = "/audit")

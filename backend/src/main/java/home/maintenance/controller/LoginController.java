@@ -1,15 +1,13 @@
 package home.maintenance.controller;
 
 import home.maintenance.dao.common.UserRepository;
-import home.maintenance.vo.SimpleUserVO;
+import home.maintenance.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Created by vsoshyn on 25/10/2016.
@@ -22,8 +20,8 @@ public class LoginController {
     private UserRepository userRepository;
 
     @RequestMapping("/users")
-    @ResponseBody public List<SimpleUserVO> users() {
-        return userRepository.findAll().stream().map(SimpleUserVO::new).collect(toList());
+    @ResponseBody public List<User> users() {
+        return userRepository.findAll();
     }
 
 }

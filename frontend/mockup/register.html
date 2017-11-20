@@ -12,8 +12,8 @@
             </div>
             <input type="file" name="image" id="image-file-id" style="display: none" (change)="previewImage($event)">
         </div>
-        <div id="authority-id">
-            <div id="authority-id-name" [class]="userClass">{{userType}}</div>
+        <div id="authorities-id">
+            <div id="authorities-id-name" [class]="userClass">{{userType}}</div>
         </div>
         <div id="errors-id" [hidden]="registrationForm.valid || registrationForm.pristine">
             <span>Not all mandatory fields have been filled and/or password and its confirmation don't match each other</span>
@@ -21,8 +21,8 @@
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="firstName.invalid && !firstName.pristine">
             <input type="text" name="firstName" id="first-name-id" class="form-control" placeholder="First Name" required [(ngModel)]="model.firstName" #firstName="ngModel">
         </div>
-        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="secondName.invalid && !secondName.pristine">
-            <input type="text" name="secondName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.secondName" #secondName="ngModel">
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="lastName.invalid && !lastName.pristine">
+            <input type="text" name="lastName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.lastName" #lastName="ngModel">
         </div>
         <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="email.invalid && !email.pristine">
             <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9.]+@[a-zA-Z0-9.]+" [(ngModel)]="model.email" #email="ngModel">
@@ -37,8 +37,8 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message-registration-id" [disabled]="!registrationForm.valid">Register</button>
             <button type="button" class="btn btn-default" routerLink="/login">Cancel</button>
         </div>
-        <div id="message-registration-id" class="modal fade" tabindex="-1" authority="dialog">
-            <div class="modal-dialog modal-sm notification" authority="document">
+        <div id="message-registration-id" class="modal fade" tabindex="-1" authorities="dialog">
+            <div class="modal-dialog modal-sm notification" authorities="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="myModalLabel">Information</h4>
