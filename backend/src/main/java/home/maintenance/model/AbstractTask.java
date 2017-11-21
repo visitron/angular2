@@ -2,7 +2,9 @@ package home.maintenance.model;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,9 +30,14 @@ public abstract class AbstractTask {
     @Column
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @Column
+    @Column(updatable = false)
+    @CreationTimestamp
     @Temporal(TemporalType.DATE)
     private Date creationDate;
+    @Column(insertable = false)
+    @UpdateTimestamp
+    @Temporal(TemporalType.DATE)
+    private Date updateDate;
     @Column
     private String schedule;
     @Column

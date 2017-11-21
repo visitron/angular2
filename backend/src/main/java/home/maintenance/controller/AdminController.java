@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin")
-@Secured("ROLE_ADMIN")
+@Secured("ROLE_USER_MANAGEMENT")
 public class AdminController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class AdminController {
         return Collections.emptyList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @RequestMapping(value = "/users/action/{action}", method = RequestMethod.POST)
     public ResponseEntity doAction(@RequestBody List<Long> ids, @PathVariable AdminAction action) {
         if (ids == null || ids.isEmpty()) return new ResponseEntity<>("None of records was chosen", HttpStatus.BAD_REQUEST);

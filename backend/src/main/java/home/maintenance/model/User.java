@@ -61,6 +61,7 @@ public class User implements UserDetails {
         this.photo = hasPhoto;
         this.authorities.addAll(authorities);
         this.state = UserState.DRAFT;
+        this.password = password;
     }
 
     @Override
