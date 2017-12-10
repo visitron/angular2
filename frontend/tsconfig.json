@@ -9,6 +9,15 @@
     "removeComments": false,
     "noImplicitAny": true,
     "outDir": "build",
-    "noEmit": false
-  }
+    "noEmit": false,
+    "lib": [
+      "dom", "es6"
+    ],
+    "types": [
+      "underscore"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

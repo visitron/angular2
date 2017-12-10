@@ -1,0 +1,32 @@
+<div id="page-header">
+    <div class="row">
+        <blockquote class="info-sign-color">House activities</blockquote>
+    </div>
+    <ul class="nav nav-tabs">
+        <li authorities="presentation" routerLink="purchase" routerLinkActive="active"><a>Purchases</a></li>
+        <li authorities="presentation" routerLink="payment" routerLinkActive="active"><a>Payments</a></li>
+        <li authorities="presentation" routerLink="job" routerLinkActive="active"><a>Jobs</a></li>
+        <li authorities="presentation" routerLink="maintenance" routerLinkActive="active"><a>Maintenance</a></li>
+    </ul>
+
+    <div class="task-menu">
+        <div id="prepare-tasks">
+            <button class="btn btn-default" type="button" id="btn-prepare-tasks">Prepare Tasks</button>
+        </div>
+        <div class="report-dropdown">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Reports
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Statistic</a></li>
+                    <li><a href="#">Audit</a></li>
+                    <li authorities="separator" class="divider"></li>
+                    <li><a href="#">Closed / Cancelled</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

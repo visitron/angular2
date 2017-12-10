@@ -1,0 +1,14 @@
+<div class="container1">
+    <div class="refresh">
+        <div [hidden]="!busy" id="refreshing-text-id">Loading...</div>
+        <div [hidden]="busy"><button id="btn-refresh-id" class="btn btn-default" value="Refresh" (click)="refresh()"><span class="glyphicon glyphicon-refresh"></span></button></div>
+    </div>
+
+    <div id="search"><search></search></div>
+    <div id="login-info"><login-info></login-info></div>
+    <router-outlet></router-outlet>
+    <div id="filters"><filters></filters></div>
+    <div id="actions"><actions></actions></div>
+    <div id="navigation-bar"><navigation-bar></navigation-bar></div>
+
+</div>

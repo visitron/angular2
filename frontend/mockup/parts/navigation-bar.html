@@ -1,0 +1,9 @@
+<div *ngIf="show">
+    <div class="buttons-nav">
+        <div class="btn-group" authorities="group">
+            <button type="button" class="btn btn-default" (click)="select('all')">Select All</button>
+            <button type="button" class="btn btn-default" (click)="select('nothing')">Deselect All</button>
+            <button type="button" class="btn btn-default" (click)="select('invert')">Invert Selection</button>
+        </div>
+    </div>
+</div>

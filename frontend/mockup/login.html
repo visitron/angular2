@@ -1,0 +1,46 @@
+<div id="login-form" class="container well general-form">
+    <div class="description">To login please select a user or <a routerLink="/register" class="hyperlink">register</a></div>
+    <form class="form-horizontal" #loginForm="ngForm" (ngSubmit)="login(loginForm, user)">
+        <div class="form-group col-sm-4">
+            <div class="btn-group">
+                <button id="select-user-btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="users.length === 0">{{selectedUser()}}</button>
+                <ul class="dropdown-menu user-list">
+                    <li *ngFor="let user of users; let last = last">
+                        <a [style.cursor]="'pointer'" (click)="selectUser(user)">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <img height="64" width="64" [src]="getImageURL(user)">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="user-parameter">{{user.firstName}}</div>
+                                    <div class="user-parameter">{{user.lastName}}</div>
+                                    <div><span [class]="getUserClass(user)">{{user.authorities}}</span>  <span id="user-activation-pending-id" class="label label-default" *ngIf="user.state === 'DRAFT'">Not Activated</span></div>
+                                </div>
+                            </div>
+                        </a>
+                        <div *ngIf="!last">
+                            <hr>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <input type="text" name="username" [value]="user?.firstName" hidden>
+        <div class="form-group col-sm-8">
+            <input type="password" class="form-control" id="password-id" placeholder="Password" name="password" [disabled]="user === null" [value]="user?.password" (input)="user.password = $event.target.value; lastLoginFailed = false">
+        </div>
+        <div class="form-group col-sm-12">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="remember-me-id" name="remember-me" [disabled]="user === null" (change)="user.rememberMe = $event.target.value.toLowerCase() == 'on'"> Remember me
+                </label>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <button type="submit" class="btn btn-default" [disabled]="canLogin(user)">Sign in</button>
+        </div>
+        <div [hidden]="!lastLoginFailed" id="invalid-password-error" class="col-sm-4">
+            {{rejectReason}}
+        </div>
+    </form>
+</div>

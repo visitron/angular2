@@ -1,0 +1,63 @@
+<div *ngIf="show">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span>Filters</span>
+            <span class="highlight" style="position: relative; float: right" (click)="collapseOrExpandAll()">{{allFiltersExpanded ? 'Collapse All' : 'Expand All'}}
+                <span [class]="allFiltersExpanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div [class]="hasAnyFilter() ? 'filter-list' : 'filter-list last-item'">
+                <div *ngFor="let filterGroup of filterGroups">
+                    <span class="highlight" (click)="collapseOrExpand(filterGroup)"><b>{{filterGroup.name}} </b></span><span [class]="filterGroup.expanded ? 'glyphicon glyphicon-menu-up' : 'glyphicon glyphicon-menu-down'"></span>
+                    <ul *ngIf="filterGroup.expanded">
+                        <li *ngFor="let filter of filterGroup.filters" [class]="filter!=='boolean' ? 'composite' : ''">
+                            <div *ngIf="!filter.active">
+                                <div [ngSwitch]="filter.type">
+                                    <template [ngSwitchCase]="'boolean'">
+                                        <span class="glyphicon glyphicon-plus-sign"></span><span class="highlight" (click)="applyFilter(filter)"> {{filter.name}}</span>
+                                    </template>
+                                    <template [ngSwitchCase]="'numeric'">
+                                        <span class="glyphicon glyphicon-plus-sign"></span>
+                                        <span>{{filter.name}}</span>
+                                        <div class="filter-item-input-group">
+                                            <input type="text" class="filter-item-input" (input)="filter.from=$event.target.value"> -
+                                            <input type="text" class="filter-item-input" (input)="filter.to=$event.target.value">
+                                            <button type="button" class="btn btn-xs btn-default" (click)="applyFilter(filter)" [disabled]="applyBtnDisabled(filter)">Ok</button>
+                                        </div>
+                                    </template>
+                                    <template [ngSwitchCase]="'date'">
+                                        <span class="glyphicon glyphicon-plus-sign"></span>
+                                        <span>{{filter.name}}</span>
+                                        <div class="filter-item-input-group">
+                                            <input type="date" class="filter-item-input" (input)="filter.from=$event.target.value">
+                                            <input type="date" class="filter-item-input" (input)="filter.to=$event.target.value">
+                                            <button type="button" class="btn btn-xs btn-default" (click)="applyFilter(filter)" [disabled]="applyBtnDisabled(filter)">Ok</button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div *ngIf="hasAnyFilter()">
+                <hr>
+                <div class="applied-filters">
+                    <b>Applied filters</b>
+                    <ul>
+                        <li *ngFor="let filter of appliedFilters">
+                            <span class="glyphicon glyphicon-minus-sign"></span><span class="highlight" (click)="removeFilter(filter)"> {{filter.description}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div class="clear-filters">
+                    <div class="action">
+                        <span class="glyphicon glyphicon-remove action-red"></span><span class="highlight" (click)="clearFilters()"> Clear</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

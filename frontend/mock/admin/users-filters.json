@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Role",
+    "type": "boolean",
+    "field": "role"
+  },
+  {
+    "name": "Photo",
+    "type": "boolean",
+    "field": "photo"
+  },
+  {
+    "name": "State",
+    "type": "boolean",
+    "field": "state"
+  }
+]

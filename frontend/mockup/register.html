@@ -1,0 +1,57 @@
+<div id="register-form" class="container well general-form register-form">
+    <form class="form" enctype="multipart/form-data" method="post" action="http://localhost:3002/register/request" #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm, model)">
+        <div id="image-id" [class]="imageURL === null ? 'image-empty' : ''" class="form-group" (click)="selectFile()">
+            <div [ngSwitch]="imageURL === null">
+                <template [ngSwitchCase]="true">
+                    <span class="upload-logo glyphicon glyphicon-save"></span>
+                    <span class="upload-logo">Upload</span>
+                </template>
+                <template [ngSwitchCase]="false">
+                    <img height="100" width="100" [src]="imageURL">
+                </template>
+            </div>
+            <input type="file" name="image" id="image-file-id" style="display: none" (change)="previewImage($event)">
+        </div>
+        <div id="authorities-id">
+            <div id="authorities-id-name" [class]="userClass">{{userType}}</div>
+        </div>
+        <div id="errors-id" [hidden]="registrationForm.valid || registrationForm.pristine">
+            <span>Not all mandatory fields have been filled and/or password and its confirmation don't match each other</span>
+        </div>
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="firstName.invalid && !firstName.pristine">
+            <input type="text" name="firstName" id="first-name-id" class="form-control" placeholder="First Name" required [(ngModel)]="model.firstName" #firstName="ngModel">
+        </div>
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="lastName.invalid && !lastName.pristine">
+            <input type="text" name="lastName" id="second-name-id" class="form-control" placeholder="Second Name" required [(ngModel)]="model.lastName" #lastName="ngModel">
+        </div>
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="email.invalid && !email.pristine">
+            <input type="email" name="email" id="email-name-id" class="form-control" placeholder="E-Mail" required pattern="[a-zA-Z0-9.]+@[a-zA-Z0-9.]+" [(ngModel)]="model.email" #email="ngModel">
+        </div>
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="password.invalid && !password.pristine">
+            <input type="password" name="password" validateEqual="passwordConfirmed" required id="password-id" class="form-control" placeholder="Password" [(ngModel)]="model.password" #password="ngModel">
+        </div>
+        <div class="form-group col-sm-offset-3 col-sm-9" [class.has-error]="passwordConfirmed.invalid && !passwordConfirmed.pristine">
+            <input type="password" name="passwordConfirmed" validateEqual="password" validateEqualPrimary required id="password-confirm-id" class="form-control" placeholder="Repeat Password" [(ngModel)]="model.passwordConfirmed" #passwordConfirmed="ngModel">
+        </div>
+        <div class="form-group col-sm-offset-3 col-sm-9">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message-registration-id" [disabled]="!registrationForm.valid">Register</button>
+            <button type="button" class="btn btn-default" routerLink="/login">Cancel</button>
+        </div>
+        <div id="message-registration-id" class="modal fade" tabindex="-1" authorities="dialog">
+            <div class="modal-dialog modal-sm notification" authorities="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Once your account is activated, you will be able to login. It can take a day.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="confirm-registration-btn-id" type="submit" class="btn btn-default">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
