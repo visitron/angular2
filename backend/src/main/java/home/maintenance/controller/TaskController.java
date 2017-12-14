@@ -1,8 +1,10 @@
 package home.maintenance.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import home.maintenance.dao.common.TaskRepository;
 import home.maintenance.model.AbstractTask;
 import home.maintenance.model.User;
+import home.maintenance.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -19,17 +21,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @RestController
 @RequestMapping(value = "/tasks", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-@Secured("ROLE_VIEW")
+@Secured("TASK_VIEW")
 public class TaskController {
 
     @Autowired
     private TaskRepository taskRepository;
 
+    @JsonView(UserView.UI.class)
     @RequestMapping
     public List<AbstractTask> getTasks(@RequestParam("includeShared") boolean includeShared, @AuthenticationPrincipal User user) throws Exception {
         return includeShared ? taskRepository.findAllByOwnerIdOrShared(user.getId(), true) : taskRepository.findAllByOwnerId(user.getId());
     }
 
+    @JsonView(UserView.Name.class)
     @RequestMapping(value = "/shared")
     public List<AbstractTask> getSharedTasks() throws Exception {
         return taskRepository.findAllByShared(true);

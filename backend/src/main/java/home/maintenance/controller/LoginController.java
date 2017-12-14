@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/login")
-@Secured("ROLE_USER_MANAGEMENT")
+@Secured("USER_MANAGEMENT")
 public class LoginController {
 
     @Autowired

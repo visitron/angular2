@@ -1,6 +1,0 @@
-#FROM openjdk:8-jre-alpine
-FROM home/builder
-
-ADD . /home/app
-WORKDIR /home/app
-RUN gradle jar

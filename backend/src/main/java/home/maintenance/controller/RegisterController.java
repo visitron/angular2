@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,16 +36,18 @@ public class RegisterController {
     private UserRepository userRepository;
     @Autowired
     private ImageRepository imageRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public ResponseEntity request(@RequestParam(required = false) MultipartFile image,
                                   @RequestParam String username,
                                   @RequestParam String firstName,
-                                  @RequestParam String secondName,
+                                  @RequestParam String lastName,
                                   @RequestParam String email,
                                   @RequestParam String password) throws IOException {
 
-        User user = new User(username, firstName, secondName, email, image != null, password, Arrays.asList(Authority.TASK_VIEW));
+        User user = new User(username, firstName, lastName, email, image != null, passwordEncoder.encode(password), Arrays.asList(Authority.TASK_VIEW));
         if (userRepository.countByUsername(username) != 0) {
             return ResponseEntity.badRequest().body("Such username is already exist. Try another one.");
         }

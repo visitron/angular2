@@ -10,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -32,7 +30,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,7 +41,6 @@ import static java.util.Optional.ofNullable;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
@@ -56,13 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${application.security.init.password}")
     private String password;
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
-//        builder.inMemoryAuthentication();
         builder.userDetailsService(new CustomUserDetailService())
-                .passwordEncoder(passwordEncoder);
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -101,6 +95,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedHeader("Access-Control-Allow-Origin");
@@ -126,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         if (password == null) password = UUID.randomUUID().toString();
 
-        User su = new User(username, null, null, null, false, passwordEncoder.encode(password), Collections.singletonList(Authority.ADMIN_MANAGEMENT));
+        User su = new User(username, null, null, null, false, passwordEncoder().encode(password), Arrays.asList(Authority.ADMIN_MANAGEMENT, Authority.USER_MANAGEMENT));
         su.setState(UserState.ACTIVE);
         userRepository.save(su);
         StringBuilder welcomeBuilder = new StringBuilder().append("\n\n\tThis is the first run of the application. Credentials for login:")

@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin")
-@Secured("ROLE_USER_MANAGEMENT")
+@Secured({"USER_MANAGEMENT", "ADMIN_MANAGEMENT"})
 public class AdminController {
 
     @Autowired

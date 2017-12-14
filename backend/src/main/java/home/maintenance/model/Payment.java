@@ -1,5 +1,8 @@
 package home.maintenance.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import home.maintenance.view.UserView;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;

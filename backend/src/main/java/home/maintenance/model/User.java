@@ -1,6 +1,8 @@
 package home.maintenance.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import home.maintenance.view.UserView;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,10 +22,13 @@ public class User implements UserDetails {
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
     private long id;
+    @JsonView(UserView.Name.class)
     @Column(unique = true)
     private String username;
+    @JsonView(UserView.UI.class)
     @Column
     private String firstName;
+    @JsonView(UserView.UI.class)
     @Column
     private String lastName;
     @JsonIgnore
@@ -35,17 +40,21 @@ public class User implements UserDetails {
     @JsonIgnore
     @Column
     private String password;
+    @JsonView(UserView.UI.class)
     @Column
     @Enumerated(EnumType.STRING)
     private UserState state;
+    @JsonIgnore
     @Column
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private List<Authority> authorities = new ArrayList<>();
+    @JsonIgnore
     @Column(updatable = false)
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
     private Date creationDate;
+    @JsonIgnore
     @Column(insertable = false)
     @UpdateTimestamp
     @Temporal(TemporalType.DATE)
