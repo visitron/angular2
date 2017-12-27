@@ -7,8 +7,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * Created by vsoshyn on 28/10/2016.
  */
 @Configuration
-@Import({PersistenceConfig.class, WebMvcConfig.class, SecurityConfig.class, MethodSecurityConfig.class,
-        StateMachineConfig.class, JsonConfig.class})
+@Import({PersistenceConfig.class,
+        SecurityConfig.class,
+        MethodSecurityConfig.class,
+        StateMachineConfig.class,
+        WebMvcConfig.class
+})
 @ComponentScan(basePackages = {"home.maintenance.controller", "home.maintenance.service"})
 @PropertySource("classpath:application.properties")
 public class ApplicationConfig {}
