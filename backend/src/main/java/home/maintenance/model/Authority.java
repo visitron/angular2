@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
  * Created by Buibi on 21.01.2017.
  */
 public enum Authority implements GrantedAuthority {
-    ADMIN_MANAGEMENT, USER_MANAGEMENT, TASK_MANAGEMENT, TASK_VIEW;
+    USER_MANAGEMENT, TASK_MANAGEMENT, TASK_VIEW;
 
     @Override
     public String getAuthority() {

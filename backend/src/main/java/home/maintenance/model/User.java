@@ -3,20 +3,20 @@ package home.maintenance.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import home.maintenance.view.UserView;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Buibi on 21.01.2017.
  */
 @Entity
 @Table(name = "[USER]")
+@org.hibernate.annotations.DynamicUpdate
 public class User implements UserDetails {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
@@ -35,7 +35,7 @@ public class User implements UserDetails {
     @Column
     private String email;
     @Column
-    @Type(type = "yes_no")
+    @org.hibernate.annotations.Type(type = "yes_no")
     private boolean photo;
     @JsonIgnore
     @Column
@@ -44,19 +44,19 @@ public class User implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private UserState state;
-    @JsonIgnore
+    @JsonView(UserView.UI.class)
     @Column
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private List<Authority> authorities = new ArrayList<>();
+    private Collection<Authority> authorities = new HashSet<>();
     @JsonIgnore
     @Column(updatable = false)
-    @CreationTimestamp
+    @org.hibernate.annotations.CreationTimestamp
     @Temporal(TemporalType.DATE)
     private Date creationDate;
     @JsonIgnore
     @Column(insertable = false)
-    @UpdateTimestamp
+    @org.hibernate.annotations.UpdateTimestamp
     @Temporal(TemporalType.DATE)
     private Date modificationDate;
 
@@ -74,8 +74,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.unmodifiableCollection(authorities);
+    public Collection<Authority> getAuthorities() {
+        return authorities;
     }
 
     @Override
@@ -166,11 +166,6 @@ public class User implements UserDetails {
 
     public void setState(UserState state) {
         this.state = state;
-    }
-
-    public void addAuthorities(List<Authority> authorities) {
-        authorities.removeAll(this.authorities);
-        this.authorities.addAll(authorities);
     }
 
     public Date getCreationDate() {

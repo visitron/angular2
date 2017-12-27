@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
+    @Override
     protected AccessDecisionManager accessDecisionManager() {
         AffirmativeBased accessDecisionManager = (AffirmativeBased) super.accessDecisionManager();
 

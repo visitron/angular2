@@ -125,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         if (password == null) password = UUID.randomUUID().toString();
 
-        User su = new User(username, null, null, null, false, passwordEncoder().encode(password), Arrays.asList(Authority.ADMIN_MANAGEMENT, Authority.USER_MANAGEMENT));
+        User su = new User(username, null, null, null, false, passwordEncoder().encode(password), Arrays.asList(Authority.USER_MANAGEMENT));
         su.setState(UserState.ACTIVE);
         userRepository.save(su);
         StringBuilder welcomeBuilder = new StringBuilder().append("\n\n\tThis is the first run of the application. Credentials for login:")
@@ -139,8 +139,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            return ofNullable(userRepository.findByUsername(username))
-                    .orElseThrow(() -> new UsernameNotFoundException("User [" + username + "] is not found"));
+            User userDetails = userRepository.findByUsername(username);
+            if (userDetails == null) throw new UsernameNotFoundException("User [" + username + "] is not found");
+            return userDetails;
         }
     }
 
