@@ -20,8 +20,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * Created by vsoshyn on 25/10/2016.
  */
 @RestController
-@RequestMapping(value = "/tasks", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @Secured("TASK_VIEW")
+@RequestMapping(value = "/tasks", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class TaskController {
 
     @Autowired
@@ -39,6 +39,7 @@ public class TaskController {
         return taskRepository.findAllByShared(true);
     }
 
+    @Secured("TASK_MANAGEMENT")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createTask(@RequestBody AbstractTask task, @AuthenticationPrincipal User user) throws Exception {
         task.setOwner(user);
