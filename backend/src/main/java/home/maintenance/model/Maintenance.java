@@ -1,8 +1,16 @@
 package home.maintenance.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 /**
  * Created by Buibi on 21.01.2017.
@@ -10,6 +18,8 @@ import javax.persistence.*;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "task")
+
+@Getter @Setter
 public class Maintenance extends AbstractTask {
     @Column(name = "m_cost")
     private int cost;
@@ -23,46 +33,4 @@ public class Maintenance extends AbstractTask {
     @Column
     @Lob
     private byte[] image;
-
-    public Maintenance() {}
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public Maintenance getParent() {
-        return parent;
-    }
-
-    public void setParent(Maintenance parent) {
-        this.parent = parent;
-    }
-
-    public boolean isRequiresSpecialist() {
-        return requiresSpecialist;
-    }
-
-    public void setRequiresSpecialist(boolean requiresSpecialist) {
-        this.requiresSpecialist = requiresSpecialist;
-    }
-
-    public Specialist getSpecialist() {
-        return specialist;
-    }
-
-    public void setSpecialist(Specialist specialist) {
-        this.specialist = specialist;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 }

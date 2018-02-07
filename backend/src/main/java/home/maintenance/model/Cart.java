@@ -1,6 +1,21 @@
 package home.maintenance.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 /**
@@ -8,6 +23,11 @@ import java.util.Date;
  */
 @Entity
 @Table
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
+@Getter @Setter
+@ToString(doNotUseGetters = true)
 public class Cart {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
@@ -23,46 +43,4 @@ public class Cart {
     @Column
     @Temporal(TemporalType.DATE)
     private Date maturityDate;
-
-    public Cart() {}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public AbstractTask getTask() {
-        return task;
-    }
-
-    public void setTask(AbstractTask task) {
-        this.task = task;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Date getMaturityDate() {
-        return maturityDate;
-    }
-
-    public void setMaturityDate(Date maturityDate) {
-        this.maturityDate = maturityDate;
-    }
 }

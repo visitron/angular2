@@ -1,5 +1,10 @@
 package home.maintenance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Table;
@@ -9,6 +14,11 @@ import javax.persistence.Table;
  */
 @Embeddable
 @Table
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
+@Getter @Setter
+@ToString(doNotUseGetters = true)
 public class Specialist {
     @Column
     private String name;
@@ -17,42 +27,8 @@ public class Specialist {
     @Column
     private int phone;
     /**
-     * All prices and costs are measured in cents (x100)
+     * All prices and costs are measured in coins (x100)
      */
     @Column
     private int cost;
-
-    public Specialist() {}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
 }

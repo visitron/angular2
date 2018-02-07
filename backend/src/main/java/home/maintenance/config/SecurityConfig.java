@@ -4,8 +4,7 @@ import home.maintenance.dao.common.UserRepository;
 import home.maintenance.model.Authority;
 import home.maintenance.model.User;
 import home.maintenance.model.UserState;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,20 +33,17 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
-
 /**
  * Created by vsoshyn on 28/10/2016.
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
+@Slf4j
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserRepository userRepository;
-
     @Value("${application.security.init.username}")
     private String username;
     @Value("${application.security.init.password}")

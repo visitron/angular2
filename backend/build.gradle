@@ -9,5 +9,8 @@ dependencies {
     compile 'com.h2database:h2:1.4.193'
     compile 'com.oracle:ojdbc6:11.2.0'
 
+    //compile time boilerplate code generator
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+
 //    testCompile 'junit:junit:4.12'
 }

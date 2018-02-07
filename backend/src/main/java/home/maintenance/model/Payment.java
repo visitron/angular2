@@ -1,7 +1,7 @@
 package home.maintenance.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import home.maintenance.view.UserView;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,17 +14,9 @@ import javax.persistence.Table;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "fk_task")
+
+@Getter @Setter
 public class Payment extends AbstractTask {
     @Column
     private int cost;
-
-    public Payment() {}
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
 }

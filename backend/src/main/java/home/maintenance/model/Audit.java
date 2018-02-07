@@ -1,6 +1,20 @@
 package home.maintenance.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 /**
@@ -8,6 +22,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "[AUDIT]")
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
+@Getter @Setter
+@ToString(doNotUseGetters = true)
 public class Audit {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
@@ -26,62 +45,4 @@ public class Audit {
     @Column(name = "[DATE]")
     @Temporal(TemporalType.DATE)
     private Date date;
-
-    public Audit() {}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getOldValue() {
-        return oldValue;
-    }
-
-    public void setOldValue(String oldValue) {
-        this.oldValue = oldValue;
-    }
-
-    public String getNewValue() {
-        return newValue;
-    }
-
-    public void setNewValue(String newValue) {
-        this.newValue = newValue;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

@@ -1,12 +1,28 @@
 package home.maintenance.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Created by Buibi on 21.01.2017.
  */
 @Entity
 @Table
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
+@Getter @Setter
+@ToString(doNotUseGetters = true)
 public class Product {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
@@ -20,46 +36,4 @@ public class Product {
     private String group;
     @Column
     private String product;
-
-    public Product() {}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getSubCategory() {
-        return subCategory;
-    }
-
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
 }

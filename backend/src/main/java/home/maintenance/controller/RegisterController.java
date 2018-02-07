@@ -4,15 +4,12 @@ import home.maintenance.dao.common.UserRepository;
 import home.maintenance.model.Authority;
 import home.maintenance.model.User;
 import home.maintenance.service.ImageRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,8 +26,6 @@ import java.util.Arrays;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
-
-    private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
 
     @Autowired
     private UserRepository userRepository;

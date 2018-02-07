@@ -1,12 +1,32 @@
 package home.maintenance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 /**
@@ -15,6 +35,8 @@ import java.util.Date;
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Task.class, name = "task"),
@@ -22,6 +44,10 @@ import java.util.Date;
         @JsonSubTypes.Type(value = Payment.class, name = "payment"),
         @JsonSubTypes.Type(value = Purchase.class, name = "purchase")
 })
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @Setter
+@ToString(doNotUseGetters = true, of = {"id", "creationDate", "shared", "state"})
 public abstract class AbstractTask {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
@@ -51,72 +77,6 @@ public abstract class AbstractTask {
     private Priority priority;
     @Column
     private String target;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
-
-    protected AbstractTask() {}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
-    }
-
-    public boolean isShared() {
-        return shared;
-    }
-
-    public void setShared(boolean shared) {
-        this.shared = shared;
-    }
-
-    public TaskState getState() {
-        return state;
-    }
-
-    public void setState(TaskState state) {
-        this.state = state;
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 }

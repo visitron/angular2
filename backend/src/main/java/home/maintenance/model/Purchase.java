@@ -1,6 +1,16 @@
 package home.maintenance.model;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 /**
  * Created by Buibi on 21.01.2017.
@@ -8,6 +18,9 @@ import javax.persistence.*;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "fk_task")
+
+@Getter @Setter
+@ToString(doNotUseGetters = true)
 public class Purchase extends AbstractTask {
     @Column
     private int price;
@@ -18,38 +31,4 @@ public class Purchase extends AbstractTask {
     @Column
     @Enumerated(EnumType.STRING)
     private Unit unit;
-
-    public Purchase() {}
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
 }
