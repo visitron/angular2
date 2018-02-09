@@ -26,9 +26,6 @@ public class Specialist {
     private String company;
     @Column
     private int phone;
-    /**
-     * All prices and costs are measured in coins (x100)
-     */
     @Column
     private int cost;
 }

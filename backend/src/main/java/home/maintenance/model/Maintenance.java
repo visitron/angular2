@@ -1,5 +1,6 @@
 package home.maintenance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -7,8 +8,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -19,18 +18,15 @@ import javax.persistence.Table;
 @Table
 @PrimaryKeyJoinColumn(name = "task")
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 @Getter @Setter
-public class Maintenance extends AbstractTask {
+public class Maintenance extends Task {
     @Column(name = "m_cost")
     private int cost;
-    @ManyToOne
-    private Maintenance parent;
     @Column
     @Type(type = "yes_no")
     private boolean requiresSpecialist;
     @Embedded
     private Specialist specialist;
-    @Column
-    @Lob
-    private byte[] image;
 }

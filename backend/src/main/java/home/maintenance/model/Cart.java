@@ -1,9 +1,12 @@
 package home.maintenance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,11 +39,18 @@ public class Cart {
     @OneToOne
     private User user;
     @ManyToOne
-    private AbstractTask task;
+    private Task task;
     @Column
+    @Temporal(TemporalType.DATE)
+    private Date expirationDate;
+    @JsonIgnore
+    @Column(updatable = false)
+    @org.hibernate.annotations.CreationTimestamp
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @Column
+    @JsonIgnore
+    @Column(insertable = false)
+    @org.hibernate.annotations.UpdateTimestamp
     @Temporal(TemporalType.DATE)
-    private Date maturityDate;
+    private Date modificationDate;
 }

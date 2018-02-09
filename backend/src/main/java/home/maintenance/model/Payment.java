@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "fk_task")
 
 @Getter @Setter
-public class Payment extends AbstractTask {
+public class Payment extends Task {
     @Column
     private int cost;
 }

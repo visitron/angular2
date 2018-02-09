@@ -132,4 +132,11 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return state == UserState.ACTIVE;
     }
+
+    public void patch(User user) {
+        firstName = user.firstName;
+        lastName = user.lastName;
+        email = user.email;
+        password = user.password;
+    }
 }

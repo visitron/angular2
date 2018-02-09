@@ -33,7 +33,7 @@ public class Statistic {
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
     private long id;
     @ManyToOne
-    private AbstractTask abstractTask;
+    private Task task;
     @Column
     private int cost;
     @Column(name = "[DATE]")

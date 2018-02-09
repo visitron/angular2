@@ -30,7 +30,7 @@ public class AdminController {
     private UserStateGraph graph;
 
     @RequestMapping
-    public List<User> usersFiltered(@RequestParam(required = false) UserState state) {
+    public List<User> getUsers(@RequestParam(required = false) UserState state) {
         return state != null ? userRepository.findAllByState(state) : userRepository.findAll();
     }
 

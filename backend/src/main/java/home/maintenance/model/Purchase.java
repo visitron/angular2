@@ -21,7 +21,7 @@ import javax.persistence.Table;
 
 @Getter @Setter
 @ToString(doNotUseGetters = true)
-public class Purchase extends AbstractTask {
+public class Purchase extends Task {
     @Column
     private int price;
     @Column
