@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -113,18 +114,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    @Transactional
     @PostConstruct
-    private void postConstruct() {
-        if (userRepository.count() > 0) return;
+    public void postConstruct() {
+        if (userRepository.count() > 0) {
+            User system = userRepository.findByUsername("System");
+            User.SYSTEM.setState(UserState.ACTIVE);
+            User.SYSTEM.setId(system.getId());
+            return;
+        }
 
         String username = this.username;
         String password = this.password;
 
         if (password == null) password = UUID.randomUUID().toString();
 
-        User su = new User(username, null, null, null, false, passwordEncoder().encode(password), Arrays.asList(Authority.USER_MANAGEMENT));
-        su.setState(UserState.ACTIVE);
-        userRepository.save(su);
+        User admin = new User(username, null, null, null, false, passwordEncoder().encode(password), Arrays.asList(Authority.USER_MANAGEMENT));
+        admin.setState(UserState.ACTIVE);
+        User system = User.SYSTEM;
+        system.setState(UserState.ACTIVE);
+
+        userRepository.save(system);
+        userRepository.save(admin);
+
         StringBuilder welcomeBuilder = new StringBuilder().append("\n\n\tThis is the first run of the application. Credentials for login:")
                 .append("\n\t\tusername: admin")
                 .append("\n\t\tpassword: ").append(password)

@@ -1,7 +1,14 @@
 package home.maintenance.config;
 
-import org.springframework.context.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import home.maintenance.service.CreatedByAware;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Created by vsoshyn on 28/10/2016.
@@ -15,4 +22,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 })
 @ComponentScan(basePackages = {"home.maintenance.controller", "home.maintenance.service"})
 @PropertySource("classpath:application.properties")
-public class ApplicationConfig {}
+@EnableAspectJAutoProxy
+@EnableJpaAuditing(auditorAwareRef = "createdByAware")
+@EnableScheduling
+public class ApplicationConfig {
+    @Bean
+    public CreatedByAware createdByAware() {
+        return new CreatedByAware();
+    }
+}

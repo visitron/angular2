@@ -3,12 +3,15 @@ package home.maintenance.dao.common;
 import home.maintenance.model.User;
 import home.maintenance.model.UserState;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by Buibi on 22.01.2017.
  */
+@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     int countByUsername(String username);

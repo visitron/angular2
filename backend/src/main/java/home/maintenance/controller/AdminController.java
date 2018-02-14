@@ -11,7 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,17 +50,15 @@ public class AdminController {
         if (nextState == null) return new ResponseEntity<>("Incorrect requested user state", HttpStatus.BAD_REQUEST);
 
         users.forEach(user -> user.setState(nextState));
-        userRepository.save(users);
         return ResponseEntity.noContent().build();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @RequestMapping(value = "{userId}/authorities", method = RequestMethod.PATCH)
     public ResponseEntity addAuthorities(@PathVariable("userId") long userId, @RequestBody Collection<Authority> authorities) {
         User user = userRepository.findOne(userId);
         user.getAuthorities().clear();
         user.getAuthorities().addAll(authorities);
-        userRepository.save(user);
         return ResponseEntity.noContent().build();
     }
 

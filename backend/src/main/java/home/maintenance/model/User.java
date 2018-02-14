@@ -3,7 +3,7 @@ package home.maintenance.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import home.maintenance.view.UserView;
+import home.maintenance.view.Views;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,10 +21,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -40,18 +38,20 @@ import java.util.List;
 @NoArgsConstructor
 @Getter @Setter
 @ToString(doNotUseGetters = true, of = {"id", "username", "state"})
-public class User implements UserDetails {
+public class User extends Auditable implements UserDetails {
+    public static final User SYSTEM = new User("system", null, null, null, false, null, Arrays.asList(Authority.SYSTEM));
+
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
-    private long id;
-    @JsonView(UserView.Name.class)
+    private Long id;
+    @JsonView(Views.UserView.Name.class)
     @Column(unique = true)
     private String username;
-    @JsonView(UserView.UI.class)
+    @JsonView(Views.UserView.UI.class)
     @Column
     private String firstName;
-    @JsonView(UserView.UI.class)
+    @JsonView(Views.UserView.UI.class)
     @Column
     private String lastName;
     @JsonIgnore
@@ -63,25 +63,15 @@ public class User implements UserDetails {
     @JsonIgnore
     @Column
     private String password;
-    @JsonView(UserView.UI.class)
+    @JsonView(Views.UserView.UI.class)
     @Column
     @Enumerated(EnumType.STRING)
     private UserState state;
-    @JsonView(UserView.UI.class)
+    @JsonView(Views.UserView.UI.class)
     @Column
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Collection<Authority> authorities = new HashSet<>();
-    @JsonIgnore
-    @Column(updatable = false)
-    @org.hibernate.annotations.CreationTimestamp
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
-    @JsonIgnore
-    @Column(insertable = false)
-    @org.hibernate.annotations.UpdateTimestamp
-    @Temporal(TemporalType.DATE)
-    private Date modificationDate;
 
     public User(String username, String firstName, String lastName, String email, boolean hasPhoto, String password, List<Authority> authorities) {
         this.username = username;
@@ -139,4 +129,10 @@ public class User implements UserDetails {
         email = user.email;
         password = user.password;
     }
+
+    @Override
+    public void setCreatedBy(User createdBy) {}
+
+    @Override
+    public void setLastModifiedBy(User lastModifiedBy) {}
 }

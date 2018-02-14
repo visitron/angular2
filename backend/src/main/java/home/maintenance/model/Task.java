@@ -1,6 +1,5 @@
 package home.maintenance.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -9,9 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,9 +24,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 
 /**
  * Created by Buibi on 21.01.2017.
@@ -48,23 +42,12 @@ import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
-@ToString(doNotUseGetters = true, of = {"id", "creationDate", "shared", "state"})
-public class Task {
+@ToString(doNotUseGetters = true, of = {"id", "shared", "state"})
+public class Task extends Auditable {
     @Id
     @GeneratedValue(generator = "idGenerator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "idGenerator", allocationSize = 10)
-    private long id;
-    @Column
-    @Temporal(TemporalType.DATE)
-    private Date dueDate;
-    @Column(updatable = false)
-    @org.hibernate.annotations.CreationTimestamp
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
-    @Column(insertable = false)
-    @org.hibernate.annotations.UpdateTimestamp
-    @Temporal(TemporalType.DATE)
-    private Date modificationDate;
+    private Long id;
     @Column
     private String schedule;
     @Column
@@ -72,7 +55,7 @@ public class Task {
     private boolean shared;
     @Column
     @Enumerated(EnumType.STRING)
-    private TaskState state;
+    private TaskState state = TaskState.OPENED;
     @Column
     @Enumerated(EnumType.STRING)
     private Priority priority;
@@ -80,8 +63,6 @@ public class Task {
     private String target;
     @Column
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User owner;
     @ManyToOne(fetch = FetchType.LAZY)
     private Task parent;
     @Column

@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/user")
-//@Secured("TASK_VIEW")
+@Secured("TASK_VIEW")
 
 @Slf4j
 public class UserController {
@@ -58,16 +58,15 @@ public class UserController {
     @Transactional
     @RequestMapping(value = "/changePhoto", method = RequestMethod.POST)
     public ResponseEntity request(@RequestParam(required = false, name = "image") MultipartFile image, @AuthenticationPrincipal User user) throws IOException {
-//        user = userRepository.findOne(user.getId());
-        log.info("Image is available: " + (image != null));
+        user = userRepository.findOne(user.getId());
 
-//        if (image != null) {
-//            imageRepository.save(image.getBytes(), user.getId());
-//            user.setPhoto(true);
-//        } else {
-//            imageRepository.delete(user.getId());
-//            user.setPhoto(false);
-//        }
+        if (image != null) {
+            imageRepository.save(image.getBytes(), user.getId());
+            user.setPhoto(true);
+        } else {
+            imageRepository.delete(user.getId());
+            user.setPhoto(false);
+        }
         return ResponseEntity.noContent().build();
     }
 

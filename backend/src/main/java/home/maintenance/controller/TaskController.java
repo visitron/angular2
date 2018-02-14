@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import home.maintenance.dao.common.TaskRepository;
 import home.maintenance.model.Task;
 import home.maintenance.model.User;
-import home.maintenance.view.UserView;
+import home.maintenance.view.Views;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -31,13 +31,13 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
-    @JsonView(UserView.UI.class)
+    @JsonView(Views.UserView.UI.class)
     @RequestMapping
     public List<Task> getTasks(@RequestParam("includeShared") boolean includeShared, @AuthenticationPrincipal User user) {
-        return includeShared ? taskRepository.findAllByOwnerIdOrShared(user.getId(), true) : taskRepository.findAllByOwnerId(user.getId());
+        return includeShared ? taskRepository.findAllByCreatedBy_IdOrShared(user.getId(), true) : taskRepository.findAllByCreatedBy_Id(user.getId());
     }
 
-    @JsonView(UserView.Name.class)
+    @JsonView(Views.UserView.Name.class)
     @RequestMapping(value = "/shared")
     public List<Task> getSharedTasks() {
         return taskRepository.findAllByShared(true);
@@ -45,8 +45,7 @@ public class TaskController {
 
     @Secured("TASK_MANAGEMENT")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity createTask(@RequestBody Task task, @AuthenticationPrincipal User user) {
-        task.setOwner(user);
+    public ResponseEntity createTask(@RequestBody Task task) {
         taskRepository.save(task);
         return ResponseEntity.ok().build();
     }
@@ -60,7 +59,7 @@ public class TaskController {
 
     @Secured("TASK_MANAGEMENT")
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity updateTask(@RequestBody Task task, @AuthenticationPrincipal User user) {
+    public ResponseEntity updateTask(@RequestBody Task task) {
         taskRepository.save(task);
         return ResponseEntity.ok().build();
     }
