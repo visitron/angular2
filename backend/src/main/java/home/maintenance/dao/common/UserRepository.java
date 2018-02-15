@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Created by Buibi on 22.01.2017.
  */
-@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     int countByUsername(String username);

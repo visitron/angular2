@@ -11,6 +11,7 @@ import static home.maintenance.model.TaskAction.ASSIGN;
 import static home.maintenance.model.TaskAction.CANCEL;
 import static home.maintenance.model.TaskAction.COMPLETE;
 import static home.maintenance.model.TaskAction.EXPIRE;
+import static home.maintenance.model.TaskAction.POSTPONE;
 import static home.maintenance.model.TaskAction.REMOVE;
 import static home.maintenance.model.TaskAction.UNASSIGN;
 import static home.maintenance.model.TaskState.ACTIVE;
@@ -35,6 +36,8 @@ public class TaskStateGraph extends StateGraph<TaskState, TaskAction, Task> {
         add(ACTIVE, CANCELLED, CANCEL);
         add(OPENED, REMOVED, REMOVE);
         add(ACTIVE, EXPIRED, EXPIRE);
+        add(ACTIVE, ACTIVE, POSTPONE);
+        add(EXPIRED, ACTIVE, POSTPONE);
     }
 
     @Override

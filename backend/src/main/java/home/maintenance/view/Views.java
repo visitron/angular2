@@ -15,4 +15,7 @@ public interface Views {
         interface Name extends AuditView.AuditDate.CreatedDate, AuditView.AuditUser.CreatedBy {}
         interface UI extends Name {}
     }
+    interface CartView extends AuditView.AuditDate.CreatedDate {
+
+    }
 }

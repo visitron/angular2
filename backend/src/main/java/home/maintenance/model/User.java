@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
@@ -21,8 +23,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -38,7 +43,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter @Setter
 @ToString(doNotUseGetters = true, of = {"id", "username", "state"})
-public class User extends Auditable implements UserDetails {
+public class User extends Persistable implements UserDetails {
     public static final User SYSTEM = new User("system", null, null, null, false, null, Arrays.asList(Authority.SYSTEM));
 
     @Id
@@ -72,6 +77,14 @@ public class User extends Auditable implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Collection<Authority> authorities = new HashSet<>();
+    @JsonView(Views.AuditView.AuditDate.CreatedDate.class)
+    @Temporal(TemporalType.DATE)
+    @CreatedDate
+    private Date createdDate = new Date();
+    @JsonView(Views.AuditView.AuditDate.LastModifiedDate.class)
+    @Temporal(TemporalType.DATE)
+    @LastModifiedDate
+    private Date lastModifiedDate = new Date();
 
     public User(String username, String firstName, String lastName, String email, boolean hasPhoto, String password, List<Authority> authorities) {
         this.username = username;
@@ -130,9 +143,4 @@ public class User extends Auditable implements UserDetails {
         password = user.password;
     }
 
-    @Override
-    public void setCreatedBy(User createdBy) {}
-
-    @Override
-    public void setLastModifiedBy(User lastModifiedBy) {}
 }

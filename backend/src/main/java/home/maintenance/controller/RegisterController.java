@@ -1,7 +1,9 @@
 package home.maintenance.controller;
 
+import home.maintenance.dao.common.CartRepository;
 import home.maintenance.dao.common.UserRepository;
 import home.maintenance.model.Authority;
+import home.maintenance.model.Cart;
 import home.maintenance.model.User;
 import home.maintenance.service.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,10 +33,13 @@ public class RegisterController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private CartRepository cartRepository;
+    @Autowired
     private ImageRepository imageRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public ResponseEntity request(@RequestParam(required = false) MultipartFile image,
                                   @RequestParam String username,
@@ -48,6 +54,12 @@ public class RegisterController {
         }
 
         userRepository.save(user);
+
+        Cart cart = new Cart();
+        cart.setOwner(user);
+
+        cartRepository.save(cart);
+
         if (image != null) {
             imageRepository.save(image.getBytes(), user.getId());
             System.out.println("New user is created");
