@@ -1,0 +1,19 @@
+version: '3'
+services:
+  youtrack:
+    image: jetbrains/youtrack:2018.1.41051
+    container_name: youtrack
+    volumes:
+      - ~/.ci/youtrack/data:/opt/youtrack/data
+      - ~/.ci/youtrack/conf:/opt/youtrack/conf
+      - ~/.ci/youtrack/logs:/opt/youtrack/logs
+      - ~/.ci/youtrack/backups:/opt/youtrack/backups
+    ports:
+      - 8081:8080
+  jenkins:
+    image: jenkins/jenkins:lts-alpine
+    container_name: jenkins
+    ports:
+      - 8082:8080
+    volumes:
+      - ~/.ci/jenkins:/var/jenkins_home
