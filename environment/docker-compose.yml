@@ -1,19 +1,49 @@
-version: '3'
+version: "3.3"
 services:
+  teamcity-server:
+    image: jetbrains/teamcity-server:2018.1.1
+    ports:
+    - '8111:8111'
+    volumes:
+    - ~/.ci/teamcity_server/datadir:/data/teamcity_server/datadir
+    - ~/.ci/teamcity_server/logs:/opt/teamcity/logs
+    links:
+    - mysql:mysql
+  teamcity-agent:
+    image: jetbrains/teamcity-agent:2018.1.1
+    environment:
+      SERVER_URL: 'teamcity-server:8111'
+    links:
+    - teamcity-server:teamcity-server
+    volumes:
+    - ~/.ci/teamcity-agent/conf:/data/teamcity_agent/conf
   youtrack:
-    image: jetbrains/youtrack:2018.1.41051
-    container_name: youtrack
-    volumes:
-      - ~/.ci/youtrack/data:/opt/youtrack/data
-      - ~/.ci/youtrack/conf:/opt/youtrack/conf
-      - ~/.ci/youtrack/logs:/opt/youtrack/logs
-      - ~/.ci/youtrack/backups:/opt/youtrack/backups
+    image: jetbrains/youtrack:2018.2.44329
     ports:
-      - 8081:8080
-  jenkins:
-    image: jenkins/jenkins:lts-alpine
-    container_name: jenkins
-    ports:
-      - 8082:8080
+    - '8080:8080'
     volumes:
-      - ~/.ci/jenkins:/var/jenkins_home
+    - ~/.ci/youtrack/data:/opt/youtrack/data
+    - ~/.ci/youtrack/conf:/opt/youtrack/conf
+    - ~/.ci/youtrack/logs:/opt/youtrack/logs
+    - ~/.ci/youtrack/backups:/opt/youtrack/backups
+    links:
+    - mysql:mysql
+  splunk:
+    image: splunk/splunk:7.1.2
+    environment:
+      SPLUNK_START_ARGS: '--accept-license --seed-passwd 12345678'
+      SPLUNK_USER: 'root'
+    ports:
+    - '8000:8000'
+  graphite:
+    image: graphiteapp/graphite-statsd
+    ports:
+    - '8001:80'
+    - '2003-2004:2003-2004'
+    - '2023-2024:2023-2024'
+    - '8125:8125/udp'
+    - '8126:8126'
+  mysql:
+    image: mysql/mysql-server:8.0.12
+    ports:
+    - '3306:3306/tcp'
