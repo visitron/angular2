@@ -1,17 +1,50 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 apply plugin: 'application'
 
 mainClassName = 'hone.maintenance.boot.Bootstrap'
 
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 11
+
 jar {
     baseName = 'home-management'
-    version =  '0.1.0'
 }
 
-dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE'
-    compile project(':backend')
+repositories {
+    mavenCentral()
+}
 
-//    testCompile 'junit:junit:4.12'
+
+dependencies {
+    compile project(':backend')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-freemarker')
+    compile('org.springframework.boot:spring-boot-starter-mail')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    compile('org.javassist:javassist:3.23.1-GA')
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+//    compile('org.liquibase:liquibase-core')
+    runtime('org.postgresql:postgresql')
+    compileOnly('org.projectlombok:lombok')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
+
+    compile('javax.xml.bind:jaxb-api:2.3.0')
 }

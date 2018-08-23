@@ -11,12 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,7 +38,7 @@ public class AdminController {
     @RequestMapping(value = "action/{action}", method = RequestMethod.POST)
     public ResponseEntity doAction(@RequestBody List<Long> ids, @PathVariable AdminAction action) {
         if (ids == null || ids.isEmpty()) return new ResponseEntity<>("None of records was chosen", HttpStatus.BAD_REQUEST);
-        List<User> users = userRepository.findAll(ids);
+        List<User> users = userRepository.findAllById(ids);
         if (users.stream().map(User::getState).distinct().count() > 1) return new ResponseEntity<>("Chosen users have not the same state", HttpStatus.BAD_REQUEST);
 
         UserState nextState = graph.next(users.get(0).getState(), action);
@@ -56,9 +51,10 @@ public class AdminController {
     @Transactional(readOnly = true)
     @RequestMapping(value = "{userId}/authorities", method = RequestMethod.PATCH)
     public ResponseEntity addAuthorities(@PathVariable("userId") long userId, @RequestBody Collection<Authority> authorities) {
-        User user = userRepository.findOne(userId);
-        user.getAuthorities().clear();
-        user.getAuthorities().addAll(authorities);
+        userRepository.findById(userId).ifPresent(user -> {
+            user.getAuthorities().clear();
+            user.getAuthorities().addAll(authorities);
+        });
         return ResponseEntity.noContent().build();
     }
 

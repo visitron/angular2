@@ -4,7 +4,6 @@ import home.maintenance.model.AdminAction;
 import home.maintenance.model.UserState;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateMachine;
-import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;

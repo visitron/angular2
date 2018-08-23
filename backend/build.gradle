@@ -1,16 +1,16 @@
 apply plugin: 'java'
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.5.8.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.5.8.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-security:1.5.8.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:2.0.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-security:2.0.4.RELEASE'
     compile 'org.springframework.statemachine:spring-statemachine-core:1.2.7.RELEASE'
 
     compile 'com.h2database:h2:1.4.193'
     compile 'com.oracle:ojdbc6:11.2.0'
 
     //compile time boilerplate code generator
-    compileOnly 'org.projectlombok:lombok:1.16.18'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
 
 //    testCompile 'junit:junit:4.12'
 }

@@ -10,11 +10,10 @@ import java.util.Optional;
 
 public class CreatedByAware implements AuditorAware<User> {
     @Override
-    public User getCurrentAuditor() {
+    public Optional<User> getCurrentAuditor() {
         return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .map(Authentication::getPrincipal)
                 .filter(principal -> Objects.equals(principal.getClass(), User.class))
-                .map(User.class::cast)
-                .orElse(null);
+                .map(User.class::cast);
     }
 }

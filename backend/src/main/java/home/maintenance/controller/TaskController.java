@@ -14,12 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -44,7 +39,7 @@ public class TaskController {
     @JsonView(Views.UserView.UI.class)
     @RequestMapping
     public List<Task> getTasks(@RequestParam("includeShared") boolean includeShared, @AuthenticationPrincipal User user) {
-        return includeShared ? taskRepository.findAllByCreatedBy_IdOrShared(user.getId(), true) : taskRepository.findAllByCreatedBy_Id(user.getId());
+        return includeShared ? taskRepository.findAllByCreatedByIdOrShared(user.getId(), true) : taskRepository.findAllByCreatedById(user.getId());
     }
 
     @JsonView(Views.UserView.Name.class)
@@ -63,7 +58,7 @@ public class TaskController {
     @Secured("TASK_MANAGEMENT")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteTask(@PathVariable(name = "id") long id) {
-        taskRepository.delete(id);
+        taskRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 

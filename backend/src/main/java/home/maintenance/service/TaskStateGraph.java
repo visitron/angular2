@@ -7,19 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.BiConsumer;
 
-import static home.maintenance.model.TaskAction.ASSIGN;
-import static home.maintenance.model.TaskAction.CANCEL;
-import static home.maintenance.model.TaskAction.COMPLETE;
-import static home.maintenance.model.TaskAction.EXPIRE;
-import static home.maintenance.model.TaskAction.POSTPONE;
-import static home.maintenance.model.TaskAction.REMOVE;
-import static home.maintenance.model.TaskAction.UNASSIGN;
-import static home.maintenance.model.TaskState.ACTIVE;
-import static home.maintenance.model.TaskState.CANCELLED;
-import static home.maintenance.model.TaskState.DONE;
-import static home.maintenance.model.TaskState.EXPIRED;
-import static home.maintenance.model.TaskState.OPENED;
-import static home.maintenance.model.TaskState.REMOVED;
+import static home.maintenance.model.TaskAction.*;
+import static home.maintenance.model.TaskState.*;
 
 /**
  * Created by Buibi on 29.01.2017.

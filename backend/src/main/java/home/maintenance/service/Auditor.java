@@ -1,16 +1,17 @@
 package home.maintenance.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
 import org.springframework.data.domain.Persistable;
 import org.springframework.stereotype.Component;
 
 @Aspect
-@Slf4j
 @Component
 public class Auditor {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Auditor.class);
+
     @Around("execution(public * save(..))")
     public Object log(ProceedingJoinPoint jp) throws Throwable {
         Object object = jp.getArgs()[0];

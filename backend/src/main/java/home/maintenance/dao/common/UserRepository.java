@@ -3,8 +3,6 @@ package home.maintenance.dao.common;
 import home.maintenance.model.User;
 import home.maintenance.model.UserState;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
