@@ -13,6 +13,8 @@ services:
     image: jetbrains/teamcity-agent:2018.1.1
     environment:
       SERVER_URL: 'teamcity-server:8111'
+      DOCKER_IN_DOCKER: 'start'
+    privileged: true
     links:
     - teamcity-server:teamcity-server
     volumes:
