@@ -5,8 +5,8 @@ services:
     ports:
     - '8111:8111'
     volumes:
-    - ~/.ci/teamcity_server/datadir:/data/teamcity_server/datadir
-    - ~/.ci/teamcity_server/logs:/opt/teamcity/logs
+    - teamcity_server:/data/teamcity_server/datadir
+    - teamcity_server:/opt/teamcity/logs
     links:
     - postgres:postgres
   teamcity-agent:
@@ -19,21 +19,21 @@ services:
     - teamcity-server:teamcity-server
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ~/.ci/teamcity-agent/conf:/data/teamcity_agent/conf
-    - ~/.ci/opt/buildagent/work:/opt/buildagent/work
-    - ~/.ci/opt/buildagent/temp:/opt/buildagent/temp
-    - ~/.ci/opt/buildagent/tools:/opt/buildagent/tools
-    - ~/.ci/opt/buildagent/plugins:/opt/buildagent/plugins
-    - ~/.ci/opt/buildagent/system:/opt/buildagent/system
+    - teamcity-agent:/data/teamcity_agent/conf
+    - teamcity-agent:/opt/buildagent/work
+    - teamcity-agent:/opt/buildagent/temp
+    - teamcity-agent:/opt/buildagent/tools
+    - teamcity-agent:/opt/buildagent/plugins
+    - teamcity-agent:/opt/buildagent/system
   youtrack:
     image: jetbrains/youtrack:2018.2.44329
     ports:
     - '8080:8080'
     volumes:
-    - ~/.ci/youtrack/data:/opt/youtrack/data
-    - ~/.ci/youtrack/conf:/opt/youtrack/conf
-    - ~/.ci/youtrack/logs:/opt/youtrack/logs
-    - ~/.ci/youtrack/backups:/opt/youtrack/backups
+    - youtrack:/opt/youtrack/data
+    - youtrack:/opt/youtrack/conf
+    - youtrack:/opt/youtrack/logs
+    - youtrack:/opt/youtrack/backups
     links:
     - postgres:postgres
   splunk:
@@ -57,7 +57,9 @@ services:
       POSTGRES_USER: 'vsoshyn'
       POSTGRES_PASSWORD: '12345678'
     ports:
-      - 5432:5432
+    - 5432:5432
+    volumes:
+    - postgres:/var/lib/postgresql/data
   portainer:
     image: portainer/portainer
     ports:
@@ -68,3 +70,7 @@ services:
     - portainer_data:/data
 volumes:
   portainer_data:
+  teamcity_server:
+  teamcity_agent:
+  youtrack:
+  postgres:
