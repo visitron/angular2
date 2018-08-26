@@ -5,8 +5,8 @@ services:
     ports:
     - '8111:8111'
     volumes:
-    - teamcity-server:/data/teamcity_server/datadir
-    - teamcity-server:/opt/teamcity/logs
+    - teamcity-server/data/teamcity_server/datadir:/data/teamcity_server/datadir
+    - teamcity-server/opt/teamcity/logs:/opt/teamcity/logs
     links:
     - postgres:postgres
   teamcity-agent:
@@ -19,21 +19,21 @@ services:
     - teamcity-server:teamcity-server
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - teamcity-agent:/data/teamcity_agent/conf
-    - teamcity-agent:/opt/buildagent/work
-    - teamcity-agent:/opt/buildagent/temp
-    - teamcity-agent:/opt/buildagent/tools
-    - teamcity-agent:/opt/buildagent/plugins
-    - teamcity-agent:/opt/buildagent/system
+    - teamcity-agent/data/teamcity_agent/conf:/data/teamcity_agent/conf
+    - teamcity-agent/opt/buildagent/work:/opt/buildagent/work
+    - teamcity-agent/opt/buildagent/temp:/opt/buildagent/temp
+    - teamcity-agent/opt/buildagent/tools:/opt/buildagent/tools
+    - teamcity-agent/opt/buildagent/plugins:/opt/buildagent/plugins
+    - teamcity-agent/opt/buildagent/system:/opt/buildagent/system
   youtrack:
     image: jetbrains/youtrack:2018.2.44329
     ports:
     - '8080:8080'
     volumes:
-    - youtrack:/opt/youtrack/data
-    - youtrack:/opt/youtrack/conf
-    - youtrack:/opt/youtrack/logs
-    - youtrack:/opt/youtrack/backups
+    - youtrack/opt/youtrack/data:/opt/youtrack/data
+    - youtrack/opt/youtrack/conf:/opt/youtrack/conf
+    - youtrack/opt/youtrack/logs:/opt/youtrack/logs
+    - youtrack/opt/youtrack/backups:/opt/youtrack/backups
     links:
     - postgres:postgres
   splunk:
