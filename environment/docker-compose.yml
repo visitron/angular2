@@ -5,8 +5,8 @@ services:
     ports:
     - '8111:8111'
     volumes:
-    - teamcity-server/data/teamcity_server/datadir:/data/teamcity_server/datadir
-    - teamcity-server/opt/teamcity/logs:/opt/teamcity/logs
+    - ~/.ci/data/teamcity_server/datadir:/data/teamcity_server/datadir
+    - ~/.ci/opt/teamcity/logs:/opt/teamcity/logs
     links:
     - postgres:postgres
   teamcity-agent:
@@ -19,21 +19,21 @@ services:
     - teamcity-server:teamcity-server
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - teamcity-agent/data/teamcity_agent/conf:/data/teamcity_agent/conf
-    - teamcity-agent/opt/buildagent/work:/opt/buildagent/work
-    - teamcity-agent/opt/buildagent/temp:/opt/buildagent/temp
-    - teamcity-agent/opt/buildagent/tools:/opt/buildagent/tools
-    - teamcity-agent/opt/buildagent/plugins:/opt/buildagent/plugins
-    - teamcity-agent/opt/buildagent/system:/opt/buildagent/system
+    - ~/.ci/data/teamcity_agent/conf:/data/teamcity_agent/conf
+    - ~/.ci/opt/buildagent/work:/opt/buildagent/work
+    - ~/.ci/opt/buildagent/temp:/opt/buildagent/temp
+    - ~/.ci/opt/buildagent/tools:/opt/buildagent/tools
+    - ~/.ci/opt/buildagent/plugins:/opt/buildagent/plugins
+    - ~/.ci/opt/buildagent/system:/opt/buildagent/system
   youtrack:
     image: jetbrains/youtrack:2018.2.44329
     ports:
     - '8080:8080'
     volumes:
-    - youtrack/opt/youtrack/data:/opt/youtrack/data
-    - youtrack/opt/youtrack/conf:/opt/youtrack/conf
-    - youtrack/opt/youtrack/logs:/opt/youtrack/logs
-    - youtrack/opt/youtrack/backups:/opt/youtrack/backups
+    - ~/.ci/opt/youtrack/data:/opt/youtrack/data
+    - ~/.ci/opt/youtrack/conf:/opt/youtrack/conf
+    - ~/.ci/opt/youtrack/logs:/opt/youtrack/logs
+    - ~/.ci/opt/youtrack/backups:/opt/youtrack/backups
     links:
     - postgres:postgres
   splunk:
@@ -59,7 +59,7 @@ services:
     ports:
     - 5432:5432
     volumes:
-    - postgres:/var/lib/postgresql/data
+    - ~/.ci/postgres:/var/lib/postgresql/data
   portainer:
     image: portainer/portainer
     ports:
@@ -67,10 +67,4 @@ services:
     command: -H unix:///var/run/docker.sock
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - portainer-data:/data
-volumes:
-  portainer-data:
-  teamcity-server:
-  teamcity-agent:
-  youtrack:
-  postgres:
+    - ~/.ci/portainer:/data
