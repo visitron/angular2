@@ -50,8 +50,13 @@ services:
       POSTGRES_PASSWORD: '12345678'
     ports:
       - 5432:5432
-  adminer:
-    image: adminer
-    restart: always
+  portainer:
+    image: portainer/portainer
     ports:
-    - 8081:8080
+    - "9000:9000"
+    command: -H unix:///var/run/docker.sock
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - portainer_data:/data
+volumes:
+  portainer_data:
