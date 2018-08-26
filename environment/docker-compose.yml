@@ -5,8 +5,8 @@ services:
     ports:
     - '8111:8111'
     volumes:
-    - teamcity_server:/data/teamcity_server/datadir
-    - teamcity_server:/opt/teamcity/logs
+    - teamcity-server:/data/teamcity_server/datadir
+    - teamcity-server:/opt/teamcity/logs
     links:
     - postgres:postgres
   teamcity-agent:
@@ -67,10 +67,10 @@ services:
     command: -H unix:///var/run/docker.sock
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - portainer_data:/data
+    - portainer-data:/data
 volumes:
-  portainer_data:
-  teamcity_server:
-  teamcity_agent:
+  portainer-data:
+  teamcity-server:
+  teamcity-agent:
   youtrack:
   postgres:
