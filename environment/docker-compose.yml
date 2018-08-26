@@ -16,7 +16,13 @@ services:
     links:
     - teamcity-server:teamcity-server
     volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
     - ~/.ci/teamcity-agent/conf:/data/teamcity_agent/conf
+    - ~/.ci/opt/buildagent/work:/opt/buildagent/work
+    - ~/.ci/opt/buildagent/temp:/opt/buildagent/temp
+    - ~/.ci/opt/buildagent/tools:/opt/buildagent/tools
+    - ~/.ci/opt/buildagent/plugins:/opt/buildagent/plugins
+    - ~/.ci/opt/buildagent/system:/opt/buildagent/system
   youtrack:
     image: jetbrains/youtrack:2018.2.44329
     ports:
