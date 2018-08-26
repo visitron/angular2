@@ -8,7 +8,7 @@ services:
     - ~/.ci/teamcity_server/datadir:/data/teamcity_server/datadir
     - ~/.ci/teamcity_server/logs:/opt/teamcity/logs
     links:
-    - mysql:mysql
+    - postgres:postgres
   teamcity-agent:
     image: jetbrains/teamcity-agent:2018.1.1
     environment:
@@ -27,12 +27,12 @@ services:
     - ~/.ci/youtrack/logs:/opt/youtrack/logs
     - ~/.ci/youtrack/backups:/opt/youtrack/backups
     links:
-    - mysql:mysql
+    - postgres:postgres
   splunk:
     image: splunk/splunk:7.1.2
     environment:
       SPLUNK_START_ARGS: '--accept-license --seed-passwd 12345678'
-      SPLUNK_USER: 'root'
+      SPLUNK_USER: 'vsoshyn'
     ports:
     - '8000:8000'
   graphite:
@@ -43,7 +43,14 @@ services:
     - '2023-2024:2023-2024'
     - '8125:8125/udp'
     - '8126:8126'
-  mysql:
-    image: mysql/mysql-server:8.0.12
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: 'vsoshyn'
+      POSTGRES_PASSWORD: '12345678'
+  adminer:
+    image: adminer
+    restart: always
     ports:
-    - '3306:3306/tcp'
+    - 8081:8080
