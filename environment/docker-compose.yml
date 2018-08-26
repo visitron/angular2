@@ -32,7 +32,6 @@ services:
     image: splunk/splunk:7.1.2
     environment:
       SPLUNK_START_ARGS: '--accept-license --seed-passwd 12345678'
-      SPLUNK_USER: 'vsoshyn'
     ports:
     - '8000:8000'
   graphite:
