@@ -1,39 +1,34 @@
 version: "3.3"
 services:
-  teamcity-server:
+  teamcity_server:
     image: jetbrains/teamcity-server:2018.1.1
     ports:
     - '8111:8111'
     volumes:
-    - ~/.ci/data/teamcity_server/datadir:/data/teamcity_server/datadir
-    - ~/.ci/opt/teamcity/logs:/opt/teamcity/logs
+    - teamcity_server_data:/data/teamcity_server/datadir
+    - teamcity_server_opt:/opt/teamcity/logs
     links:
     - postgres:postgres
-  teamcity-agent:
-    image: jetbrains/teamcity-agent:2018.1.1
+  teamcity_agent:
+    build:
+      context: ./
+      dockerfile: ./docker-teamcity-agent
     environment:
-      SERVER_URL: 'teamcity-server:8111'
+      SERVER_URL: 'teamcity_server:8111'
       DOCKER_IN_DOCKER: 'start'
     privileged: true
     links:
-    - teamcity-server:teamcity-server
+    - teamcity_server:teamcity_server
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ~/.ci/data/teamcity_agent/conf:/data/teamcity_agent/conf
-    - ~/.ci/opt/buildagent/work:/opt/buildagent/work
-    - ~/.ci/opt/buildagent/temp:/opt/buildagent/temp
-    - ~/.ci/opt/buildagent/tools:/opt/buildagent/tools
-    - ~/.ci/opt/buildagent/plugins:/opt/buildagent/plugins
-    - ~/.ci/opt/buildagent/system:/opt/buildagent/system
+    - teamcity_agent_data:/data/teamcity_agent/conf
+    - teamcity_agent_opt:/opt/buildagent
   youtrack:
     image: jetbrains/youtrack:2018.2.44329
     ports:
     - '8080:8080'
     volumes:
-    - ~/.ci/opt/youtrack/data:/opt/youtrack/data
-    - ~/.ci/opt/youtrack/conf:/opt/youtrack/conf
-    - ~/.ci/opt/youtrack/logs:/opt/youtrack/logs
-    - ~/.ci/opt/youtrack/backups:/opt/youtrack/backups
+    - youtrack_opt:/opt/youtrack
     links:
     - postgres:postgres
   splunk:
@@ -52,14 +47,13 @@ services:
     - '8126:8126'
   postgres:
     image: postgres
-    restart: always
     environment:
       POSTGRES_USER: 'vsoshyn'
       POSTGRES_PASSWORD: '12345678'
     ports:
     - 5432:5432
     volumes:
-    - ~/.ci/postgres:/var/lib/postgresql/data
+    - postgres_data:/var/lib/postgresql/data
   portainer:
     image: portainer/portainer
     ports:
@@ -67,4 +61,12 @@ services:
     command: -H unix:///var/run/docker.sock
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ~/.ci/portainer:/data
+    - portainer_data:/data
+volumes:
+  teamcity_server_opt:
+  teamcity_server_data:
+  teamcity_agent_opt:
+  teamcity_agent_data:
+  youtrack_opt:
+  postgres_data:
+  portainer_data:
