@@ -37,6 +37,8 @@ services:
       SPLUNK_START_ARGS: '--accept-license --seed-passwd 12345678'
     ports:
     - '8000:8000'
+    volumes:
+    - splunk_opt:/opt/splunk
   graphite:
     image: graphiteapp/graphite-statsd
     ports:
@@ -46,7 +48,9 @@ services:
     - '8125:8125/udp'
     - '8126:8126'
   postgres:
-    image: postgres
+    build:
+      context: ./
+      dockerfile: ./docker-postgres
     environment:
       POSTGRES_USER: 'vsoshyn'
       POSTGRES_PASSWORD: '12345678'
@@ -70,3 +74,4 @@ volumes:
   youtrack_opt:
   postgres_data:
   portainer_data:
+  splunk_opt:
