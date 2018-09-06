@@ -6,3 +6,4 @@ frontend/**/app/**/*.js
 frontend/**/app/**/*.map
 typings
 build
+*.override.yml
