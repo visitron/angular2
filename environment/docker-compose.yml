@@ -6,31 +6,29 @@ services:
     - '8111:8111'
     volumes:
     - teamcity_server_data:/data/teamcity_server/datadir
-    - teamcity_server_opt:/opt/teamcity/logs
-    links:
-    - postgres:postgres
   teamcity_agent:
     build:
       context: ./
       dockerfile: ./docker-teamcity-agent
     environment:
-      SERVER_URL: 'teamcity_server:8111'
+      SERVER_URL: 'teamcity-server:8111'
       DOCKER_IN_DOCKER: 'start'
     privileged: true
     links:
-    - teamcity_server:teamcity_server
+    - teamcity_server:teamcity-server
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - teamcity_agent_data:/data/teamcity_agent/conf
-    - teamcity_agent_opt:/opt/buildagent
+    - teamcity_agent_tools:/opt/buildagent/tools
+    - teamcity_agent_plugins:/opt/buildagent/plugins
+    - teamcity_agent_system:/opt/buildagent/system
   youtrack:
     image: jetbrains/youtrack:2018.2.44329
     ports:
     - '8080:8080'
     volumes:
-    - youtrack_opt:/opt/youtrack
-    links:
-    - postgres:postgres
+    - youtrack_data:/opt/youtrack/data
+    - youtrack_conf:/opt/youtrack/conf
   splunk:
     image: splunk/splunk:7.1.2
     environment:
@@ -67,11 +65,13 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
     - portainer_data:/data
 volumes:
-  teamcity_server_opt:
   teamcity_server_data:
-  teamcity_agent_opt:
   teamcity_agent_data:
-  youtrack_opt:
+  teamcity_agent_tools:
+  teamcity_agent_plugins:
+  teamcity_agent_system:
+  youtrack_data:
+  youtrack_conf:
   postgres_data:
   portainer_data:
   splunk_opt:
