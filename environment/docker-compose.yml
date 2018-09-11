@@ -56,6 +56,12 @@ services:
     - 5432:5432
     volumes:
     - postgres_data:/var/lib/postgresql/data
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+    - 3003:8080
+    environment:
+      API_URL: http://${HOSTNAME}:3002/swagger.json
 volumes:
   teamcity_server_data:
   teamcity_agent_data:

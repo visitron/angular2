@@ -103,7 +103,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedHeader("Access-Control-Allow-Origin");
         configuration.addAllowedHeader("Access-Control-Allow-Credentials");
         configuration.addAllowedHeader("Content-Type");
-        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOrigin("http://localhost:3002");
+//        configuration.addAllowedOrigin("http://localhost:8080");
+//        configuration.addAllowedOrigin("http://localhost:3003");
         configuration.addAllowedMethod(HttpMethod.OPTIONS);
         configuration.addAllowedMethod(HttpMethod.GET);
         configuration.addAllowedMethod(HttpMethod.POST);

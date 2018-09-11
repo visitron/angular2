@@ -36,7 +36,7 @@ public class ImageRepositoryImpl implements ImageRepositoryManager {
 
     @Override
     public void drop() throws IOException {
-        Files.walkFileTree(Paths.get(folder + "images/"), new SimpleFileVisitor<Path>() {
+        Files.walkFileTree(Paths.get(folder + "images/"), new SimpleFileVisitor<>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Files.deleteIfExists(file);

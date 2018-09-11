@@ -1,5 +1,6 @@
 package home.maintenance.config;
 
+import home.maintenance.service.CreatedByAware;
 import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 import org.h2.Driver;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -27,11 +29,17 @@ import java.sql.SQLException;
  */
 @Configuration
 @EnableTransactionManagement
+@EnableJpaAuditing(auditorAwareRef = "createdByAware")
 @EnableJpaRepositories(basePackages = "home.maintenance.dao.common")
 public class PersistenceConfig {
 
     @Autowired
     private Environment environment;
+
+    @Bean
+    public CreatedByAware createdByAware() {
+        return new CreatedByAware();
+    }
 
     @Bean("entityManagerFactory")
     @Profile("h2")

@@ -12,7 +12,11 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -58,6 +62,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public HttpMessageConverters httpMessageConverters() {
         return new HttpMessageConverters(false, this.converters);
+    }
+
+    @Bean
+    public Docket swaggerSpringMvcPlugin() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
+                .apiInfo(apiInfo())
+                .select()
+//                .paths(Predicates.not(PathSelectors.regex("/error.*")))
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Springfox petstore API")
+                .description("description")
+                .contact(new Contact("name", "url", "email"))
+//                .license("Apache License Version 2.0")
+//                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
+                .version("2.0")
+                .build();
     }
 
     @PostConstruct

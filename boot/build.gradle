@@ -42,7 +42,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.2'
 //    compile('org.liquibase:liquibase-core')
     runtime('org.postgresql:postgresql')
-    compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
 
