@@ -4,6 +4,7 @@ import home.maintenance.service.CreatedByAware;
 import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 import org.h2.Driver;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.postgresql.ds.PGPoolingDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,6 +53,16 @@ public class PersistenceConfig {
         return bean.getObject();
     }
 
+    @Bean
+    @Profile("h2")
+    public DataSource dataSourceH2() {
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        dataSource.setDriver(new Driver());
+        dataSource.setUrl(environment.getProperty("application.h2.jdbc.url"));
+        dataSource.setUsername(environment.getProperty("application.h2.jdbc.user"));
+        return dataSource;
+    }
+
     @Bean("entityManagerFactory")
     @Profile("oracle")
     public EntityManagerFactory entityManagerFactoryOracle(@Autowired DataSource dataSource) {
@@ -64,16 +75,36 @@ public class PersistenceConfig {
         return bean.getObject();
     }
 
-    private LocalContainerEntityManagerFactoryBean createCommonEMFBean(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
-        bean.setDataSource(dataSource);
-        bean.setPersistenceProvider(new HibernatePersistenceProvider());
-        bean.setPersistenceUnitName("home-maintenance");
-        bean.setPackagesToScan("home.maintenance.model");
+    @Bean
+    @Profile("oracle")
+    public DataSource dataSourceOracle() throws SQLException {
+        OracleConnectionPoolDataSource dataSource = new OracleConnectionPoolDataSource();
+        dataSource.setURL(environment.getProperty("application.oracle.jdbc.url"));
+        dataSource.setUser(environment.getProperty("application.oracle.jdbc.user"));
+        dataSource.setPassword(environment.getProperty("application.oracle.jdbc.password"));
+        return dataSource;
+    }
 
-        bean.getJpaPropertyMap().put("hibernate.show_sql", environment.getProperty("spring.jpa.show-sql"));
-        bean.getJpaPropertyMap().put("hibernate.format_sql", "true");
-        return bean;
+    @Bean("entityManagerFactory")
+    @Profile("postgres")
+    public EntityManagerFactory entityManagerFactoryPostgres(@Autowired DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean bean = createCommonEMFBean(dataSource);
+        bean.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "create");
+        bean.getJpaPropertyMap().put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");
+        bean.getJpaPropertyMap().put("hibernate.default_schema", environment.getProperty("application.postgres.jdbc.schema"));
+
+        bean.afterPropertiesSet();
+        return bean.getObject();
+    }
+
+    @Bean
+    @Profile("postgres")
+    public DataSource dataSourcePostgres() throws SQLException {
+        PGPoolingDataSource dataSource = new PGPoolingDataSource();
+        dataSource.setURL(environment.getProperty("application.postgres.jdbc.url"));
+        dataSource.setUser(environment.getProperty("application.postgres.jdbc.user"));
+        dataSource.setPassword(environment.getProperty("application.postgres.jdbc.password"));
+        return dataSource;
     }
 
     @Bean
@@ -85,26 +116,6 @@ public class PersistenceConfig {
     }
 
     @Bean
-    @Profile("h2")
-    public DataSource dataSourceH2() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriver(new Driver());
-        dataSource.setUrl(environment.getProperty("application.h2.jdbc.url"));
-        dataSource.setUsername(environment.getProperty("application.h2.jdbc.user"));
-        return dataSource;
-    }
-
-    @Bean
-    @Profile("oracle")
-    public DataSource dataSourceOracle() throws SQLException {
-        OracleConnectionPoolDataSource dataSource = new OracleConnectionPoolDataSource();
-        dataSource.setURL(environment.getProperty("application.oracle.jdbc.url"));
-        dataSource.setUser(environment.getProperty("application.oracle.jdbc.user"));
-        dataSource.setPassword(environment.getProperty("application.oracle.jdbc.password"));
-        return dataSource;
-    }
-
-    @Bean
     public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
@@ -112,5 +123,17 @@ public class PersistenceConfig {
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
         return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    private LocalContainerEntityManagerFactoryBean createCommonEMFBean(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+        bean.setDataSource(dataSource);
+        bean.setPersistenceProvider(new HibernatePersistenceProvider());
+        bean.setPersistenceUnitName("home-maintenance");
+        bean.setPackagesToScan("home.maintenance.model");
+
+        bean.getJpaPropertyMap().put("hibernate.show_sql", environment.getProperty("spring.jpa.show-sql"));
+        bean.getJpaPropertyMap().put("hibernate.format_sql", "true");
+        return bean;
     }
 }

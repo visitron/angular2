@@ -41,7 +41,7 @@ dependencies {
     compile('org.javassist:javassist:3.23.1-GA')
     compileOnly 'org.projectlombok:lombok:1.18.2'
 //    compile('org.liquibase:liquibase-core')
-    runtime('org.postgresql:postgresql')
+//    compile('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
 
